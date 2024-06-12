@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "symbolics.division.spirit.vector.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"ExampleMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
