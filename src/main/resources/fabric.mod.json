@@ -16,13 +16,13 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"symbolics.division.spirit.vector.DreamBurstSpiritVector"
+			"symbolics.division.spirit.vector.SpiritVector"
 		],
 		"client": [
-			"symbolics.division.spirit.vector.DreamBurstSpiritVectorClient"
+			"symbolics.division.spirit.vector.SpiritVectorClient"
 		],
 		"fabric-datagen": [
-			"symbolics.division.spirit.vector.DreamBurstSpiritVectorDataGenerator"
+			"symbolics.division.spirit.vector.SpiritVectorDataGenerator"
 		]
 	},
 	"mixins": [
