@@ -2,7 +2,8 @@
 	"required": true,
 	"package": "symbolics.division.spirit.vector.mixin",
 	"compatibilityLevel": "JAVA_21",
-	"mixins": [
+	"mixins": ["LivingEntityMixin",
+		"PlayerEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

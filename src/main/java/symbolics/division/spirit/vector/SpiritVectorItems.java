@@ -6,7 +6,7 @@ import net.minecraft.util.Identifier;
 import symbolics.division.spirit.vector.item.SpiritVectorItem;
 
 import static net.minecraft.registry.Registries.ITEM;
-import static symbolics.division.spirit.vector.SpiritVector.MODID;
+import static symbolics.division.spirit.vector.SpiritVectorMod.MODID;
 
 public final class SpiritVectorItems {
     public static final Item SPIRIT_VECTOR = new SpiritVectorItem();

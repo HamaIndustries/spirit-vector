@@ -16,7 +16,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"symbolics.division.spirit.vector.SpiritVector"
+			"symbolics.division.spirit.vector.SpiritVectorMod"
 		],
 		"client": [
 			"symbolics.division.spirit.vector.SpiritVectorClient"

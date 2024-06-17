@@ -1,5 +1,6 @@
 package symbolics.division.spirit.vector.item;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 
 public class SpiritVectorItem extends ArmorItem {
