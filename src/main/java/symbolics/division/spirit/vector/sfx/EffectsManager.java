@@ -1,34 +1,26 @@
 package symbolics.division.spirit.vector.sfx;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.network.packet.c2s.common.ClientOptionsC2SPacket;
-import net.minecraft.util.Identifier;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.joml.Vector3f;
-import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SpiritVector;
-import symbolics.division.spirit.vector.sfx.SFXPack;
 
 import java.util.function.Consumer;
 
-// acts as interface to controller
-// manages state of particles and animations
 /*
-    Acts as opaque interface to effects system
-    spirit vector issues commands and this enacts them
-    spirit vector calcs are usually done on client, but
-    all particle effects should be done by server. this
-    class normalizes all commands to run on server.
+    Nightmare static sludge DO NOT READ
+    This would be a lot better but there's a week left
  */
 public class EffectsManager {
     public static void acceptC2SPayload(SFXRequestPayload payload, ServerPlayNetworking.Context ctx) {
         var player = ctx.player();
         if (payload.type().equals(SFXRequestPayload.PARTICLE_EFFECT_TYPE)) {
-            spawnParticleImpl(player.getWorld(), payload.pack(), new Vec3d(payload.pos()));
+            spawnParticleImpl((ServerWorld)player.getWorld(), payload.pack(), new Vec3d(payload.pos()));
         } else if (payload.type().equals(SFXRequestPayload.RING_EFFECT_TYPE)) {
-            spawnRingImpl(player.getWorld(), payload.pack(), new Vec3d(payload.pos()), new Vec3d(payload.dir()));
+            spawnRingImpl((ServerWorld)player.getWorld(), payload.pack(), new Vec3d(payload.pos()), new Vec3d(payload.dir()));
         }
     }
 
@@ -46,7 +38,7 @@ public class EffectsManager {
         if (world.isClient) {
             requestCallback.accept(new SFXRequestPayload(SFXRequestPayload.PARTICLE_EFFECT_TYPE, sv.getSFX(), pos.toVector3f(), new Vector3f()));
         } else {
-            spawnParticleImpl(world, sv.getSFX(), pos);
+            spawnParticleImpl((ServerWorld) world, sv.getSFX(), pos);
         }
 
     }
@@ -55,18 +47,45 @@ public class EffectsManager {
         if (world.isClient) {
             requestCallback.accept(new SFXRequestPayload(SFXRequestPayload.RING_EFFECT_TYPE, sv.getSFX(), pos.toVector3f(), dir.toVector3f()));
         } else {
-            spawnRingImpl(world, sv.getSFX(), pos, dir);
+            spawnRingImpl((ServerWorld) world, sv.getSFX(), pos, dir);
         }
     }
 
 
     // TODO a nonstaticified version of this
-    private static void spawnParticleImpl(World world, SFXPack<?> sfx, Vec3d pos) {
-        System.out.println("particle spawn " + pos);
+    private static void spawnParticleImpl(ServerWorld world, SFXPack<?> sfx, Vec3d pos) {
+        world.spawnParticles(
+                ParticleTypes.CHERRY_LEAVES, pos.x, pos.y, pos.z, 1, 0, 0, 0, 1
+        );
     }
 
-    private static void spawnRingImpl(World world, SFXPack<?> sfx, Vec3d pos, Vec3d dir) {
-        System.out.println("ring spawn " + pos + " " + dir);
+    private static void spawnRingImpl(ServerWorld world, SFXPack<?> sfx, Vec3d pos, Vec3d dir) {
+        Vec3d[] uv = basis(dir.normalize());
+        for (float i = 0; i <= Math.PI*2; i += Math.PI/12) {
+            Vec3d p = pos.add(uv[0].multiply(Math.cos(i))).add(uv[1].multiply(Math.sin(i)));
+            Vec3d d = p.subtract(pos);
+            System.out.println("particle at " + p);
+            System.out.println("velocity " + d);
+            world.spawnParticles(
+                    ParticleTypes.ENCHANTED_HIT, p.x, p.y, p.z, 1, d.x, d.y, d.z, 2
+            );
+//            world.addImportantParticle(ParticleTypes.CRIT, pos.z, pos.y+2, pos.z, 0.1, 0.1, 0.1);
+        }
+    }
+
+    // return u, v for Householder reflector
+    private static Vec3d[] basis(Vec3d vec) {
+        double l = vec.length();
+        double sigma = Math.signum(l);
+        double h = vec.x + sigma;
+        double beta = -1d / (sigma * h);
+
+        Vec3d[] out = new Vec3d[2];
+        double f = beta * vec.y;
+        out[0] = new Vec3d(f*h, 1d+f*vec.y, f*vec.z);
+        double g = beta * vec.z;
+        out[1] = new Vec3d(g*h, g*vec.y, 1d+g*vec.z);
+        return out;
     }
 
 }

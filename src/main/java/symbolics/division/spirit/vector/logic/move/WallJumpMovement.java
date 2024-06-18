@@ -39,9 +39,9 @@ public class WallJumpMovement extends BaseMovement {
 
     @Override
     public void travel(SpiritVector sv, MovementContext ctx) {
-        sv.user.setVelocity(ctx.inputDir.x, 0.4, ctx.inputDir.z);
-        sv.getEffectsManager().spawnRing(sv.user.getWorld(), sv.user.getPos(), new Vec3d(1,2,3));
-        sv.getEffectsManager().spawnParticle(sv.user.getWorld(), sv.user.getPos());
+        Vec3d motion = new Vec3d(ctx.inputDir.x, 0.4, ctx.inputDir.z);
+        sv.user.setVelocity(motion);
+        sv.getEffectsManager().spawnRing(sv.user.getWorld(), sv.user.getPos(), motion);
     }
 
     @Override

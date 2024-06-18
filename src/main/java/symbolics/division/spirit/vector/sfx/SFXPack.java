@@ -6,11 +6,13 @@ import net.minecraft.util.Identifier;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
 public interface SFXPack<T extends ParticleEffect> {
     Identifier id();
     Identifier wingsTexture();
     ParticleType<T> particleType();
+    T particleEffect();
 
     /*
     - butterfly wings (gold (beatoriceeeeeee))

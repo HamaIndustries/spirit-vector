@@ -46,6 +46,11 @@ public class SpiritVector {
         updateMovementType(ctx);
         moveState.travel(this, ctx);
         moveState.updateValues(this);
+
+        var vel = user.getVelocity();
+        if (vel.length() > 0.2) {
+            effectsManager.spawnParticle(user.getWorld(), user.getPos().add(0, 1, 0).subtract(vel.normalize()).addRandom(user.getRandom(), 1));
+        }
     }
 
     private void updateMovementType(MovementContext ctx) {
