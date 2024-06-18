@@ -13,6 +13,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbilitiesRegistry;
 import symbolics.division.spirit.vector.sfx.SpiritVectorSFX;
 
 public final class SpiritVectorMod implements ModInitializer {
@@ -23,6 +24,7 @@ public final class SpiritVectorMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		SpiritVectorAbilitiesRegistry.init();
 		SpiritVectorSFX.registerAll();
 		SpiritVectorItems.init();
 	}
