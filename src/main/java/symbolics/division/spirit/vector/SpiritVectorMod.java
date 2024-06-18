@@ -2,6 +2,8 @@ package symbolics.division.spirit.vector;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.IceBlock;
 import net.minecraft.entity.EntityAttachments;
 import net.minecraft.entity.EntityData;
@@ -14,6 +16,8 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbilitiesRegistry;
+import symbolics.division.spirit.vector.sfx.EffectsManager;
+import symbolics.division.spirit.vector.sfx.SFXRequestPayload;
 import symbolics.division.spirit.vector.sfx.SpiritVectorSFX;
 
 public final class SpiritVectorMod implements ModInitializer {
@@ -27,5 +31,8 @@ public final class SpiritVectorMod implements ModInitializer {
 		SpiritVectorAbilitiesRegistry.init();
 		SpiritVectorSFX.registerAll();
 		SpiritVectorItems.init();
+
+		PayloadTypeRegistry.playC2S().register(SFXRequestPayload.ID, SFXRequestPayload.CODEC);
+		ServerPlayNetworking.registerGlobalReceiver(SFXRequestPayload.ID, EffectsManager::acceptC2SPayload);
 	}
 }

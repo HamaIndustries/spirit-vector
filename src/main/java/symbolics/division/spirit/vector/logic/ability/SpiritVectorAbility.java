@@ -8,6 +8,7 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.util.Identifier;
 import symbolics.division.spirit.vector.SpiritVectorMod;
+import symbolics.division.spirit.vector.logic.MovementType;
 
 import java.util.function.Function;
 
@@ -40,4 +41,5 @@ public interface SpiritVectorAbility {
     }
 
     /* v--- ACTUAL INTERFACE ---v */
+    default MovementType getMovement() { return MovementType.NEUTRAL; }
 }

@@ -12,6 +12,7 @@ public class SpiritVectorSFX {
     public static void registerAll() {
         for (var sfx : ALL_SFX) {
             Registry.register(Registries.PARTICLE_TYPE, sfx.id(), sfx.particleType());
+            SFXRegistry.register(sfx);
         }
     }
 

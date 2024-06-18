@@ -4,6 +4,7 @@ import net.minecraft.block.SideShapeType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 import symbolics.division.spirit.vector.logic.MovementContext;
 import symbolics.division.spirit.vector.logic.SpiritVector;
@@ -39,6 +40,8 @@ public class WallJumpMovement extends BaseMovement {
     @Override
     public void travel(SpiritVector sv, MovementContext ctx) {
         sv.user.setVelocity(ctx.inputDir.x, 0.4, ctx.inputDir.z);
+        sv.getEffectsManager().spawnRing(sv.user.getWorld(), sv.user.getPos(), new Vec3d(1,2,3));
+        sv.getEffectsManager().spawnParticle(sv.user.getWorld(), sv.user.getPos());
     }
 
     @Override

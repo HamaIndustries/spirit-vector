@@ -2,7 +2,6 @@ package symbolics.division.spirit.vector.logic.ability;
 
 import com.mojang.serialization.Lifecycle;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
-import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.registry.*;
 import net.minecraft.util.Identifier;
 import symbolics.division.spirit.vector.SpiritVectorMod;

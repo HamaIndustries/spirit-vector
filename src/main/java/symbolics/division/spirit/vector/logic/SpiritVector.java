@@ -7,11 +7,9 @@ package symbolics.division.spirit.vector.logic;
  */
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.HorseEntity;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import symbolics.division.spirit.vector.SpiritVectorMod;
+import symbolics.division.spirit.vector.sfx.EffectsManager;
 import symbolics.division.spirit.vector.sfx.SFXPack;
 import symbolics.division.spirit.vector.sfx.SpiritVectorSFX;
 
@@ -19,11 +17,12 @@ public class SpiritVector {
 
     public static final int MAX_FUEL = 100;
     public static final int MAX_MOMENTUM = 100;
+    public static final int MOMENTUM_FAST_THRESHOLD = MAX_MOMENTUM / 2;
 
     private int fuel = 0;
     private int momentum = 0;
     private MovementType moveState = MovementType.NEUTRAL;
-    private final EffectsManager effectsManager = new EffectsManager();
+    private final EffectsManager effectsManager;
     private final RuneManager runeManager = new RuneManager();
     private final MovementType[] movements = {
             MovementType.SLIDE, MovementType.WALL_JUMP
@@ -33,6 +32,7 @@ public class SpiritVector {
     public final LivingEntity user;
 
     public SpiritVector(LivingEntity user, SFXPack<?> sfx) {
+        this.effectsManager = new EffectsManager(this);
         this.sfx = sfx;
         this.user = user;
     }
@@ -48,7 +48,7 @@ public class SpiritVector {
         moveState.updateValues(this);
     }
 
-    public void updateMovementType(MovementContext ctx) {
+    private void updateMovementType(MovementContext ctx) {
         if (moveState.testMovementCompleted(this, ctx)) {
             moveState = MovementType.NEUTRAL;
             for (MovementType m : movements) {
@@ -94,5 +94,11 @@ public class SpiritVector {
 
     public SFXPack<?> getSFX() {
         return sfx;
+    }
+
+    public EffectsManager getEffectsManager() { return effectsManager; }
+
+    public boolean isSoaring() {
+        return getMomentum() >= MOMENTUM_FAST_THRESHOLD;
     }
 }

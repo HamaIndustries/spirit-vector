@@ -28,6 +28,4 @@ public class SimpleSFX implements SFXPack<SimpleParticleType> {
     public SimpleParticleType particleType() {
         return PARTICLE_TYPE;
     }
-
-
 }

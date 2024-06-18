@@ -8,9 +8,9 @@ import symbolics.division.spirit.vector.SpiritVectorMod;
 import java.util.ArrayList;
 
 public interface SFXPack<T extends ParticleEffect> {
-    public abstract Identifier id();
-    public abstract Identifier wingsTexture();
-    public abstract ParticleType<T> particleType();
+    Identifier id();
+    Identifier wingsTexture();
+    ParticleType<T> particleType();
 
     /*
     - butterfly wings (gold (beatoriceeeeeee))
