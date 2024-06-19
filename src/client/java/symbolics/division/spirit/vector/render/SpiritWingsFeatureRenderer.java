@@ -12,6 +12,7 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
+import symbolics.division.spirit.vector.logic.state.WingsEffectState;
 
 public class SpiritWingsFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
     private final SpiritWingsModel<T> model;
@@ -25,6 +26,7 @@ public class SpiritWingsFeatureRenderer<T extends LivingEntity, M extends Entity
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         if (entity instanceof ISpiritVectorUser user) {
             user.getSpiritVector().ifPresent(sv -> {
+                if (!sv.getStateManager().isActive(WingsEffectState.ID)) return;
                 matrices.push();
                 matrices.translate(0, 0, 0.3f);
                 VertexConsumer vc = ItemRenderer.getArmorGlintConsumer(

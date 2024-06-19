@@ -6,6 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import symbolics.division.spirit.vector.logic.MovementContext;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 
@@ -26,9 +27,9 @@ public class WallJumpMovement extends BaseMovement {
             var world = sv.user.getWorld();
             for (Direction dir : dirs) {
                 BlockPos wallPos = pos.offset(dir);
-                if (
-                        world.getBlockState(wallPos).isSideSolid(world, wallPos, dir.getOpposite(), SideShapeType.RIGID)
-                        && world.getBlockState(wallPos.up()).isSideSolid(world, wallPos, dir.getOpposite(), SideShapeType.RIGID)
+                if (isSolidWall(world, wallPos, dir.getOpposite())
+                            && (  isSolidWall(world, wallPos.up(), dir.getOpposite())
+                               || isSolidWall(world, wallPos.down(), dir.getOpposite()))
                 ) {
                     return true;
                 }
@@ -37,9 +38,13 @@ public class WallJumpMovement extends BaseMovement {
         return false;
     }
 
+    private static boolean isSolidWall(World world, BlockPos wallPos, Direction dir) {
+        return world.getBlockState(wallPos).isSideSolid(world, wallPos, dir, SideShapeType.RIGID);
+    }
+
     @Override
     public void travel(SpiritVector sv, MovementContext ctx) {
-        Vec3d motion = new Vec3d(ctx.inputDir.x, 0.4, ctx.inputDir.z);
+        Vec3d motion = new Vec3d(ctx.inputDir.x, 0.6, ctx.inputDir.z);
         sv.user.setVelocity(motion);
         sv.getEffectsManager().spawnRing(sv.user.getWorld(), sv.user.getPos(), motion);
     }

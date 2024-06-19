@@ -9,6 +9,10 @@ package symbolics.division.spirit.vector.logic;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import symbolics.division.spirit.vector.logic.state.IManagedState;
+import symbolics.division.spirit.vector.logic.state.ParticleTrailEffectState;
+import symbolics.division.spirit.vector.logic.state.StateManager;
+import symbolics.division.spirit.vector.logic.state.WingsEffectState;
 import symbolics.division.spirit.vector.sfx.EffectsManager;
 import symbolics.division.spirit.vector.sfx.SFXPack;
 import symbolics.division.spirit.vector.sfx.SpiritVectorSFX;
@@ -18,11 +22,13 @@ public class SpiritVector {
     public static final int MAX_FUEL = 100;
     public static final int MAX_MOMENTUM = 100;
     public static final int MOMENTUM_FAST_THRESHOLD = MAX_MOMENTUM / 2;
+    public static final float MINIMUM_SPEED_FOR_TRAIL = 0.2f;
 
     private int fuel = 0;
     private int momentum = 0;
     private MovementType moveState = MovementType.NEUTRAL;
     private final EffectsManager effectsManager;
+    private final StateManager stateManager = new StateManager();
     private final RuneManager runeManager = new RuneManager();
     private final MovementType[] movements = {
             MovementType.SLIDE, MovementType.WALL_JUMP
@@ -35,12 +41,17 @@ public class SpiritVector {
         this.effectsManager = new EffectsManager(this);
         this.sfx = sfx;
         this.user = user;
+
+        stateManager.register(ParticleTrailEffectState.ID, new ParticleTrailEffectState(this));
+        stateManager.register(WingsEffectState.ID, new WingsEffectState(this));
     }
+
     public SpiritVector(LivingEntity user) {
         this(user, SpiritVectorSFX.DEFAULT_SFX);
     }
 
     public void travel(Vec3d movementInput, CallbackInfo ci, boolean jumping) {
+        stateManager.tick();
         var inputDirection = SVMathHelper.movementInputToVelocity(movementInput, 1, user.getYaw());
         var ctx = new MovementContext(movementInput, jumping, ci, inputDirection);
         updateMovementType(ctx);
@@ -48,8 +59,11 @@ public class SpiritVector {
         moveState.updateValues(this);
 
         var vel = user.getVelocity();
-        if (vel.length() > 0.2) {
-            effectsManager.spawnParticle(user.getWorld(), user.getPos().add(0, 1, 0).subtract(vel.normalize()).addRandom(user.getRandom(), 1));
+        if (isSoaring()) {
+            getStateManager().enableStateFor(WingsEffectState.ID, 1);
+            if (vel.length() > MINIMUM_SPEED_FOR_TRAIL) {
+                getStateManager().enableStateFor(ParticleTrailEffectState.ID, 1);
+            }
         }
     }
 
@@ -104,6 +118,10 @@ public class SpiritVector {
     public EffectsManager getEffectsManager() { return effectsManager; }
 
     public boolean isSoaring() {
+        // it means you're really cool
         return getMomentum() >= MOMENTUM_FAST_THRESHOLD;
     }
+
+    public StateManager getStateManager() { return stateManager; }
+
 }

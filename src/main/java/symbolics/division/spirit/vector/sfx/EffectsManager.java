@@ -15,6 +15,7 @@ import java.util.function.Consumer;
     This would be a lot better but there's a week left
  */
 public class EffectsManager {
+    
     public static void acceptC2SPayload(SFXRequestPayload payload, ServerPlayNetworking.Context ctx) {
         var player = ctx.player();
         if (payload.type().equals(SFXRequestPayload.PARTICLE_EFFECT_TYPE)) {
@@ -30,6 +31,7 @@ public class EffectsManager {
     }
 
     private final SpiritVector sv;
+
     public EffectsManager(SpiritVector sv) {
         this.sv = sv;
     }
@@ -40,7 +42,6 @@ public class EffectsManager {
         } else {
             spawnParticleImpl((ServerWorld) world, sv.getSFX(), pos);
         }
-
     }
 
     public void spawnRing(World world, Vec3d pos, Vec3d dir) {
@@ -50,7 +51,6 @@ public class EffectsManager {
             spawnRingImpl((ServerWorld) world, sv.getSFX(), pos, dir);
         }
     }
-
 
     // TODO a nonstaticified version of this
     private static void spawnParticleImpl(ServerWorld world, SFXPack<?> sfx, Vec3d pos) {
@@ -64,12 +64,9 @@ public class EffectsManager {
         for (float i = 0; i <= Math.PI*2; i += Math.PI/12) {
             Vec3d p = pos.add(uv[0].multiply(Math.cos(i))).add(uv[1].multiply(Math.sin(i)));
             Vec3d d = p.subtract(pos);
-            System.out.println("particle at " + p);
-            System.out.println("velocity " + d);
             world.spawnParticles(
-                    ParticleTypes.ENCHANTED_HIT, p.x, p.y, p.z, 1, d.x, d.y, d.z, 2
+                    ParticleTypes.END_ROD, p.x, p.y, p.z, 1, d.x, d.y, d.z, 1
             );
-//            world.addImportantParticle(ParticleTypes.CRIT, pos.z, pos.y+2, pos.z, 0.1, 0.1, 0.1);
         }
     }
 
