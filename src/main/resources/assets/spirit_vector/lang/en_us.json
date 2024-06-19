@@ -6,7 +6,8 @@
   "item.spirit_vector.anima_core_love": "Anima Core \"Love\"",
   "item.spirit_vector.anima_core_v1": "Anima Core \"V1\"",
   "item.spirit_vector.anima_core_robo": "Anima Core \"Robo\"",
-  "item.spirit_vector.dream_rune_dash": "Dream Rune \"Blaze\"",
-  "item.spirit_vector.dream_rune_teleport": "Dream Rune \"___\"",
-  "item.spirit_vector.spirit_vector": "Spirit Vector"
+  "item.spirit_vector.dream_rune_dash": "Dream Rune \"Flow\"",
+  "item.spirit_vector.dream_rune_teleport": "Dream Rune \"Burst\"",
+  "item.spirit_vector.spirit_vector": "Spirit Vector",
+  "itemGroup.spirit_vector.creative_tab": "Spirit Vector Items"
 }

@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbilitiesRegistry;
 import symbolics.division.spirit.vector.sfx.EffectsManager;
-import symbolics.division.spirit.vector.sfx.SFXRegistry;
 import symbolics.division.spirit.vector.sfx.SFXRequestPayload;
 
 public final class SpiritVectorMod implements ModInitializer {
