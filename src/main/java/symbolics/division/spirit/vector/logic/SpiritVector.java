@@ -23,7 +23,7 @@ public class SpiritVector {
     public static final int MAX_FUEL = 100;
     public static final int MAX_MOMENTUM = 100;
     public static final int MOMENTUM_FAST_THRESHOLD = MAX_MOMENTUM / 2;
-    public static final float MINIMUM_SPEED_FOR_TRAIL = 0.2f;
+    public static final float MINIMUM_SPEED_FOR_TRAIL_WHILE_SOARING = 0.2f;
 
     private int fuel = 0;
     private int momentum = 0;
@@ -61,10 +61,10 @@ public class SpiritVector {
 
         var vel = user.getVelocity();
         if (isSoaring()) {
-            getStateManager().enableStateFor(WingsEffectState.ID, 1);
-            if (vel.length() > MINIMUM_SPEED_FOR_TRAIL) {
+            if (vel.length() >= MINIMUM_SPEED_FOR_TRAIL_WHILE_SOARING) {
                 getStateManager().enableStateFor(ParticleTrailEffectState.ID, 1);
             }
+            getStateManager().enableStateFor(WingsEffectState.ID, 1);
         }
     }
 
