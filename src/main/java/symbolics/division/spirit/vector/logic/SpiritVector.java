@@ -15,6 +15,7 @@ import symbolics.division.spirit.vector.logic.state.StateManager;
 import symbolics.division.spirit.vector.logic.state.WingsEffectState;
 import symbolics.division.spirit.vector.sfx.EffectsManager;
 import symbolics.division.spirit.vector.sfx.SFXPack;
+import symbolics.division.spirit.vector.sfx.SFXRegistry;
 import symbolics.division.spirit.vector.sfx.SpiritVectorSFX;
 
 public class SpiritVector {
@@ -47,7 +48,7 @@ public class SpiritVector {
     }
 
     public SpiritVector(LivingEntity user) {
-        this(user, SpiritVectorSFX.DEFAULT_SFX);
+        this(user, SpiritVectorSFX.getDefault());
     }
 
     public void travel(Vec3d movementInput, CallbackInfo ci, boolean jumping) {

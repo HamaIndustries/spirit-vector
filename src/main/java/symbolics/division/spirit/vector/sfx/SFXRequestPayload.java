@@ -16,7 +16,7 @@ public record SFXRequestPayload(Identifier type, SFXPack<?> pack, Vector3f pos, 
     public static final CustomPayload.Id<SFXRequestPayload> ID = new CustomPayload.Id<SFXRequestPayload>(SpiritVectorMod.id("sfx_request"));
     public static final PacketCodec<RegistryByteBuf, SFXRequestPayload> CODEC = PacketCodec.tuple(
             Identifier.PACKET_CODEC, SFXRequestPayload::type,
-            SFXRegistry.PACKET_CODEC, SFXRequestPayload::pack,
+            SFXPack.PACKET_CODEC, SFXRequestPayload::pack,
             PacketCodecs.VECTOR3F, SFXRequestPayload::pos,
             PacketCodecs.VECTOR3F, SFXRequestPayload::dir,
             SFXRequestPayload::new

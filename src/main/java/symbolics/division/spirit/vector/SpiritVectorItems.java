@@ -10,23 +10,36 @@ import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbilitiesRegis
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbility;
 import symbolics.division.spirit.vector.logic.ability.TeleportAbility;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static net.minecraft.registry.Registries.ITEM;
 import static symbolics.division.spirit.vector.SpiritVectorMod.MODID;
 
 public final class SpiritVectorItems {
-    public static final Item SPIRIT_VECTOR = new SpiritVectorItem();
+    private static final List<Item> generatedItems = new ArrayList<>();
 
-    private static void register(String id, Item item) {
-        Registry.register(ITEM, Identifier.of(MODID, id), item);
+    public static final SpiritVectorItem SPIRIT_VECTOR = registerAndModel("spirit_vector", new SpiritVectorItem());
+    public static final DreamRuneItem TELEPORT_RUNE = registerRuneAndModel("teleport", new TeleportAbility());
+    public static final DreamRuneItem DASH_RUNE = registerRuneAndModel("dash", new DashAbility());
+
+    public static <T extends Item> T model(T item) {
+        generatedItems.add(item);
+        return item;
     }
 
-    private static void registerRune(String id, SpiritVectorAbility ability) {
-        SpiritVectorAbilitiesRegistry.registerRuneAndAbility(SpiritVectorMod.id(id), ability);
+    private static <T extends Item> T registerAndModel(String id, T item) {
+        return model(Registry.register(ITEM, Identifier.of(MODID, id), item));
     }
 
-    public static void init() {
-        register(SpiritVectorItem.ID, SPIRIT_VECTOR);
-        registerRune("teleport", new TeleportAbility());
-        registerRune("dash", new DashAbility());
+    private static DreamRuneItem registerRuneAndModel(String id, SpiritVectorAbility ability) {
+        return model(SpiritVectorAbilitiesRegistry.registerRuneAndAbility(SpiritVectorMod.id(id), ability));
     }
+
+    public static void init() {}
+
+    public static List<Item> getGeneratedItems() {
+        return generatedItems.stream().toList();
+    }
+
 }

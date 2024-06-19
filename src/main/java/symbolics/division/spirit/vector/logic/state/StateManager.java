@@ -29,7 +29,13 @@ public final class StateManager {
     }
 
     public void tick() {
-        states.values().stream().filter(IManagedState::isActive).forEach(IManagedState::tick);
+        for (IManagedState state : states.values()) {
+            if (state.isActive()) {
+                state.tick();
+            } else {
+                state.tickInactive();
+            }
+        }
     }
 
     private IManagedState getState(Identifier id) {

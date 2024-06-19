@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import symbolics.division.spirit.vector.SpiritVectorItems;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.sfx.SFXPack;
 
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implemen
         ItemStack item = getEquippedStack(EquipmentSlot.FEET);
         if (item.isOf(SpiritVectorItems.SPIRIT_VECTOR)) {
             if (spiritVector == null) {
-                spiritVector = new SpiritVector((LivingEntity)(Entity)this);
+                spiritVector = new SpiritVector((LivingEntity)(Entity)this, SFXPack.getFromStack(item));
             }
             return Optional.of(spiritVector);
         } else {

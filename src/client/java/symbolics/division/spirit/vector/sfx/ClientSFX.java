@@ -5,12 +5,8 @@ import net.minecraft.client.particle.GlowParticle;
 
 public class ClientSFX {
 
-    public static final SimpleSFX[] simpleSFX = {
-            SFXPack.BUTTERFLY
-    };
-
     public static void registerAll() {
-        for (SimpleSFX sfx : simpleSFX) {
+        for (SimpleSFX sfx : SpiritVectorSFX.simpleSFX) {
             ParticleFactoryRegistry.getInstance().register(sfx.particleType(), GlowParticle.GlowFactory::new);
         }
     }

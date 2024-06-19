@@ -5,5 +5,6 @@ public interface IManagedState {
     void disable();
     void enableFor(int ticks);
     void tick();
+    default void tickInactive() {}
     boolean isActive();
 }
