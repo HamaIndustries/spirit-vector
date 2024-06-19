@@ -9,6 +9,8 @@ import symbolics.division.spirit.vector.logic.ability.DashAbility;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbilitiesRegistry;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbility;
 import symbolics.division.spirit.vector.logic.ability.TeleportAbility;
+import symbolics.division.spirit.vector.sfx.SimpleSFX;
+import symbolics.division.spirit.vector.sfx.SpiritVectorSFX;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,12 @@ public final class SpiritVectorItems {
     public static final DreamRuneItem TELEPORT_RUNE = registerRuneAndModel("teleport", new TeleportAbility());
     public static final DreamRuneItem DASH_RUNE = registerRuneAndModel("dash", new DashAbility());
 
+    public static void init() {
+        for (SimpleSFX pack : SpiritVectorSFX.getSimpleSFX()) {
+            registerAndModel("anima_core_" + pack.id.getPath(), pack.asItem());
+        }
+    }
+
     public static <T extends Item> T model(T item) {
         generatedItems.add(item);
         return item;
@@ -35,8 +43,6 @@ public final class SpiritVectorItems {
     private static DreamRuneItem registerRuneAndModel(String id, SpiritVectorAbility ability) {
         return model(SpiritVectorAbilitiesRegistry.registerRuneAndAbility(SpiritVectorMod.id(id), ability));
     }
-
-    public static void init() {}
 
     public static List<Item> getGeneratedItems() {
         return generatedItems.stream().toList();

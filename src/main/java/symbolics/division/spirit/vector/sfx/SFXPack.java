@@ -38,33 +38,4 @@ public interface SFXPack<T extends ParticleEffect> {
             "sfx_pack", builder -> builder.codec(ENTRY_CODEC).packetCodec(ENTRY_PACKET_CODEC).cache()
     ) ;
 
-//    public static final ComponentType<RegistryEntry<SFXPack<?>>> COMPONENT = ComponentType.<RegistryEntry<SFXPack<?>>>builder()
-//            .codec(ENTRY_CODEC)
-//            .packetCodec(ENTRY_PACKET_CODEC)
-//            .cache()
-//            .build();
-
-
-
-    /*
-    - butterfly wings (gold (beatoriceeeeeee))
-    - bird wings (blue)
-    - V1's wings (yellow)
-    - lemma's wings (green)
-    - dragon wings (red)
-    - fairy wings? bug wings? (pink)
-    - evangelion light wings (white)
-     */
-
-
-    // public static final SFXPack BIRD
-    // public static final SFXPack V1
-    // public static final SFXPack ROBO
-    // public static final SFXPack DRAGON
-    // public static final SFXPack FAIRY
-    // public static final SFXPack ANGEL
-
-    static void registerSimple() {
-
-    }
 }

@@ -6,7 +6,7 @@ import net.minecraft.client.particle.GlowParticle;
 public class ClientSFX {
 
     public static void registerAll() {
-        for (SimpleSFX sfx : SpiritVectorSFX.simpleSFX) {
+        for (SimpleSFX sfx : SpiritVectorSFX.getSimpleSFX()) {
             ParticleFactoryRegistry.getInstance().register(sfx.particleType(), GlowParticle.GlowFactory::new);
         }
     }

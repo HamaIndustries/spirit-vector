@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "spirit_vector:item/dash_rune"
+    "layer0": "spirit_vector:item/anima_core_bird"
   }
 }

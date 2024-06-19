@@ -33,7 +33,7 @@ public class SpiritVectorAbilitiesRegistry {
 
     public static DreamRuneItem registerRuneAndAbility(Identifier id, SpiritVectorAbility ability) {
         registerAbility(id, ability);
-        return Registry.register(ITEM, id + "_rune", new DreamRuneItem(ability));
+        return Registry.register(ITEM, id.withPrefixedPath("dream_rune_"), new DreamRuneItem(ability));
     }
 
 }

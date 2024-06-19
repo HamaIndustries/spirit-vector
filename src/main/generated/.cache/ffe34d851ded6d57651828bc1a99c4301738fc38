@@ -1,4 +1,11 @@
-// 1.21 Release Candidate 1	2024-06-18T23:18:46.9771137	Dream Burst Spirit Vector/Model Definitions
+// 1.21 Release Candidate 1	2024-06-19T00:34:14.3380148	Dream Burst Spirit Vector/Model Definitions
+60a7490ce4af5e9779b7c513848fc156fd54bff5 assets\spirit_vector\models\item\anima_core_v1.json
+1fdfc08f558db96ef2304e3bee6c3da4bc2a89c4 assets\spirit_vector\models\item\anima_core_robo.json
+25d1c1d89d43d43a66ab517e42de78ceb9dee43f assets\spirit_vector\models\item\anima_core_bird.json
+35a3a357341e69f91a8b1f1a4e67ede1309d5691 assets\spirit_vector\models\item\anima_core_dragon.json
+ba29d672b841f3136ee66adb033f3aa257cd2a5c assets\spirit_vector\models\item\anima_core_angel.json
 0ca4057ad3455d04deb8c49c4ce37cb35bd2a031 assets\spirit_vector\models\item\spirit_vector.json
-cd8ecccd5d253033d9c40e82e1d25ecdd125fde0 assets\spirit_vector\models\item\teleport_rune.json
-ea7a588ce2262d0bee307c25f39166707d277fe0 assets\spirit_vector\models\item\dash_rune.json
+2163e86faa27082b3d48b68c9dfd7b84d2ce27b3 assets\spirit_vector\models\item\anima_core_love.json
+c622194c4f18454482b96c9bff1e3095ed9137fe assets\spirit_vector\models\item\dream_rune_teleport.json
+cbc221e0037269238f352080e022bac201715235 assets\spirit_vector\models\item\dream_rune_dash.json
+2a839539fa06046785962044b395f1acb290c223 assets\spirit_vector\models\item\anima_core_butterfly.json
