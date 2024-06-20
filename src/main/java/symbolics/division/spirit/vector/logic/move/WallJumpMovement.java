@@ -5,10 +5,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import symbolics.division.spirit.vector.logic.MovementContext;
+import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.mixin.LivingEntityAccessor;
 
 public class WallJumpMovement extends BaseMovement {
     public WallJumpMovement(Identifier id) {
@@ -16,21 +16,25 @@ public class WallJumpMovement extends BaseMovement {
     }
 
     @Override
-    public boolean testMovementCondition(SpiritVector sv, MovementContext ctx) {
-        if (!sv.user.isOnGround() && ctx.jumping && ctx.inputDir.length() > 0) {
+    public boolean testMovementCondition(SpiritVector sv, TravelMovementContext ctx) {
+        if (!sv.user.isOnGround() && ((LivingEntityAccessor)sv.user).isJumping() && ctx.inputDir().length() > 0) {
             var pos = sv.user.getBlockPos();
             Direction[] dirs = {
-                    ctx.inputDir.getComponentAlongAxis(Direction.Axis.Z) > 0 ? Direction.NORTH : Direction.SOUTH,
-                    ctx.inputDir.getComponentAlongAxis(Direction.Axis.X) > 0 ? Direction.WEST : Direction.EAST
+                    ctx.inputDir().getComponentAlongAxis(Direction.Axis.Z) > 0 ? Direction.NORTH : Direction.SOUTH,
+                    ctx.inputDir().getComponentAlongAxis(Direction.Axis.X) > 0 ? Direction.WEST : Direction.EAST
             };
 
             var world = sv.user.getWorld();
             for (Direction dir : dirs) {
                 BlockPos wallPos = pos.offset(dir);
                 if (isSolidWall(world, wallPos, dir.getOpposite())
-                            && (  isSolidWall(world, wallPos.up(), dir.getOpposite())
-                               || isSolidWall(world, wallPos.down(), dir.getOpposite()))
-                ) {
+                    && (
+                        (isSolidWall(world, wallPos.up(), dir.getOpposite())
+                        && world.isAir(pos.up()))
+                            ||
+                        (isSolidWall(world, wallPos.down(), dir.getOpposite())
+                        && world.isAir(pos.down()))
+                )) {
                     return true;
                 }
             }
@@ -43,8 +47,8 @@ public class WallJumpMovement extends BaseMovement {
     }
 
     @Override
-    public void travel(SpiritVector sv, MovementContext ctx) {
-        Vec3d motion = new Vec3d(ctx.inputDir.x, 0.6, ctx.inputDir.z);
+    public void travel(SpiritVector sv, TravelMovementContext ctx) {
+        Vec3d motion = new Vec3d(ctx.inputDir().x/2, 0.5, ctx.inputDir().z/2);
         sv.user.setVelocity(motion);
         sv.getEffectsManager().spawnRing(sv.user.getWorld(), sv.user.getPos(), motion);
     }

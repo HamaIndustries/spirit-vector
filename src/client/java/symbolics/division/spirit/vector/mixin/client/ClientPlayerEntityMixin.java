@@ -5,20 +5,15 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import symbolics.division.spirit.vector.SpiritVectorItems;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.sfx.SFXPack;
-
-import java.util.Optional;
 
 @Mixin(ClientPlayerEntity.class)
 public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implements ISpiritVectorUser {
@@ -27,41 +22,31 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implemen
     }
 
     public SpiritVector spiritVector;
+    public ItemStack prevStack = ItemStack.EMPTY;
     @Override
-    public Optional<SpiritVector> getSpiritVector() {
-        ItemStack item = getEquippedStack(EquipmentSlot.FEET);
-        if (item.isOf(SpiritVectorItems.SPIRIT_VECTOR)) {
-            if (spiritVector == null) {
+    public SpiritVector spiritVector() {
+        ItemStack item = SpiritVector.getEquippedItem(this);
+        if (item != null) {
+            if (spiritVector == null || !ItemStack.areItemsAndComponentsEqual(item, prevStack)) {
                 spiritVector = new SpiritVector((LivingEntity)(Entity)this, SFXPack.getFromStack(item));
             }
-            return Optional.of(spiritVector);
         } else {
             spiritVector = null;
-            return Optional.empty();
         }
+        return spiritVector;
     }
 
-
-
-    @Inject(method = "tickMovement", at = @At("HEAD"), cancellable = true)
-    public void tickMovement(CallbackInfo ci) {
-//        getSpiritVector().ifPresent(sv -> {
-//            var ctx = new MovementContext(this.lastVelocity);
-//            sv.preApplyMovementInput(ctx);
-//            if (ctx.isCancel()) {
-////                ci.cancel();
-//
-//            }
-//        });
-    }
+//    @Inject(method = "tickMovement", at = @At("HEAD"), cancellable = true)
+//    public void tickMovement(CallbackInfo ci) {
+//    }
 
     @Inject(method = "shouldSlowDown", at = @At("HEAD"), cancellable = true)
     public void shouldSlowDown(CallbackInfoReturnable<Boolean> ci) {
-        getSpiritVector().ifPresent(sv -> {
-            if (sv.preventSlowdown()) {
-                ci.setReturnValue(false);
-                ci.cancel();
-            }
-        });
+        // don't let crouching or crawling
+        // get in the way of our fun
+        if (getSpiritVector().isPresent()) {
+            ci.setReturnValue(false);
+            ci.cancel();
+        }
     }
 }

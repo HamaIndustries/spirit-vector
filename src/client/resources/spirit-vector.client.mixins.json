@@ -3,7 +3,8 @@
 	"package": "symbolics.division.spirit.vector.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"ClientPlayerEntityMixin"
+		"ClientPlayerEntityMixin",
+		"GameRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
