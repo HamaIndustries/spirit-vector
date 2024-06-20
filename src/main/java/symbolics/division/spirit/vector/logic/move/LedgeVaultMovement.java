@@ -3,16 +3,15 @@ package symbolics.division.spirit.vector.logic.move;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import symbolics.division.spirit.vector.SpiritVectorMod;
-import symbolics.division.spirit.vector.logic.JumpMovementContext;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
+import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.state.ManagedState;
-import symbolics.division.spirit.vector.mixin.LivingEntityAccessor;
 
 public class LedgeVaultMovement extends AbstractMovementType {
     private static final int MOMENTUM_GAINED = SpiritVector.MAX_MOMENTUM / 30;
     private static final int VAULT_WINDOW_TICKS = 5;
-    private static final float VAULT_SPEED = 0.7f;
+    private static final float VAULT_SPEED = 1.2f;
     private static final Identifier VAULT_STATE_ID = SpiritVectorMod.id("vault_window");
 
     public LedgeVaultMovement(Identifier id) {
@@ -20,17 +19,17 @@ public class LedgeVaultMovement extends AbstractMovementType {
     }
 
     public static void triggerLedge(SpiritVector sv) {
-        sv.getStateManager().enableStateFor(VAULT_STATE_ID, VAULT_WINDOW_TICKS);
+        sv.stateManager().enableStateFor(VAULT_STATE_ID, VAULT_WINDOW_TICKS);
     }
 
     @Override
     public void register(SpiritVector sv) {
-        sv.getStateManager().register(VAULT_STATE_ID, new ManagedState(sv));
+        sv.stateManager().register(VAULT_STATE_ID, new ManagedState(sv));
     }
 
     @Override
     public boolean testMovementCondition(SpiritVector sv, TravelMovementContext ctx) {
-        return sv.getStateManager().isActive(VAULT_STATE_ID) && ((LivingEntityAccessor)sv.user).isJumping() && sv.user.isOnGround();
+        return sv.stateManager().isActive(VAULT_STATE_ID) && sv.user.isOnGround() && sv.inputManager().consume(Input.JUMP);
     }
 
     @Override
@@ -40,17 +39,13 @@ public class LedgeVaultMovement extends AbstractMovementType {
 
     @Override
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
-        sv.getStateManager().clearTicks(VAULT_STATE_ID);
-        var dir = ctx.inputDir().normalize();
-        if (dir.y < 0.3) { // ensure minimum upwards angle
-            dir = dir.withAxis(Direction.Axis.Y, 0.3);
-        }
+        sv.stateManager().clearTicks(VAULT_STATE_ID);
+        double y = sv.user.getRotationVector().y;
+        var dir = ctx.inputDir().withAxis(Direction.Axis.Y, Math.max(0.3, y)).normalize();
+        System.out.println(dir.multiply(VAULT_SPEED));
         sv.user.addVelocity(dir.multiply(VAULT_SPEED));
-        sv.getEffectsManager().spawnRing(sv.user.getWorld(), sv.user.getPos(), dir);
+        sv.effectsManager().spawnRing(sv.user.getWorld(), sv.user.getPos(), dir);
     }
-
-    @Override
-    public void jump(SpiritVector sv, JumpMovementContext ctx) {}
 
     @Override
     public void updateValues(SpiritVector sv) {

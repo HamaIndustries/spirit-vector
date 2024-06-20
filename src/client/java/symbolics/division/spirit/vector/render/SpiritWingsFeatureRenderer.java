@@ -26,7 +26,7 @@ public class SpiritWingsFeatureRenderer<T extends LivingEntity, M extends Entity
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         if (entity instanceof ISpiritVectorUser user) {
             user.getSpiritVector().ifPresent(sv -> {
-                if (!sv.getStateManager().isActive(WingsEffectState.ID)) return;
+                if (!sv.stateManager().isActive(WingsEffectState.ID)) return;
                 matrices.push();
                 matrices.translate(0, 0, 0.3f);
                 VertexConsumer vc = ItemRenderer.getArmorGlintConsumer(

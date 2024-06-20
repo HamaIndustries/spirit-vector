@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
-import symbolics.division.spirit.vector.logic.JumpMovementContext;
 import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.input.Input;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -63,7 +63,9 @@ public abstract class LivingEntityMixin extends Entity {
     public void jump(CallbackInfo ci) {
         SpiritVector sv = maybeGetSpiritVector();
         if (sv != null) {
-            sv.jump(new JumpMovementContext(ci));
+//            sv.jump(new JumpMovementContext(ci));
+            // take over jump movement completely
+            ci.cancel();
         }
     }
 

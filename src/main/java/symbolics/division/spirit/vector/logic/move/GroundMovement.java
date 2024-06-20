@@ -7,14 +7,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import symbolics.division.spirit.vector.logic.JumpMovementContext;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.mixin.LivingEntityAccessor;
 
-public class BaseMovement extends AbstractMovementType {
+public class GroundMovement extends AbstractMovementType {
 
-    public BaseMovement(Identifier id) {
+    public GroundMovement(Identifier id) {
         super(id);
     }
 
@@ -76,17 +76,19 @@ public class BaseMovement extends AbstractMovementType {
             user.setVelocity(appliedVelocity.x * (double)friction, this instanceof Flutterer ? velocityY * (double)friction : velocityY * 0.98F, appliedVelocity.z * (double)friction);
         }
 
+        if (sv.inputManager().consume(Input.JUMP)) {
+            jump(sv);
+        }
+
         user.updateLimbs(user instanceof Flutterer);
         ctx.ci().cancel();
     }
 
-    @Override
-    public void jump(SpiritVector sv, JumpMovementContext ctx) {
+    protected void jump(SpiritVector sv) {
         float f = ((LivingEntityAccessor)sv.user).callGetJumpVelocity() * 1.2f;
         if (f <= 0.00001) return;
         sv.user.addVelocity(0, f, 0);
         sv.user.velocityDirty = true;
-        ctx.ci().cancel();
     }
 
     @Override

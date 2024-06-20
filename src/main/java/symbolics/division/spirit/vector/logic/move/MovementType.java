@@ -1,7 +1,6 @@
 package symbolics.division.spirit.vector.logic.move;
 
 import net.minecraft.util.Identifier;
-import symbolics.division.spirit.vector.logic.JumpMovementContext;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 
@@ -22,8 +21,8 @@ public interface MovementType {
     // injects to vanilla LivingEntity.travel, possibly overriding.
     default void travel(SpiritVector sv, TravelMovementContext ctx) {};
 
-    // injects to vanilla LivingEntity.jump, possibly overriding.
-    default void jump(SpiritVector sv, JumpMovementContext ctx)  {};
+//    // replaces vanilla jump
+//    default void jump(SpiritVector sv, JumpMovementContext ctx)  {};
 
     // update fuel and momentum
     void updateValues(SpiritVector sv);
@@ -32,7 +31,7 @@ public interface MovementType {
 
     default void exit(SpiritVector sv) {}
 
-    MovementType NEUTRAL = new BaseMovement(id("neutral"));
+    MovementType NEUTRAL = new GroundMovement(id("neutral"));
     MovementType SLIDE = new SlideMovement(id("slide"));
     MovementType WALL_JUMP = new WallJumpMovement(id("wall_jump"));
     MovementType VAULT = new LedgeVaultMovement(id("vault"));

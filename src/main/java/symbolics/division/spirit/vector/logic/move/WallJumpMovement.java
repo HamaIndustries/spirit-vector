@@ -8,9 +8,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.SpiritVector;
-import symbolics.division.spirit.vector.mixin.LivingEntityAccessor;
+import symbolics.division.spirit.vector.logic.input.Input;
 
-public class WallJumpMovement extends BaseMovement {
+public class WallJumpMovement extends AbstractMovementType {
     private static final int MOMENTUM_GAINED = SpiritVector.MAX_MOMENTUM / 20;
 
     public WallJumpMovement(Identifier id) {
@@ -19,7 +19,7 @@ public class WallJumpMovement extends BaseMovement {
 
     @Override
     public boolean testMovementCondition(SpiritVector sv, TravelMovementContext ctx) {
-        if (!sv.user.isOnGround() && ((LivingEntityAccessor)sv.user).isJumping() && ctx.inputDir().length() > 0) {
+        if (!sv.user.isOnGround() && ctx.inputDir().length() > 0 && sv.inputManager().consume(Input.JUMP)) {
             var pos = sv.user.getBlockPos();
             Direction[] dirs = {
                     ctx.inputDir().getComponentAlongAxis(Direction.Axis.Z) > 0 ? Direction.NORTH : Direction.SOUTH,
@@ -52,7 +52,7 @@ public class WallJumpMovement extends BaseMovement {
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
         Vec3d motion = new Vec3d(ctx.inputDir().x/2, 0.5, ctx.inputDir().z/2);
         sv.user.setVelocity(motion);
-        sv.getEffectsManager().spawnRing(sv.user.getWorld(), sv.user.getPos(), motion);
+        sv.effectsManager().spawnRing(sv.user.getWorld(), sv.user.getPos(), motion);
     }
 
     @Override

@@ -15,6 +15,8 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import symbolics.division.spirit.vector.SpiritVectorItems;
+import symbolics.division.spirit.vector.logic.input.Input;
+import symbolics.division.spirit.vector.logic.input.InputManager;
 import symbolics.division.spirit.vector.logic.move.MovementType;
 import symbolics.division.spirit.vector.logic.state.ParticleTrailEffectState;
 import symbolics.division.spirit.vector.logic.state.StateManager;
@@ -46,6 +48,7 @@ public class SpiritVector {
     private final EffectsManager effectsManager;
     private final StateManager stateManager = new StateManager();
     private final RuneManager runeManager = new RuneManager();
+    private final InputManager inputManager = new InputManager();
     private final SFXPack<?> sfx;
 
     // these are checked in order prior to rune movements
@@ -81,14 +84,10 @@ public class SpiritVector {
         var vel = user.getVelocity();
         if (isSoaring()) {
             if (vel.length() >= MINIMUM_SPEED_FOR_TRAIL_WHILE_SOARING) {
-                getStateManager().enableStateFor(ParticleTrailEffectState.ID, 1);
+                stateManager().enableStateFor(ParticleTrailEffectState.ID, 1);
             }
-            getStateManager().enableStateFor(WingsEffectState.ID, 1);
+            stateManager().enableStateFor(WingsEffectState.ID, 1);
         }
-    }
-
-    public void jump(JumpMovementContext ctx) {
-        moveState.jump(this, ctx);
     }
 
     private void updateMovementType(TravelMovementContext ctx) {
@@ -128,15 +127,23 @@ public class SpiritVector {
         return sfx;
     }
 
-    public EffectsManager getEffectsManager() { return effectsManager; }
-
     public boolean isSoaring() {
         // it means you're really cool
         return getMomentum() >= MOMENTUM_FAST_THRESHOLD;
     }
 
+    public void onLanding() {
+        if (this.user.fallDistance > 0) {
+            inputManager.update(Input.JUMP, false);
+        }
+    }
+
     public MovementType getMoveState() { return moveState; }
 
-    public StateManager getStateManager() { return stateManager; }
+    public EffectsManager effectsManager() { return effectsManager; }
+
+    public StateManager stateManager() { return stateManager; }
+
+    public InputManager inputManager() { return inputManager; }
 
 }

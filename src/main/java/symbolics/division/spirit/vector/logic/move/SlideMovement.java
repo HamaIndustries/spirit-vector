@@ -5,10 +5,10 @@ import net.minecraft.util.math.Vec3d;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.SVMathHelper;
 import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.state.ParticleTrailEffectState;
-import symbolics.division.spirit.vector.mixin.LivingEntityAccessor;
 
-public class SlideMovement extends BaseMovement {
+public class SlideMovement extends GroundMovement {
 
     public SlideMovement(Identifier id) {
         super(id);
@@ -16,7 +16,11 @@ public class SlideMovement extends BaseMovement {
 
     @Override
     public boolean testMovementCondition(SpiritVector sv, TravelMovementContext ctx) {
-        return sv.user.isSneaking() && sv.user.isOnGround() && !((LivingEntityAccessor)sv.user).isJumping();
+        if (sv.inputManager().pressed(Input.CROUCH) && sv.user.isOnGround() && !sv.inputManager().pressed(Input.JUMP)) {
+            sv.inputManager().consume(Input.CROUCH);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -29,7 +33,11 @@ public class SlideMovement extends BaseMovement {
         sv.user.setVelocity(vel.add(side.multiply(side.dotProduct(input) / 10)).normalize().multiply(speed));
 
         sv.user.move(net.minecraft.entity.MovementType.SELF, sv.user.getVelocity());
-        sv.getStateManager().enableStateFor(ParticleTrailEffectState.ID, 1);
+        sv.stateManager().enableStateFor(ParticleTrailEffectState.ID, 1);
+
+        if (sv.inputManager().consume(Input.JUMP)) {
+            jump(sv);
+        }
 
         ctx.ci().cancel();
     }

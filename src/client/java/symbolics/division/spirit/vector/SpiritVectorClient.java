@@ -1,6 +1,7 @@
 package symbolics.division.spirit.vector;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
@@ -29,5 +30,7 @@ public class SpiritVectorClient implements ClientModInitializer {
 
 		// particles reg
 		ClientSFX.registerAll();
+
+		ClientTickEvents.START_CLIENT_TICK.register(InputHandler::tick);
 	}
 }

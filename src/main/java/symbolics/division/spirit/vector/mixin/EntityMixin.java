@@ -10,8 +10,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.move.LedgeVaultMovement;
 
 @Mixin(Entity.class)
@@ -39,5 +42,15 @@ public class EntityMixin {
             user.getSpiritVector().ifPresent(LedgeVaultMovement::triggerLedge);
         }
         return result;
+    }
+
+    @Inject(method = "onLanding", at = @At("HEAD"))
+    public void onLanding(CallbackInfo ci) {
+        if (this instanceof ISpiritVectorUser user) {
+            user.getSpiritVector().ifPresent(sv -> {
+                // fake reset for chain jumps
+                sv.onLanding();
+            });
+        }
     }
 }
