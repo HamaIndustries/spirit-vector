@@ -1,6 +1,5 @@
 package symbolics.division.spirit.vector.mixin;
 
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -15,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SpiritVector;
-import symbolics.division.spirit.vector.logic.input.Input;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {

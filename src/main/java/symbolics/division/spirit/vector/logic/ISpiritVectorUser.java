@@ -9,4 +9,5 @@ public interface ISpiritVectorUser {
     default Optional<SpiritVector> getSpiritVector() {
         return Optional.ofNullable(spiritVector());
     };
+    void setWingState(boolean visible);
 }

@@ -146,4 +146,8 @@ public class SpiritVector {
 
     public InputManager inputManager() { return inputManager; }
 
+    public SVEntityState entityState() {
+        return new SVEntityState(stateManager().isActive(WingsEffectState.ID));
+    }
+
 }

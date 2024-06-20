@@ -1,6 +1,8 @@
 package symbolics.division.spirit.vector.mixin.client;
 
 import com.mojang.authlib.GameProfile;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
@@ -12,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
+import symbolics.division.spirit.vector.logic.SVEntityState;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.sfx.SFXPack;
 
@@ -30,11 +33,20 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implemen
             if (spiritVector == null || !ItemStack.areItemsAndComponentsEqual(item, prevStack)) {
                 spiritVector = new SpiritVector((LivingEntity)(Entity)this, SFXPack.getFromStack(item));
                 prevStack = item;
+                setWingState(false);
             }
         } else {
             spiritVector = null;
         }
         return spiritVector;
+    }
+
+    @Override
+    public void setWingState(boolean visible) {
+        SVEntityState state = new SVEntityState(visible);
+        this.setAttached(SVEntityState.ATTACHMENT, state);
+        SVEntityState.Payload payload = new SVEntityState.Payload(this.getId(), state);
+        ClientPlayNetworking.send(payload);
     }
 
     @Inject(method = "shouldSlowDown", at = @At("HEAD"), cancellable = true)

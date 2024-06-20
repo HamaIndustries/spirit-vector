@@ -13,8 +13,14 @@ import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
+import symbolics.division.spirit.vector.logic.SVEntityState;
+import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.state.WingsEffectState;
+import symbolics.division.spirit.vector.sfx.SFXPack;
+import symbolics.division.spirit.vector.sfx.SFXRegistry;
+import symbolics.division.spirit.vector.sfx.SpiritVectorSFX;
 
 public class SpiritWingsFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
     private final SpiritWingsModel<T> model;
@@ -26,19 +32,38 @@ public class SpiritWingsFeatureRenderer<T extends LivingEntity, M extends Entity
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        // need a data tracker to check state for other players
-        if (entity instanceof ISpiritVectorUser user) {
-            user.getSpiritVector().ifPresent(sv -> {
-//                if (!sv.stateManager().isActive(WingsEffectState.ID)) return;
+        var state = entity.getAttached(SVEntityState.ATTACHMENT);
+        if (state != null && state.wingsVisible()) {
+            ItemStack sv = SpiritVector.getEquippedItem(entity);
+            if (sv != null) {
+
+                SFXPack<?> sfx = sv.getComponents().getOrDefault(SFXPack.COMPONENT, SFXRegistry.defaultEntry()).value();
+
                 matrices.push();
                 matrices.translate(0, 0, 0.3f);
                 VertexConsumer vc = ItemRenderer.getArmorGlintConsumer(
-                        vertexConsumers, RenderLayer.getEntityTranslucent(sv.getSFX().wingsTexture()), false
+                        vertexConsumers, RenderLayer.getEntityTranslucent(sfx.wingsTexture()), false
                 );
                 this.model.setAngles(entity, limbAngle, limbDistance, entity.age, headYaw, headPitch, tickDelta);
                 this.model.render(matrices, vc, light, OverlayTexture.DEFAULT_UV);
                 matrices.pop();
-            });
+
+            }
         }
+
+
+//        if (entity instanceof ISpiritVectorUser user) {
+//            user.getSpiritVector().ifPresent(sv -> {
+////                if (!sv.stateManager().isActive(WingsEffectState.ID)) return;
+//                matrices.push();
+//                matrices.translate(0, 0, 0.3f);
+//                VertexConsumer vc = ItemRenderer.getArmorGlintConsumer(
+//                        vertexConsumers, RenderLayer.getEntityTranslucent(sv.getSFX().wingsTexture()), false
+//                );
+//                this.model.setAngles(entity, limbAngle, limbDistance, entity.age, headYaw, headPitch, tickDelta);
+//                this.model.render(matrices, vc, light, OverlayTexture.DEFAULT_UV);
+//                matrices.pop();
+//            });
+//        }
     }
 }

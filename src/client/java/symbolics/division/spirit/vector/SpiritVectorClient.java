@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
+import symbolics.division.spirit.vector.logic.SVEntityState;
 import symbolics.division.spirit.vector.render.SpiritWingsFeatureRenderer;
 import symbolics.division.spirit.vector.render.SpiritWingsModel;
 import symbolics.division.spirit.vector.sfx.ClientSFX;
@@ -16,6 +17,9 @@ public class SpiritVectorClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		EffectsManager.registerSFXRequestC2SCallback(ClientPlayNetworking::send);
+		ClientPlayNetworking.registerGlobalReceiver(
+				SVEntityState.Payload.ID, (payload, context) -> SVEntityState.handleStateSync(payload, context.player().getWorld())
+		);
 
 		// spirit wings reg
 		EntityModelLayerRegistry.registerModelLayer(SpiritWingsModel.LAYER, SpiritWingsModel::getTexturedModelData);
@@ -30,7 +34,6 @@ public class SpiritVectorClient implements ClientModInitializer {
 
 		// particles reg
 		ClientSFX.registerAll();
-
 		ClientTickEvents.START_CLIENT_TICK.register(InputHandler::tick);
 	}
 }
