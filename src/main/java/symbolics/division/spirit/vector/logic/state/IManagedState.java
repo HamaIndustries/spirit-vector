@@ -4,6 +4,7 @@ public interface IManagedState {
     void enable();
     void disable();
     void enableFor(int ticks);
+    void clearTicks();
     void tick();
     default void tickInactive() {}
     boolean isActive();

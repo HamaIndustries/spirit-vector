@@ -4,7 +4,7 @@ import net.minecraft.util.Identifier;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 
-public class ParticleTrailEffectState extends AbstractManagedState {
+public class ParticleTrailEffectState extends ManagedState {
     public static final Identifier ID = SpiritVectorMod.id("particle_trail");
 
     public ParticleTrailEffectState(SpiritVector sv) {

@@ -4,7 +4,7 @@ import net.minecraft.util.Identifier;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 
-public class WingsEffectState extends AbstractManagedState {
+public class WingsEffectState extends ManagedState {
 
     public static final Identifier ID = SpiritVectorMod.id("wings");
 

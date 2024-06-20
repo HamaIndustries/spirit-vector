@@ -3,13 +3,12 @@ package symbolics.division.spirit.vector.logic.state;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 
 // manages state of visual effects
-public abstract class AbstractManagedState implements IManagedState {
+public class ManagedState implements IManagedState {
     protected int semaphore = 0;
     protected int ticksLeft = 0;
     protected final SpiritVector sv;
-    private StateManager manager;
 
-    public AbstractManagedState(SpiritVector sv) {
+    public ManagedState(SpiritVector sv) {
         this.sv = sv;
     }
 
@@ -43,4 +42,8 @@ public abstract class AbstractManagedState implements IManagedState {
         ticksLeft--;
     }
 
+    @Override
+    public void clearTicks() {
+        ticksLeft = 0;
+    }
 }

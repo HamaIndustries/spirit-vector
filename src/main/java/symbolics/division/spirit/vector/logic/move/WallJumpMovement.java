@@ -11,6 +11,8 @@ import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.mixin.LivingEntityAccessor;
 
 public class WallJumpMovement extends BaseMovement {
+    private static final int MOMENTUM_GAINED = SpiritVector.MAX_MOMENTUM / 20;
+
     public WallJumpMovement(Identifier id) {
         super(id);
     }
@@ -55,6 +57,6 @@ public class WallJumpMovement extends BaseMovement {
 
     @Override
     public void updateValues(SpiritVector sv) {
-        sv.modifyMomentum(5);
+        sv.modifyMomentum(MOMENTUM_GAINED);
     }
 }

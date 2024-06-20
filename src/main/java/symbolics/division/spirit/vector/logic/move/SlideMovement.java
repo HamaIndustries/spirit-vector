@@ -8,8 +8,7 @@ import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.state.ParticleTrailEffectState;
 import symbolics.division.spirit.vector.mixin.LivingEntityAccessor;
 
-public class SlideMovement extends BaseMovement  {
-
+public class SlideMovement extends BaseMovement {
 
     public SlideMovement(Identifier id) {
         super(id);

@@ -28,6 +28,10 @@ public final class StateManager {
         getState(id).disable();
     }
 
+    public void clearTicks(Identifier id) {
+        getState(id).clearTicks();
+    }
+
     public void tick() {
         for (IManagedState state : states.values()) {
             if (state.isActive()) {

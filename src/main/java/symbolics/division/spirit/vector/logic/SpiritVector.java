@@ -15,6 +15,7 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import symbolics.division.spirit.vector.SpiritVectorItems;
+import symbolics.division.spirit.vector.logic.move.MovementType;
 import symbolics.division.spirit.vector.logic.state.ParticleTrailEffectState;
 import symbolics.division.spirit.vector.logic.state.StateManager;
 import symbolics.division.spirit.vector.logic.state.WingsEffectState;
@@ -45,10 +46,12 @@ public class SpiritVector {
     private final EffectsManager effectsManager;
     private final StateManager stateManager = new StateManager();
     private final RuneManager runeManager = new RuneManager();
-    private final MovementType[] movements = {
-            MovementType.SLIDE, MovementType.WALL_JUMP
-    };
     private final SFXPack<?> sfx;
+
+    // these are checked in order prior to rune movements
+    private final MovementType[] movements = {
+            MovementType.VAULT, MovementType.SLIDE, MovementType.WALL_JUMP
+    };
 
     public final LivingEntity user;
 
@@ -58,6 +61,9 @@ public class SpiritVector {
         this.user = user;
         stateManager.register(ParticleTrailEffectState.ID, new ParticleTrailEffectState(this));
         stateManager.register(WingsEffectState.ID, new WingsEffectState(this));
+        for (MovementType move : movements) {
+            move.register(this);
+        }
     }
 
     public SpiritVector(LivingEntity user) {

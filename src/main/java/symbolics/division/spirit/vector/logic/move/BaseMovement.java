@@ -9,20 +9,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import symbolics.division.spirit.vector.logic.JumpMovementContext;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
-import symbolics.division.spirit.vector.logic.MovementType;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.mixin.LivingEntityAccessor;
 
-public class BaseMovement implements MovementType {
-    protected final Identifier id;
+public class BaseMovement extends AbstractMovementType {
 
     public BaseMovement(Identifier id) {
-        this.id = id;
-    }
-
-    @Override
-    public Identifier getID() {
-        return id;
+        super(id);
     }
 
     @Override
@@ -30,12 +23,7 @@ public class BaseMovement implements MovementType {
         return false;
     }
 
-    @Override
-    public boolean testMovementCompleted(SpiritVector sv, TravelMovementContext ctx) {
-        return true;
-    }
-
-    private boolean isCreativeFlying(SpiritVector sv) {
+    protected static boolean isCreativeFlying(SpiritVector sv) {
         return sv.user instanceof PlayerEntity player && player.getAbilities().flying;
     }
 
@@ -96,7 +84,6 @@ public class BaseMovement implements MovementType {
     public void jump(SpiritVector sv, JumpMovementContext ctx) {
         float f = ((LivingEntityAccessor)sv.user).callGetJumpVelocity() * 1.2f;
         if (f <= 0.00001) return;
-        Vec3d vel = sv.user.getVelocity();
         sv.user.addVelocity(0, f, 0);
         sv.user.velocityDirty = true;
         ctx.ci().cancel();
@@ -114,5 +101,4 @@ public class BaseMovement implements MovementType {
             sv.modifyMomentum(-1);
         }
     }
-
 }
