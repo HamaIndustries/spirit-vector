@@ -5,8 +5,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
-import net.fabricmc.fabric.impl.recipe.ingredient.CustomIngredientPayloadC2S;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import symbolics.division.spirit.vector.render.SpiritWingsFeatureRenderer;
 import symbolics.division.spirit.vector.render.SpiritWingsModel;
@@ -21,11 +20,12 @@ public class SpiritVectorClient implements ClientModInitializer {
 		// spirit wings reg
 		EntityModelLayerRegistry.registerModelLayer(SpiritWingsModel.LAYER, SpiritWingsModel::getTexturedModelData);
 		LivingEntityFeatureRendererRegistrationCallback.EVENT.register(
-				(entityType, entityRenderer, registrationHelper, context) -> {
-					if (entityRenderer instanceof PlayerEntityRenderer) {
-						registrationHelper.register(new SpiritWingsFeatureRenderer<>(entityRenderer, context.getModelLoader()));
-					}
+			(entityType, entityRenderer, registrationHelper, context) -> {
+				if (entityRenderer instanceof PlayerEntityRenderer) {
+					ModelPart root = context.getPart(SpiritWingsModel.LAYER);
+					registrationHelper.register(new SpiritWingsFeatureRenderer<>(entityRenderer, root));
 				}
+			}
 		);
 
 		// particles reg

@@ -42,7 +42,6 @@ public class LedgeVaultMovement extends AbstractMovementType {
         sv.stateManager().clearTicks(VAULT_STATE_ID);
         double y = sv.user.getRotationVector().y;
         var dir = ctx.inputDir().withAxis(Direction.Axis.Y, Math.max(0.3, y)).normalize();
-        System.out.println(dir.multiply(VAULT_SPEED));
         sv.user.addVelocity(dir.multiply(VAULT_SPEED));
         sv.effectsManager().spawnRing(sv.user.getWorld(), sv.user.getPos(), dir);
     }
