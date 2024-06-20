@@ -56,7 +56,6 @@ public class SpiritVector {
         this.effectsManager = new EffectsManager(this);
         this.sfx = sfx;
         this.user = user;
-
         stateManager.register(ParticleTrailEffectState.ID, new ParticleTrailEffectState(this));
         stateManager.register(WingsEffectState.ID, new WingsEffectState(this));
     }

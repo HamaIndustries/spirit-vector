@@ -29,16 +29,13 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implemen
         if (item != null) {
             if (spiritVector == null || !ItemStack.areItemsAndComponentsEqual(item, prevStack)) {
                 spiritVector = new SpiritVector((LivingEntity)(Entity)this, SFXPack.getFromStack(item));
+                prevStack = item;
             }
         } else {
             spiritVector = null;
         }
         return spiritVector;
     }
-
-//    @Inject(method = "tickMovement", at = @At("HEAD"), cancellable = true)
-//    public void tickMovement(CallbackInfo ci) {
-//    }
 
     @Inject(method = "shouldSlowDown", at = @At("HEAD"), cancellable = true)
     public void shouldSlowDown(CallbackInfoReturnable<Boolean> ci) {

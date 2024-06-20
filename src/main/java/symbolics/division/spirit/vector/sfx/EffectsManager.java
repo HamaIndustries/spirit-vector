@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 public class EffectsManager {
     
     public static void acceptC2SPayload(SFXRequestPayload payload, ServerPlayNetworking.Context ctx) {
+
         var player = ctx.player();
         if (payload.type().equals(SFXRequestPayload.PARTICLE_EFFECT_TYPE)) {
             spawnParticleImpl((ServerWorld)player.getWorld(), payload.pack(), new Vec3d(payload.pos()));
