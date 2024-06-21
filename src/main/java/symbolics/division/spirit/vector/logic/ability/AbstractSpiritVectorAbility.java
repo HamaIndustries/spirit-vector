@@ -8,9 +8,11 @@ import symbolics.division.spirit.vector.logic.move.MovementType;
 
 public abstract class AbstractSpiritVectorAbility extends AbstractMovementType implements SpiritVectorAbility {
     protected int abilityCost;
+    protected String translationString;
     public AbstractSpiritVectorAbility(Identifier id, int cost) {
         super(id);
-        abilityCost = cost;
+        this.abilityCost = cost;
+        this.translationString = SpiritVectorAbility.translationKeyOf(id);
     }
 
     @Override
@@ -33,5 +35,10 @@ public abstract class AbstractSpiritVectorAbility extends AbstractMovementType i
     @Override
     public int cost() {
         return abilityCost;
+    }
+
+    @Override
+    public String abilityTranslationKey() {
+        return translationString;
     }
 }

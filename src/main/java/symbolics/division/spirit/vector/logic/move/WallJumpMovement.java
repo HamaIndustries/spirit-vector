@@ -19,7 +19,7 @@ public class WallJumpMovement extends AbstractMovementType {
 
     @Override
     public boolean testMovementCondition(SpiritVector sv, TravelMovementContext ctx) {
-        if (!sv.user.isOnGround() && ctx.inputDir().length() > 0 && sv.inputManager().consume(Input.JUMP)) {
+        if (!sv.user.isOnGround() && ctx.inputDir().length() > 0 && sv.inputManager().pressed(Input.JUMP)) {
             var pos = sv.user.getBlockPos();
             Direction[] dirs = {
                     ctx.inputDir().getComponentAlongAxis(Direction.Axis.Z) > 0 ? Direction.NORTH : Direction.SOUTH,
@@ -37,6 +37,7 @@ public class WallJumpMovement extends AbstractMovementType {
                         (isSolidWall(world, wallPos.down(), dir.getOpposite())
                         && world.isAir(pos.down()))
                 )) {
+                    sv.inputManager().consume(Input.JUMP);
                     return true;
                 }
             }
@@ -52,7 +53,7 @@ public class WallJumpMovement extends AbstractMovementType {
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
         Vec3d motion = new Vec3d(ctx.inputDir().x/2, 0.5, ctx.inputDir().z/2);
         sv.user.setVelocity(motion);
-        sv.effectsManager().spawnRing(sv.user.getWorld(), sv.user.getPos(), motion);
+        sv.effectsManager().spawnRing(sv.user.getPos(), motion);
     }
 
     @Override

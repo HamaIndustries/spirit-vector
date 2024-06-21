@@ -19,10 +19,7 @@ public interface MovementType {
     boolean testMovementCompleted(SpiritVector sv, TravelMovementContext ctx);
 
     // injects to vanilla LivingEntity.travel, possibly overriding.
-    default void travel(SpiritVector sv, TravelMovementContext ctx) {};
-
-//    // replaces vanilla jump
-//    default void jump(SpiritVector sv, JumpMovementContext ctx)  {};
+    void travel(SpiritVector sv, TravelMovementContext ctx);
 
     // update fuel and momentum
     void updateValues(SpiritVector sv);
@@ -35,6 +32,7 @@ public interface MovementType {
     MovementType SLIDE = new SlideMovement(id("slide"));
     MovementType WALL_JUMP = new WallJumpMovement(id("wall_jump"));
     MovementType VAULT = new LedgeVaultMovement(id("vault"));
+    MovementType JUMP = new JumpingMovement(id("jump"));
 //    public static MovementType GRIND = new MovementType(id("grind"));
 
 }

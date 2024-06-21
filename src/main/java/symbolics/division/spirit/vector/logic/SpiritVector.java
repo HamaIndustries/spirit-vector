@@ -15,6 +15,9 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import symbolics.division.spirit.vector.SpiritVectorItems;
+import symbolics.division.spirit.vector.logic.ability.AbilitySlot;
+import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbility;
+import symbolics.division.spirit.vector.logic.ability.SpiritVectorHeldAbilities;
 import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.input.InputManager;
 import symbolics.division.spirit.vector.logic.move.MovementType;
@@ -23,7 +26,6 @@ import symbolics.division.spirit.vector.logic.state.StateManager;
 import symbolics.division.spirit.vector.logic.state.WingsEffectState;
 import symbolics.division.spirit.vector.sfx.EffectsManager;
 import symbolics.division.spirit.vector.sfx.SFXPack;
-import symbolics.division.spirit.vector.sfx.SpiritVectorSFX;
 
 public class SpiritVector {
 
@@ -47,30 +49,33 @@ public class SpiritVector {
     private MovementType moveState = MovementType.NEUTRAL;
     private final EffectsManager effectsManager;
     private final StateManager stateManager = new StateManager();
-    private final RuneManager runeManager = new RuneManager();
     private final InputManager inputManager = new InputManager();
     private final SFXPack<?> sfx;
 
     // these are checked in order prior to rune movements
     private final MovementType[] movements = {
-            MovementType.VAULT, MovementType.SLIDE, MovementType.WALL_JUMP
+            MovementType.VAULT,
+            MovementType.JUMP,
+            MovementType.SLIDE,
+            MovementType.WALL_JUMP
     };
+
+    private final SpiritVectorHeldAbilities abilities;
 
     public final LivingEntity user;
 
-    public SpiritVector(LivingEntity user, SFXPack<?> sfx) {
+    public SpiritVector(LivingEntity user, ItemStack itemStack) {
+        this.sfx = SFXPack.getFromStack(itemStack);
         this.effectsManager = new EffectsManager(this);
-        this.sfx = sfx;
         this.user = user;
         stateManager.register(ParticleTrailEffectState.ID, new ParticleTrailEffectState(this));
         stateManager.register(WingsEffectState.ID, new WingsEffectState(this));
+
         for (MovementType move : movements) {
             move.register(this);
         }
-    }
 
-    public SpiritVector(LivingEntity user) {
-        this(user, SpiritVectorSFX.getDefault());
+        abilities = itemStack.getOrDefault(SpiritVectorHeldAbilities.COMPONENT, new SpiritVectorHeldAbilities());
     }
 
     public void travel(Vec3d movementInput, CallbackInfo ci) {
@@ -94,15 +99,34 @@ public class SpiritVector {
         if (moveState.testMovementCompleted(this, ctx)) {
             moveState.exit(this);
             moveState = MovementType.NEUTRAL;
+
+            // first check standard movements
             for (MovementType m : movements) {
                 if (m.testMovementCondition(this, ctx)) {
                     moveState = m;
-                    break;
+                    return;
+                }
+            }
+
+            // then test if any abilities apply while in air
+            if (!user.isOnGround()) {
+                for (AbilitySlot slot : AbilitySlot.values()) {
+                    SpiritVectorAbility ability = abilities.get(slot);
+                    MovementType move = ability.getMovement();
+                    if (
+                            ability.cost() <= getMomentum()
+                            && move.testMovementCompleted(this, ctx)
+                            && inputManager().consume(slot.input)
+                    ) {
+                        moveState = move;
+                        return;
+                    }
                 }
             }
         }
     }
 
+    public float getMovementSpeed() { return getMovementSpeed(0.6f); }
     public float getMovementSpeed(float slip) {
         // todo movementspeed (and maybe jump velocity) based on momentum
         return user.getMovementSpeed() * (0.21600002F / (slip * slip * slip));
@@ -110,8 +134,10 @@ public class SpiritVector {
     }
 
     public int getMomentum() {
-        return momentum;
+        return MAX_MOMENTUM;
+//        return momentum;
     }
+
     public void modifyMomentum(int v) {
         momentum = Math.clamp(momentum + v, 0, MAX_MOMENTUM);
     }
@@ -133,7 +159,7 @@ public class SpiritVector {
     }
 
     public void onLanding() {
-        if (this.user.fallDistance > 0) {
+        if (this.user.fallDistance > 0.01) {
             inputManager.update(Input.JUMP, false);
         }
     }

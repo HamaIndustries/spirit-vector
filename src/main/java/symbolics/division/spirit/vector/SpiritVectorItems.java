@@ -9,11 +9,9 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import symbolics.division.spirit.vector.item.DreamRuneItem;
+import symbolics.division.spirit.vector.item.SlotTemplateItem;
 import symbolics.division.spirit.vector.item.SpiritVectorItem;
-import symbolics.division.spirit.vector.logic.ability.DashAbility;
-import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbilitiesRegistry;
-import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbility;
-import symbolics.division.spirit.vector.logic.ability.TeleportAbility;
+import symbolics.division.spirit.vector.logic.ability.*;
 import symbolics.division.spirit.vector.sfx.SimpleSFX;
 import symbolics.division.spirit.vector.sfx.SpiritVectorSFX;
 
@@ -28,10 +26,16 @@ public final class SpiritVectorItems {
 
     private static final List<Item> generatedItems = new ArrayList<>();
     private static final List<Item> creativeTabItems = new ArrayList<>();
+    private static final List<DreamRuneItem> dreamRuneItems = new ArrayList<>();
 
     public static final SpiritVectorItem SPIRIT_VECTOR = registerAndModel("spirit_vector", new SpiritVectorItem());
+
     public static final DreamRuneItem TELEPORT_RUNE = registerRuneAndModel("teleport", TeleportAbility::new);
     public static final DreamRuneItem DASH_RUNE = registerRuneAndModel("dash", DashAbility::new);
+
+    public static final SlotTemplateItem LEFT_SLOT_TEMPLATE = registerAndModel("burst_rune_left", new SlotTemplateItem(AbilitySlot.LEFT));
+    public static final SlotTemplateItem UP_SLOT_TEMPLATE = registerAndModel("burst_rune_up", new SlotTemplateItem(AbilitySlot.UP));
+    public static final SlotTemplateItem RIGHT_SLOT_TEMPLATE = registerAndModel("burst_rune_right", new SlotTemplateItem(AbilitySlot.RIGHT));
 
     static {
         for (SimpleSFX pack : SpiritVectorSFX.getSimpleSFX()) {
@@ -50,11 +54,17 @@ public final class SpiritVectorItems {
 
     private static DreamRuneItem registerRuneAndModel(String id, Function<Identifier, SpiritVectorAbility> abilityProvider) {
         Identifier ident = SpiritVectorMod.id(id);
-        return addToTab(model(SpiritVectorAbilitiesRegistry.registerRuneAndAbility(ident, abilityProvider.apply(ident))));
+        DreamRuneItem item = addToTab(model(SpiritVectorAbilitiesRegistry.registerRuneAndAbility(ident, abilityProvider.apply(ident))));
+        dreamRuneItems.add(item);
+        return item;
     }
 
     public static List<Item> getGeneratedItems() {
         return generatedItems.stream().toList();
+    }
+
+    public static List<DreamRuneItem> getDreamRunes() {
+        return dreamRuneItems.stream().toList();
     }
 
     private static <T extends Item> T addToTab(T item) {

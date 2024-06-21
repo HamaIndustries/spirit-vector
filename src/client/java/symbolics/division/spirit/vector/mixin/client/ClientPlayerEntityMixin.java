@@ -31,7 +31,7 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implemen
         ItemStack item = SpiritVector.getEquippedItem(this);
         if (item != null) {
             if (spiritVector == null || !ItemStack.areItemsAndComponentsEqual(item, prevStack)) {
-                spiritVector = new SpiritVector((LivingEntity)(Entity)this, SFXPack.getFromStack(item));
+                spiritVector = new SpiritVector((LivingEntity)(Entity)this, item);
                 prevStack = item;
                 setWingState(false);
             }

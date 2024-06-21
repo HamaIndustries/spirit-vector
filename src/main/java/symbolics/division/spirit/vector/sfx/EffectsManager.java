@@ -44,7 +44,8 @@ public class EffectsManager {
         }
     }
 
-    public void spawnRing(World world, Vec3d pos, Vec3d dir) {
+    public void spawnRing(Vec3d pos, Vec3d dir) {
+        World world = sv.user.getWorld();
         if (world.isClient) {
             requestCallback.accept(new SFXRequestPayload(SFXRequestPayload.RING_EFFECT_TYPE, sv.getSFX(), pos.toVector3f(), dir.toVector3f()));
         } else {

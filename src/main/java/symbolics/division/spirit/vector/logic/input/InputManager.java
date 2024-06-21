@@ -28,7 +28,7 @@ public final class InputManager {
     }
 
     public boolean consume(Input input) {
-        var result = publicStates.get(input);
+        var result = pressed(input);
         if (result) {
             publicStates.put(input, false);
         }
@@ -36,7 +36,7 @@ public final class InputManager {
     }
 
     public boolean pressed(Input input) { // check absolute state without consuming
-        return trackedStates.get(input);
+        return publicStates.get(input);
     }
 
     public void update(Input input, boolean value) {
@@ -47,7 +47,7 @@ public final class InputManager {
     }
 
     // mainly for debug, see whether input is consumed
-    public boolean trackedState(Input input) {
-        return publicStates.get(input);
+    public boolean rawInput(Input input) {
+        return trackedStates.get(input);
     }
 }

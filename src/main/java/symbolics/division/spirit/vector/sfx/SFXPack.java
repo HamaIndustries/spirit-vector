@@ -24,8 +24,7 @@ public interface SFXPack<T extends ParticleEffect> {
     T particleEffect();
 
     static SFXPack<?> getFromStack(ItemStack stack) {
-        return Optional.ofNullable(stack.getComponents().get(COMPONENT))
-                .orElseGet(() -> RegistryEntry.of(SpiritVectorSFX.getDefault())).value();
+        return stack.getComponents().getOrDefault(COMPONENT, SFXRegistry.defaultEntry()).value();
     }
 
     PacketCodec<RegistryByteBuf, SFXPack<?>> PACKET_CODEC = PacketCodecs.registryValue(SFXRegistry.KEY);

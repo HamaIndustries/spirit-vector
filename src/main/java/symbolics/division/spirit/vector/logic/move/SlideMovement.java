@@ -7,8 +7,10 @@ import symbolics.division.spirit.vector.logic.SVMathHelper;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.state.ParticleTrailEffectState;
+import symbolics.division.spirit.vector.mixin.LivingEntityAccessor;
 
 public class SlideMovement extends GroundMovement {
+    public static final float MIN_SPEED_FOR_TRAIL = 0.1f;
 
     public SlideMovement(Identifier id) {
         super(id);
@@ -16,7 +18,8 @@ public class SlideMovement extends GroundMovement {
 
     @Override
     public boolean testMovementCondition(SpiritVector sv, TravelMovementContext ctx) {
-        if (sv.inputManager().pressed(Input.CROUCH) && sv.user.isOnGround() && !sv.inputManager().pressed(Input.JUMP)) {
+        // take raw input because we want to keep going after the first time
+        if (sv.user.isOnGround() && sv.inputManager().rawInput(Input.CROUCH)) {
             sv.inputManager().consume(Input.CROUCH);
             return true;
         }
@@ -33,10 +36,8 @@ public class SlideMovement extends GroundMovement {
         sv.user.setVelocity(vel.add(side.multiply(side.dotProduct(input) / 10)).normalize().multiply(speed));
 
         sv.user.move(net.minecraft.entity.MovementType.SELF, sv.user.getVelocity());
-        sv.stateManager().enableStateFor(ParticleTrailEffectState.ID, 1);
-
-        if (sv.inputManager().consume(Input.JUMP)) {
-            jump(sv);
+        if (speed > MIN_SPEED_FOR_TRAIL) {
+            sv.stateManager().enableStateFor(ParticleTrailEffectState.ID, 1);
         }
 
         ctx.ci().cancel();

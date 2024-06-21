@@ -15,11 +15,11 @@ import java.util.function.Function;
 public interface SpiritVectorAbility {
 
     Identifier ID_NONE = SpiritVectorMod.id("none");
-    SpiritVectorAbility NONE = new AbstractSpiritVectorAbility(ID_NONE, 0) {
-        @Override
-        public MovementType getMovement() {
-            return MovementType.NEUTRAL;
-        }
+    SpiritVectorAbility NONE = new SpiritVectorAbility() {
+        private static final String tk = SpiritVectorAbility.translationKeyOf(ID_NONE);
+        @Override public MovementType getMovement() { return MovementType.NEUTRAL; }
+        @Override public int cost() { return 0; }
+        @Override public String abilityTranslationKey() { return tk; }
     };
 
     Codec<SpiritVectorAbility> CODEC = Identifier.CODEC.flatXmap(
@@ -45,7 +45,12 @@ public interface SpiritVectorAbility {
         };
     }
 
+    static String translationKeyOf(Identifier id) {
+        return "spirit_vector_ability." + id.getNamespace() + "." + id.getPath();
+    }
+
     /* v--- ACTUAL INTERFACE ---v */
     MovementType getMovement();
     int cost();
+    String abilityTranslationKey();
 }

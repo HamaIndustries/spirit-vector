@@ -10,7 +10,6 @@ import net.minecraft.network.codec.PacketCodec;
 controller for all of a particular sv's abilities
  */
 public class SpiritVectorHeldAbilities {
-    ;
 
     private SpiritVectorAbility[] abilities = {
        SpiritVectorAbility.NONE, SpiritVectorAbility.NONE, SpiritVectorAbility.NONE
@@ -40,6 +39,9 @@ public class SpiritVectorHeldAbilities {
             .build();
 
     public SpiritVectorHeldAbilities() {}
+    public SpiritVectorHeldAbilities(SpiritVectorHeldAbilities other) {
+        this(other.get(AbilitySlot.LEFT), other.get(AbilitySlot.UP), other.get(AbilitySlot.RIGHT));
+    }
     public SpiritVectorHeldAbilities(SpiritVectorAbility left, SpiritVectorAbility up, SpiritVectorAbility right) {
         set(AbilitySlot.LEFT, left);
         set(AbilitySlot.UP, up);
@@ -61,4 +63,6 @@ public class SpiritVectorHeldAbilities {
     public void set(AbilitySlot slot, SpiritVectorAbility ability) {
         abilities[getIndex(slot)] = ability;
     }
+
+    public SpiritVectorAbility[] getAll() { return abilities.clone(); }
 }
