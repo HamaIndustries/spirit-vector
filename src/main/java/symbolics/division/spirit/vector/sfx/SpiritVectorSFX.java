@@ -27,7 +27,7 @@ public final class SpiritVectorSFX {
     }
 
     private static <T extends SFXPack<?>> T register(T pack, Identifier id) {
-        Registry.register(Registries.PARTICLE_TYPE, id.withSuffixedPath("_particle"), pack.particleType());
+        Registry.register(Registries.PARTICLE_TYPE, id, pack.particleType());
         return Registry.register(SFXRegistry.INSTANCE, id, pack);
     }
 

@@ -55,7 +55,7 @@ public class EffectsManager {
     // TODO a nonstaticified version of this
     private static void spawnParticleImpl(ServerWorld world, SFXPack<?> sfx, Vec3d pos) {
         world.spawnParticles(
-                ParticleTypes.CHERRY_LEAVES, pos.x, pos.y, pos.z, 1, 0, 0, 0, 1
+                sfx.particleEffect(), pos.x, pos.y, pos.z, 1, 0, 0, 0, 0
         );
     }
 
@@ -65,7 +65,7 @@ public class EffectsManager {
             Vec3d p = pos.add(uv[0].multiply(Math.cos(i))).add(uv[1].multiply(Math.sin(i)));
             Vec3d d = p.subtract(pos);
             world.spawnParticles(
-                    ParticleTypes.END_ROD, p.x, p.y, p.z, 1, d.x, d.y, d.z, 1
+                    sfx.particleEffect(), p.x, p.y, p.z, 1, d.x, d.y, d.z, 0.4
             );
         }
     }
