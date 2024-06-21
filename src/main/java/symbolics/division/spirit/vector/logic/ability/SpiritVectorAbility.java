@@ -15,7 +15,12 @@ import java.util.function.Function;
 public interface SpiritVectorAbility {
 
     Identifier ID_NONE = SpiritVectorMod.id("none");
-    SpiritVectorAbility NONE = new SpiritVectorAbility() {};
+    SpiritVectorAbility NONE = new AbstractSpiritVectorAbility(ID_NONE, 0) {
+        @Override
+        public MovementType getMovement() {
+            return MovementType.NEUTRAL;
+        }
+    };
 
     Codec<SpiritVectorAbility> CODEC = Identifier.CODEC.flatXmap(
             nullableMapping("identifier to spirit vector ability", SpiritVectorAbilitiesRegistry.instance()::get),
@@ -41,5 +46,6 @@ public interface SpiritVectorAbility {
     }
 
     /* v--- ACTUAL INTERFACE ---v */
-    default MovementType getMovement() { return MovementType.NEUTRAL; }
+    MovementType getMovement();
+    int cost();
 }

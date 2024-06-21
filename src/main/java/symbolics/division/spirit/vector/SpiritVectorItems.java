@@ -19,6 +19,7 @@ import symbolics.division.spirit.vector.sfx.SpiritVectorSFX;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import static net.minecraft.registry.Registries.ITEM;
 import static symbolics.division.spirit.vector.SpiritVectorMod.MODID;
@@ -29,8 +30,8 @@ public final class SpiritVectorItems {
     private static final List<Item> creativeTabItems = new ArrayList<>();
 
     public static final SpiritVectorItem SPIRIT_VECTOR = registerAndModel("spirit_vector", new SpiritVectorItem());
-    public static final DreamRuneItem TELEPORT_RUNE = registerRuneAndModel("teleport", new TeleportAbility());
-    public static final DreamRuneItem DASH_RUNE = registerRuneAndModel("dash", new DashAbility());
+    public static final DreamRuneItem TELEPORT_RUNE = registerRuneAndModel("teleport", TeleportAbility::new);
+    public static final DreamRuneItem DASH_RUNE = registerRuneAndModel("dash", DashAbility::new);
 
     static {
         for (SimpleSFX pack : SpiritVectorSFX.getSimpleSFX()) {
@@ -47,8 +48,9 @@ public final class SpiritVectorItems {
         return addToTab(model(Registry.register(ITEM, Identifier.of(MODID, id), item)));
     }
 
-    private static DreamRuneItem registerRuneAndModel(String id, SpiritVectorAbility ability) {
-        return addToTab(model(SpiritVectorAbilitiesRegistry.registerRuneAndAbility(SpiritVectorMod.id(id), ability)));
+    private static DreamRuneItem registerRuneAndModel(String id, Function<Identifier, SpiritVectorAbility> abilityProvider) {
+        Identifier ident = SpiritVectorMod.id(id);
+        return addToTab(model(SpiritVectorAbilitiesRegistry.registerRuneAndAbility(ident, abilityProvider.apply(ident))));
     }
 
     public static List<Item> getGeneratedItems() {

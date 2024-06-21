@@ -1,5 +1,10 @@
 package symbolics.division.spirit.vector.logic.ability;
 
-public class TeleportAbility implements SpiritVectorAbility {
+import net.minecraft.util.Identifier;
+import symbolics.division.spirit.vector.logic.SpiritVector;
 
+public class TeleportAbility extends AbstractSpiritVectorAbility {
+    public TeleportAbility(Identifier id) {
+        super(id, SpiritVector.MAX_MOMENTUM / 2);
+    }
 }
