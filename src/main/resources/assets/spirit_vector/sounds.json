@@ -1,0 +1,32 @@
+{
+  "spirit_vector:burst": {
+    "subtitle": "subtitles.spirit_vector.burst",
+    "sounds": [
+      "spirit_vector:burst"
+    ]
+  },
+  "engine": {
+    "subtitle": "subtitles.spirit_vector.engine",
+    "sounds": [
+      "spirit_vector:engine"
+    ]
+  },
+  "slide": {
+    "subtitle": "subtitles.spirit_vector.slide",
+    "sounds": [
+      "spirit_vector:slide"
+    ]
+  },
+  "slide_start": {
+    "subtitle": "subtitles.spirit_vector.slide_start",
+    "sounds": [
+      "spirit_vector:slide_start"
+    ]
+  },
+  "step": {
+    "subtitle": "subtitles.spirit_vector.step",
+    "sounds": [
+      "spirit_vector:step"
+    ]
+  }
+}

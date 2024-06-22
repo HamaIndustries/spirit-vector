@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SVEntityState;
 import symbolics.division.spirit.vector.logic.SpiritVector;
-import symbolics.division.spirit.vector.sfx.SFXPack;
 
 @Mixin(ClientPlayerEntity.class)
 public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implements ISpiritVectorUser {

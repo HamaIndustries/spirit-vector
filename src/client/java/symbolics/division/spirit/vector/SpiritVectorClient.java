@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -56,6 +57,7 @@ public class SpiritVectorClient implements ClientModInitializer {
 		TeleportAbilityC2SPayload.registerRequestCallback(
 				p -> ClientPlayNetworking.send(new TeleportAbilityC2SPayload(p))
 		);
+		ClientPlayerEntity b;
 	}
 
 //	private <T extends CustomPayload>

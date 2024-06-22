@@ -2,6 +2,7 @@ package symbolics.division.spirit.vector.logic.move;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
@@ -41,9 +42,15 @@ public class LedgeVaultMovement extends AbstractMovementType {
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
         sv.stateManager().clearTicks(VAULT_STATE_ID);
         double y = sv.user.getRotationVector().y;
-        var dir = ctx.inputDir().withAxis(Direction.Axis.Y, Math.max(0.3, y)).normalize();
-        sv.user.addVelocity(dir.multiply(VAULT_SPEED));
-        sv.effectsManager().spawnRing(sv.user.getPos(), dir);
+        Vec3d result;
+        if (ctx.inputDir().lengthSquared() < 0.1) { // no input
+            result = new Vec3d(0, 0.7, 0);
+        } else {
+            result = ctx.inputDir().withAxis(Direction.Axis.Y, Math.max(0.5, y)).normalize();
+        }
+        sv.user.addVelocity(result.multiply(VAULT_SPEED));
+        sv.effectsManager().spawnRing(sv.user.getPos(), result);
+//        ctx.ci().cancel();
     }
 
     @Override

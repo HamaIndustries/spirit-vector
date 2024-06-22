@@ -37,6 +37,7 @@ public final class SpiritVectorMod implements ModInitializer {
 	public void onInitialize() {
 		SpiritVectorAbilitiesRegistry.init();
 		SpiritVectorItems.init();
+		SpiritVectorSounds.init();
 
 		PayloadTypeRegistry.playC2S().register(SFXRequestPayload.ID, SFXRequestPayload.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(SFXRequestPayload.ID, EffectsManager::acceptC2SPayload);

@@ -37,9 +37,7 @@ public class SpiritWingsModel<T extends LivingEntity> extends EntityModel<T> {
 
     public void setAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float tickDelta) {
         float swing = entity.isInPose(EntityPose.CROUCHING) ? 0 : limbSwing;
-        float prev = this.rightWing.yaw;
-        float angle = (float)Math.cos(ageInTicks / 10 + swing / 2) * (0.2f + 0.1f * limbSwingAmount) - 0.3f;
-        angle = MathHelper.lerp(tickDelta, prev, angle);
+        float angle = (float)Math.cos((ageInTicks + tickDelta) / 10 + swing / 2) * (0.2f + 0.1f * limbSwingAmount) - 0.3f;
         this.rightWing.yaw = angle;
         this.leftWing.yaw = -angle;
     }

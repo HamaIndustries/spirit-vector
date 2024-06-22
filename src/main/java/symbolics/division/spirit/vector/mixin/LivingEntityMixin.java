@@ -61,7 +61,6 @@ public abstract class LivingEntityMixin extends Entity {
     public void jump(CallbackInfo ci) {
         SpiritVector sv = maybeGetSpiritVector();
         if (sv != null) {
-//            sv.jump(new JumpMovementContext(ci));
             // take over jump movement completely
             ci.cancel();
         }
