@@ -10,14 +10,15 @@ import symbolics.division.spirit.vector.logic.SpiritVector;
 public class SlidingSoundInstance extends MovingSoundInstance {
 
     public static boolean shouldPlayFor(PlayerEntity player) {
-        return SpiritVector.hasEquipped(player)
+        return EngineSoundInstance.shouldPlayFor(player)
                 && player.isInPose(EntityPose.CROUCHING)
                 && player.isOnGround();
     }
 
+    private static final float VOLUME_RELATIVE = 0.2f;
     private static final float WINDUP_TICKS = 10;
     private final PlayerEntity player;
-    private float ticksPlaying = 5;
+    private float ticksPlaying = 8;
 
     public SlidingSoundInstance(PlayerEntity player) {
         super(SpiritVectorSounds.SLIDE, SoundCategory.BLOCKS, player.getRandom());
@@ -30,10 +31,10 @@ public class SlidingSoundInstance extends MovingSoundInstance {
 
     @Override
     public void tick() {
-        ticksPlaying++;
+        ticksPlaying = Math.min(ticksPlaying+1, WINDUP_TICKS);
         float speedSq = (float)this.player.getVelocity().lengthSquared();
         if (!this.player.isRemoved() && shouldPlayFor(this.player)) {
-            this.volume = Math.min(0.5f, speedSq) / 0.5f * (ticksPlaying / WINDUP_TICKS) * 0.25f;
+            this.volume = Math.min(0.5f, speedSq) / 0.5f * (ticksPlaying / WINDUP_TICKS) * VOLUME_RELATIVE;
             this.x = this.player.getX();
             this.y = this.player.getY();
             this.z = this.player.getZ();

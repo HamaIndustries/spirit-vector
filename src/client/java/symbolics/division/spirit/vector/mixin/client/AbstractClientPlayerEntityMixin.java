@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import symbolics.division.spirit.vector.sfx.EngineSoundInstance;
 import symbolics.division.spirit.vector.sfx.SlidingSoundInstance;
 
 @Mixin(AbstractClientPlayerEntity.class)
@@ -18,6 +19,7 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {
         super(world, pos, yaw, gameProfile);
     }
 
+    private EngineSoundInstance engineSound;
     private SlidingSoundInstance slidingSound;
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ci) {
@@ -28,6 +30,15 @@ public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {
             }
         } else if (slidingSound.isDone()) {
             slidingSound = null;
+        }
+
+        if (engineSound == null) {
+            if (EngineSoundInstance.shouldPlayFor((AbstractClientPlayerEntity) (PlayerEntity) this)) {
+                engineSound = new EngineSoundInstance(this);
+                MinecraftClient.getInstance().getSoundManager().play(engineSound);
+            }
+        } else if (engineSound.isDone()) {
+            engineSound = null;
         }
     }
 }
