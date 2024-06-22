@@ -23,8 +23,9 @@ public class AudioGirl {
 //        player.playSound(
 //                SpiritVectorSounds.BURST, 0.5f, 1
 //        );
+
         player.getWorld().playSound(
-                player, pos, SpiritVectorSounds.BURST, SoundCategory.PLAYERS, 0.5f, 1
+                null, pos, SpiritVectorSounds.BURST, SoundCategory.PLAYERS, 0.5f, 1
         );
     }
 

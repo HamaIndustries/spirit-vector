@@ -5,7 +5,8 @@
 	"client": [
 		"ClientPlayerEntityMixin",
 		"GameRendererMixin",
-		"BipedEntityModelMixin"
+		"BipedEntityModelMixin",
+		"AbstractClientPlayerEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
