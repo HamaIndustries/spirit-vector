@@ -4,6 +4,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
+import symbolics.division.spirit.vector.logic.move.MovementType;
 import symbolics.division.spirit.vector.logic.state.ParticleTrailEffectState;
 
 public class DashAbility extends AbstractSpiritVectorAbility {
@@ -19,5 +20,6 @@ public class DashAbility extends AbstractSpiritVectorAbility {
         sv.user.setVelocity(ctx.inputDir().multiply(sv.getMovementSpeed() * DASH_SPEED_MULTIPLIER).withAxis(Direction.Axis.Y, 0));
         sv.effectsManager().spawnRing(sv.user.getPos(), ctx.inputDir());
         sv.stateManager().enableStateFor(ParticleTrailEffectState.ID, DASH_PARTICLE_TICKS);
+        MovementType.NEUTRAL.travel(sv, ctx);
     }
 }

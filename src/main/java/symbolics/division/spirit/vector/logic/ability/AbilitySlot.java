@@ -12,13 +12,14 @@ import symbolics.division.spirit.vector.logic.input.Input;
 
 public enum AbilitySlot implements StringIdentifiable {
 
-    LEFT("left", Input.CROUCH), UP("up", Input.JUMP), RIGHT("right", Input.SPRINT);
+    LEFT("left", Input.CROUCH, "\uD83E\uDC1C"), UP("up", Input.JUMP, "\uD83E\uDC1D"), RIGHT("right", Input.SPRINT, "\uD83E\uDC1E");
 
     public final Input input;
     public final String name;
+    public final String arrow;
 
-    AbilitySlot(String name, Input input) {
-        this.input = input; this.name = name;
+    AbilitySlot(String name, Input input, String arrow) {
+        this.input = input; this.name = name; this.arrow = arrow;
     }
 
     @Override

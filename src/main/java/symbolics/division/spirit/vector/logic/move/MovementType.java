@@ -1,5 +1,6 @@
 package symbolics.division.spirit.vector.logic.move;
 
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
@@ -27,6 +28,10 @@ public interface MovementType {
     default boolean disableDrag(SpiritVector sv) { return false; }
 
     default void exit(SpiritVector sv) {}
+
+    default String getTranslationKey() {
+        return getID().withPrefixedPath("abilities.").toTranslationKey();
+    }
 
     MovementType NEUTRAL = new GroundMovement(id("neutral"));
     MovementType SLIDE = new SlideMovement(id("slide"));
