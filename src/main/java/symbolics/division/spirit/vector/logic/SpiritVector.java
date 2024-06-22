@@ -31,7 +31,7 @@ public class SpiritVector {
 
     public static final int MAX_FUEL = 100;
     public static final int MAX_MOMENTUM = 100;
-    public static final int MOMENTUM_FAST_THRESHOLD = MAX_MOMENTUM / 2;
+    public static final int MOMENTUM_FAST_THRESHOLD = MAX_MOMENTUM / 4;
     public static final float MINIMUM_SPEED_FOR_TRAIL_WHILE_SOARING = 0.2f;
 
     @Nullable
