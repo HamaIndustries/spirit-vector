@@ -32,7 +32,9 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Inject(method = "playStepSound", at = @At("HEAD"), cancellable = true)
     public void playStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
         if (SpiritVector.hasEquipped(this) && !this.isInFluid()) {
-            AudioGirl.step((PlayerEntity)(Entity)this, pos, state);
+            if (!this.isSneaking()) {
+                AudioGirl.step((PlayerEntity)(Entity)this, state);
+            }
             ci.cancel();
         }
     }

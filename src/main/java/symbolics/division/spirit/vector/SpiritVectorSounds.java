@@ -26,7 +26,6 @@ public class SpiritVectorSounds {
     }
 
     private static void register(Identifier id, SoundEvent event) {
-        System.out.println("regidering sound with id " + id);
         Registry.register(Registries.SOUND_EVENT, id, event);
     }
 }

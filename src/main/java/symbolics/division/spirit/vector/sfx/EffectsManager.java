@@ -1,9 +1,12 @@
 package symbolics.division.spirit.vector.sfx;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.joml.Vector3f;
 import symbolics.division.spirit.vector.logic.SpiritVector;
@@ -22,6 +25,8 @@ public class EffectsManager {
             spawnParticleImpl((ServerWorld)player.getWorld(), payload.pack(), new Vec3d(payload.pos()));
         } else if (payload.type().equals(SFXRequestPayload.RING_EFFECT_TYPE)) {
             spawnRingImpl((ServerWorld)player.getWorld(), payload.pack(), new Vec3d(payload.pos()), new Vec3d(payload.dir()));
+        } else if (payload.type().equals(SFXRequestPayload.BURST_SOUND_TYPE)) {
+            playBurstImpl(player, new Vec3d(payload.pos()));
         }
     }
 
@@ -48,6 +53,7 @@ public class EffectsManager {
         World world = sv.user.getWorld();
         if (world.isClient) {
             requestCallback.accept(new SFXRequestPayload(SFXRequestPayload.RING_EFFECT_TYPE, sv.getSFX(), pos.toVector3f(), dir.toVector3f()));
+            requestCallback.accept(new SFXRequestPayload(SFXRequestPayload.BURST_SOUND_TYPE, sv.getSFX(), pos.toVector3f(), dir.toVector3f()));
         } else {
             spawnRingImpl((ServerWorld) world, sv.getSFX(), pos, dir);
         }
@@ -84,6 +90,10 @@ public class EffectsManager {
         double g = beta * vec.z;
         out[1] = new Vec3d(g*h, g*vec.y, 1d+g*vec.z);
         return out;
+    }
+
+    private static void playBurstImpl(PlayerEntity player, Vec3d pos) {
+        AudioGirl.burst(player, BlockPos.ofFloored(pos.x, pos.y, pos.z));
     }
 
 }

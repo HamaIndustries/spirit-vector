@@ -8,14 +8,25 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import symbolics.division.spirit.vector.SpiritVectorSounds;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class AudioGirl {
-    public static void step(PlayerEntity player, BlockPos pos, BlockState state) {
-//        if (player.getWorld().isClient) return;
+    private static final Set<SoundEvent> trackedSounds = new HashSet<>();
+
+    public static void step(PlayerEntity player, BlockState state) {
         BlockSoundGroup blockSoundGroup = state.getSoundGroup();
-        SoundEvent step = SpiritVectorSounds.STEP;
-//        System.out.println(Registries.SOUND_EVENT.getId(SpiritVectorSounds.FAKE));
+        player.playSound(SpiritVectorSounds.STEP, blockSoundGroup.getVolume() * 0.15F, blockSoundGroup.getPitch());
+    }
+
+    public static void burst(PlayerEntity player, BlockPos pos) {
+//        player.playSound(
+//                SpiritVectorSounds.BURST, 0.5f, 1
+//        );
         player.getWorld().playSound(
-            null, pos.getX(), pos.getY(), pos.getZ(), SpiritVectorSounds.STEP, SoundCategory.PLAYERS, 1, 1
+                player, pos, SpiritVectorSounds.BURST, SoundCategory.PLAYERS, 0.5f, 1
         );
     }
+
+
 }
