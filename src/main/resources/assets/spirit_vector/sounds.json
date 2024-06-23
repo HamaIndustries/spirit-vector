@@ -1,32 +1,50 @@
 {
-  "burst": {
+  "sfx.burst": {
     "subtitle": "subtitles.spirit_vector.burst",
     "sounds": [
       "spirit_vector:burst"
     ]
   },
-  "engine": {
+  "sfx.engine": {
     "subtitle": "subtitles.spirit_vector.engine",
     "sounds": [
       "spirit_vector:engine"
     ]
   },
-  "slide": {
+  "sfx.slide": {
     "subtitle": "subtitles.spirit_vector.slide",
     "sounds": [
       "spirit_vector:slide"
     ]
   },
-  "slide_start": {
+  "sfx.slide_start": {
     "subtitle": "subtitles.spirit_vector.slide_start",
     "sounds": [
       "spirit_vector:slide_start"
     ]
   },
-  "step": {
+  "sfx.step": {
     "subtitle": "subtitles.spirit_vector.step",
     "sounds": [
       "spirit_vector:step"
+    ]
+  },
+  "cassette.take_break": {
+    "subtitle": "subtitles.spirit_vector.cassette.take_break",
+    "sounds": [
+      {
+        "name": "spirit_vector:take_break",
+        "stream": true
+      }
+    ]
+  },
+  "cassette.show_done": {
+    "subtitle": "subtitles.spirit_vector.cassette.show_done",
+    "sounds": [
+      {
+        "name": "spirit_vector:show_done",
+        "stream": true
+      }
     ]
   }
 }

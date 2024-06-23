@@ -9,7 +9,7 @@
   "item.spirit_vector.dream_rune_dash": "Spirit Rune \"Burst\"",
   "item.spirit_vector.dream_rune_teleport": "Spirit Rune \"Dream\"",
   "item.spirit_vector.spirit_vector": "Spirit Vector",
-  "itemGroup.spirit_vector.creative_tab": "Spirit Vector Items",
+  "itemGroup.spirit_vector.creative_tab": "Spirit Vector",
   "tooltip.spirit_vector.dream_rune_contents": "Contains Ability [%s]",
   "tooltip.spirit_vector.slot_template_contents": "Modifies Slot %s [%s]",
   "tooltip.spirit_vector.held_abilities": "Contains Abilities:",

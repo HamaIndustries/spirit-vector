@@ -6,7 +6,9 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 
@@ -60,7 +62,7 @@ public class GroundMovement extends AbstractMovementType {
         double velocityY = appliedVelocity.y;
         if (user.hasStatusEffect(StatusEffects.LEVITATION)) {
             velocityY += (0.05 * (double)(user.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() + 1) - appliedVelocity.y) * 0.2;
-        } else if (!user.getWorld().isClient || user.getWorld().isChunkLoaded(blockPos)) {
+        } else if (!user.getWorld().isClient || user.getWorld().getChunk(blockPos) != null) {
             velocityY -= gravity;
         } else if (user.getY() > (double)user.getWorld().getBottomY()) {
             velocityY = -0.1;

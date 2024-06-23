@@ -1,11 +1,11 @@
 package symbolics.division.spirit.vector.logic;
 
 /*
-    Abstract controller for spirit vector state
+    Core logic for individual spirit vector state
     Every entity with an SV equipped will have one of these
     associated with it.
 
-    Make a new one when SV is re-equipped or modified
+    Make a new one when SV is equipped or modified
  */
 
 import net.minecraft.entity.EquipmentSlot;
@@ -128,9 +128,7 @@ public class SpiritVector {
 
     public float getMovementSpeed() { return getMovementSpeed(0.6f); }
     public float getMovementSpeed(float slip) {
-        // todo movementspeed (and maybe jump velocity) based on momentum
-        return user.getMovementSpeed() * (0.21600002F / (slip * slip * slip));
-//        return moveState.getMovementSpeed(this, slip);// * (1f + 1f * momentum/MAX_MOMENTUM);
+        return user.getMovementSpeed() * (0.21600002F / (slip * slip * slip)) + ((float)getMomentum() / MAX_MOMENTUM) * 0.1f;
     }
 
     public int getMomentum() {

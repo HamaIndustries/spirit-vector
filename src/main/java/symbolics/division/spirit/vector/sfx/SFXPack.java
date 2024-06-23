@@ -12,6 +12,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryCodecs;
 import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryFixedCodec;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.dynamic.Codecs;
 import symbolics.division.spirit.vector.SpiritVectorRegistration;
@@ -36,5 +37,4 @@ public interface SFXPack<T extends ParticleEffect> {
     ComponentType<RegistryEntry<SFXPack<?>>> COMPONENT = SpiritVectorRegistration.registerComponent(
             "sfx_pack", builder -> builder.codec(ENTRY_CODEC).packetCodec(ENTRY_PACKET_CODEC).cache()
     ) ;
-
 }

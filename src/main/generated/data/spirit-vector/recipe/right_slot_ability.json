@@ -1,17 +1,12 @@
 {
   "type": "minecraft:smithing_trim",
-  "addition": [
-    {
-      "item": "spirit_vector:dream_rune_teleport"
-    },
-    {
-      "item": "spirit_vector:dream_rune_dash"
-    }
-  ],
+  "addition": {
+    "tag": "spirit_vector:ability_upgrade_runes"
+  },
   "base": {
     "item": "spirit_vector:spirit_vector"
   },
   "template": {
-    "item": "spirit_vector:burst_rune_right"
+    "tag": "spirit_vector:slot_upgrade_runes"
   }
 }
