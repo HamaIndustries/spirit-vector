@@ -4,6 +4,7 @@ import com.mojang.serialization.Lifecycle;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.registry.*;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.item.DreamRuneItem;
 
@@ -21,10 +22,14 @@ public class SpiritVectorAbilitiesRegistry {
         Registry.register(INSTANCE, id, ability);
     }
 
-    public static void init() {
+    static {
         Registry.register(Registries.DATA_COMPONENT_TYPE, SpiritVectorMod.id("spirit_vector_held_abilities"), SpiritVectorHeldAbilities.COMPONENT);
         Registry.register(Registries.DATA_COMPONENT_TYPE, SpiritVectorMod.id("spirit_vector_ability"), SpiritVectorAbility.COMPONENT);
         registerAbility(SpiritVectorAbility.ID_NONE, SpiritVectorAbility.NONE);
+    }
+
+    public static void init() {
+//        nullRune = registerRuneAndAbility(SpiritVectorAbility.ID_NONE, SpiritVectorAbility.NONE);
     }
 
     public static Registry<SpiritVectorAbility> instance() {
@@ -33,7 +38,12 @@ public class SpiritVectorAbilitiesRegistry {
 
     public static DreamRuneItem registerRuneAndAbility(Identifier id, SpiritVectorAbility ability) {
         registerAbility(id, ability);
-        return Registry.register(ITEM, id.withPrefixedPath("dream_rune_"), new DreamRuneItem(ability));
+        return Registry.register(ITEM, id.withPrefixedPath("spirit_rune_"), new DreamRuneItem(ability));
+    }
+
+    @NotNull
+    public static DreamRuneItem registerNullItem() {
+        return Registry.register(ITEM, SpiritVectorMod.id("spirit_rune_null"), new DreamRuneItem(SpiritVectorAbility.NONE));
     }
 
 }

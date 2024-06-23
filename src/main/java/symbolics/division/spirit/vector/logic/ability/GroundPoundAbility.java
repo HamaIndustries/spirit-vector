@@ -28,7 +28,7 @@ public class GroundPoundAbility extends AbstractSpiritVectorAbility {
     }
 
     @Override
-    public void register(SpiritVector sv) {
+    public void configure(SpiritVector sv) {
         sv.stateManager().register(SLAM_STORAGE_EFFECT_ID, new ManagedState(sv));
         sv.stateManager().register(CURRENTLY_SLAMMING_STATE_ID, new SlamJamState(sv));
     }
@@ -69,7 +69,7 @@ public class GroundPoundAbility extends AbstractSpiritVectorAbility {
         }
     }
 
-    private void requestSlamEffect(SpiritVector sv, int power) {
+    public static void requestSlamEffect(SpiritVector sv, int power) {
         SlamPacketC2S.requestSlam(power);
         Vec3d up = new Vec3d(0, 1, 0);
         for (var dir : Direction.values()) {
@@ -80,7 +80,6 @@ public class GroundPoundAbility extends AbstractSpiritVectorAbility {
     public static void doSlamEffect(LivingEntity entity, float power) {
         var damageSource = entity.getWorld().getDamageSources().fallingAnvil(entity);
         for (var target : entity.getWorld().getOtherEntities(entity, entity.getBoundingBox().expand(SLAM_ATTACK_RANGE_BLOCKS, 0, SLAM_ATTACK_RANGE_BLOCKS))) {
-            System.out.println("slammage: " + power/100);
             target.damage(damageSource, power / 10);
             var delta = target.getPos().subtract(entity.getPos()).normalize();
             target.addVelocity(delta.withAxis(Direction.Axis.Y, 1).multiply((float)Math.max(power / 100, 0.1)));
@@ -88,9 +87,11 @@ public class GroundPoundAbility extends AbstractSpiritVectorAbility {
     }
 
     public static float consumeSpeedMultiplier(SpiritVector sv) {
-        return sv.stateManager().getOptional(SLAM_STORAGE_EFFECT_ID).map(
-                state -> { state.clearTicks(); return SLAM_STORAGE_SPEED_MULTIPLIER; }
-        ).orElse(1f);
+        return sv.stateManager().getOptional(SLAM_STORAGE_EFFECT_ID).map(state -> {
+            float m = state.isActive() ? SLAM_STORAGE_SPEED_MULTIPLIER : 1;
+            state.clearTicks();
+            return m;
+        }).orElse(1f);
     }
 
     private static class SlamJamState extends ManagedState {

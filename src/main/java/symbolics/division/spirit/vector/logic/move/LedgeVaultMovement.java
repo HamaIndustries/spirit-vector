@@ -24,7 +24,7 @@ public class LedgeVaultMovement extends AbstractMovementType {
     }
 
     @Override
-    public void register(SpiritVector sv) {
+    public void configure(SpiritVector sv) {
         sv.stateManager().register(VAULT_STATE_ID, new ManagedState(sv));
     }
 

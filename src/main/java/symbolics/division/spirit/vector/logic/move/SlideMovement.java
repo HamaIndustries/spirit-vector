@@ -30,6 +30,11 @@ public class SlideMovement extends GroundMovement {
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
         // add DI for rotating slide
         Vec3d input = SVMathHelper.movementInputToVelocity(ctx.input(), 1, sv.user.getYaw());
+        travelWithInput(sv, input);
+        ctx.ci().cancel();
+    }
+
+    public static void travelWithInput(SpiritVector sv, Vec3d input) {
         Vec3d vel = new Vec3d(sv.user.getVelocity().x, -0.001, sv.user.getVelocity().z);
         double speed = vel.length();
         Vec3d side = vel.crossProduct(new Vec3d(0, 1, 0)).normalize();
@@ -39,8 +44,6 @@ public class SlideMovement extends GroundMovement {
         if (speed > MIN_SPEED_FOR_TRAIL) {
             sv.stateManager().enableStateFor(ParticleTrailEffectState.ID, 1);
         }
-
-        ctx.ci().cancel();
     }
 
     @Override

@@ -35,10 +35,14 @@ public final class SpiritVectorItems {
 
     public static final SpiritVectorItem SPIRIT_VECTOR = registerAndModel("spirit_vector", new SpiritVectorItem());
 
+    public static final DreamRuneItem NULL_RUNE = SpiritVectorAbilitiesRegistry.registerNullItem();
     public static final DreamRuneItem TELEPORT_RUNE = registerRuneAndModel("teleport", TeleportAbility::new);
     public static final DreamRuneItem DASH_RUNE = registerRuneAndModel("dash", DashAbility::new);
     public static final DreamRuneItem SLAM_RUNE = registerRuneAndModel("slam", GroundPoundAbility::new);
     public static final DreamRuneItem SOAR_RUNE = registerRuneAndModel("soar", BulletJumpAbility::new);
+    public static final DreamRuneItem LEAP_RUNE = registerRuneAndModel("leap", TransgenderAbility::new);
+    public static final DreamRuneItem POWER_SLIDE_RUNE = registerRuneAndModel("power_slide", PowerSlideAbility::new);
+    public static final DreamRuneItem COSMETIC_WINGS_RUNE = registerRuneAndModel("cosmetic_wings", CosmeticWingsAbility::new);
 
     public static final SlotTemplateItem LEFT_SLOT_TEMPLATE = registerAndModel("burst_rune_left", new SlotTemplateItem(AbilitySlot.LEFT));
     public static final SlotTemplateItem UP_SLOT_TEMPLATE = registerAndModel("burst_rune_up", new SlotTemplateItem(AbilitySlot.UP));

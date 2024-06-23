@@ -1,10 +1,15 @@
 package symbolics.division.spirit.vector.item;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.World;
 import org.apache.commons.lang3.text.WordUtils;
+import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbility;
 
 import java.util.List;
@@ -27,5 +32,16 @@ public class DreamRuneItem extends Item {
         for (String s : wrapped.split("%%")) {
             tooltip.add(Text.literal(s).withColor(0xcccccc));
         }
+    }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getStackInHand(hand);
+        SpiritVectorAbility ability = stack.get(SpiritVectorAbility.COMPONENT);
+        if (ability != null && player instanceof ISpiritVectorUser svUser) {
+            boolean succ = svUser.getSpiritVector().map(sv -> sv.enqueueAbility(ability)).orElse(false);
+            return succ ? TypedActionResult.success(stack, true) : TypedActionResult.fail(stack);
+        }
+        return super.use(world, player, hand);
     }
 }

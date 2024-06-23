@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "spirit_vector:item/dream_rune_dash"
+    "layer0": "spirit_vector:item/spirit_rune_slam"
   }
 }

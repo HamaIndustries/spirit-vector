@@ -52,6 +52,7 @@ public class SpiritVector {
     private final StateManager stateManager = new StateManager();
     private final InputManager inputManager = new InputManager();
     private final SFXPack<?> sfx;
+    private SpiritVectorAbility queuedAbility; // hand rune input
 
     // these are checked in order prior to rune movements
     private final MovementType[] movements = {
@@ -73,12 +74,12 @@ public class SpiritVector {
         stateManager.register(WingsEffectState.ID, new WingsEffectState(this));
 
         for (MovementType move : movements) {
-            move.register(this);
+            move.configure(this);
         }
 
         abilities = itemStack.getOrDefault(SpiritVectorHeldAbilities.COMPONENT, new SpiritVectorHeldAbilities());
         for (AbilitySlot slot : AbilitySlot.values()) {
-            abilities.get(slot).getMovement().register(this);
+            abilities.get(slot).getMovement().configure(this);
         }
     }
 
@@ -89,6 +90,7 @@ public class SpiritVector {
         updateMovementType(ctx);
         moveState.travel(this, ctx);
         moveState.updateValues(this);
+        this.queuedAbility = null;
 
         var vel = user.getVelocity();
         if (isSoaring()) {
@@ -114,6 +116,10 @@ public class SpiritVector {
 
             // then test if any abilities apply while in air
             if (!user.isOnGround()) {
+                if (queuedAbility != null && queuedAbility.cost() < getMomentum()) {
+                    moveState = queuedAbility.getMovement();
+                    return;
+                }
                 for (AbilitySlot slot : AbilitySlot.values()) {
                     SpiritVectorAbility ability = abilities.get(slot);
                     MovementType move = ability.getMovement();
@@ -180,5 +186,19 @@ public class SpiritVector {
 
     public float consumeSpeedMultiplier() {
         return GroundPoundAbility.consumeSpeedMultiplier(this);
+    }
+
+    public boolean enqueueAbility(SpiritVectorAbility ability) {
+        ability.getMovement().configure(this);
+        queuedAbility = ability;
+        return true;
+    }
+
+    public boolean fluidMovementAllowed() {
+        return moveState.fluidMovementAllowed(this);
+    }
+
+    public static float safeFallDistance() {
+        return 30;
     }
 }

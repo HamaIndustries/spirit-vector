@@ -43,7 +43,10 @@ public abstract class LivingEntityMixin extends Entity {
             if (!this.isLogicalSideForUpdatingMovement() || this.hasVehicle() || ((LivingEntity)(Entity)this).isFallFlying()) {
                 return;
             }
-            user.getSpiritVector().ifPresent(sv -> sv.travel(movementInput, ci));
+            SpiritVector sv = user.spiritVector();
+            if (sv != null && (this.isInFluid() == sv.fluidMovementAllowed())) {
+                sv.travel(movementInput, ci);
+            }
         }
     }
 
@@ -66,8 +69,6 @@ public abstract class LivingEntityMixin extends Entity {
         }
     }
 
-
-
     @Inject(method = "getStepHeight", at = @At("HEAD"), cancellable = true)
     public void getStepHeight(CallbackInfoReturnable<Float> ci) {
         // skates let you roll over slopes ig
@@ -80,8 +81,10 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "handleFallDamage", at = @At("HEAD"), cancellable = true)
     public void handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> ci) {
         if (SpiritVector.hasEquipped((LivingEntity)(Entity)this)) {
-            ci.setReturnValue(false);
-            ci.cancel();
+            if (SpiritVector.safeFallDistance() > fallDistance) {
+                ci.setReturnValue(false);
+                ci.cancel();
+            }
         }
     }
 

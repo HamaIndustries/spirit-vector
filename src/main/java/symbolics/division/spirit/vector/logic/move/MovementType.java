@@ -11,7 +11,7 @@ public interface MovementType {
     Identifier getID();
 
     // set up sv with states and values needed for this movement
-    default void register(SpiritVector sv) {}
+    default void configure(SpiritVector sv) {}
 
     // test if this movement applies to current context
     boolean testMovementCondition(SpiritVector sv, TravelMovementContext ctx);
@@ -28,6 +28,8 @@ public interface MovementType {
     default boolean disableDrag(SpiritVector sv) { return false; }
 
     default void exit(SpiritVector sv) {}
+
+    default boolean fluidMovementAllowed(SpiritVector sv) { return false; }
 
     default String getTranslationKey() {
         return getID().withPrefixedPath("abilities.").toTranslationKey();
