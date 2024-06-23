@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import symbolics.division.spirit.vector.SpiritVectorItems;
 import symbolics.division.spirit.vector.logic.ability.AbilitySlot;
+import symbolics.division.spirit.vector.logic.ability.GroundPoundAbility;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbility;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorHeldAbilities;
 import symbolics.division.spirit.vector.logic.input.Input;
@@ -76,6 +77,9 @@ public class SpiritVector {
         }
 
         abilities = itemStack.getOrDefault(SpiritVectorHeldAbilities.COMPONENT, new SpiritVectorHeldAbilities());
+        for (AbilitySlot slot : AbilitySlot.values()) {
+            abilities.get(slot).getMovement().register(this);
+        }
     }
 
     public void travel(Vec3d movementInput, CallbackInfo ci) {
@@ -115,7 +119,7 @@ public class SpiritVector {
                     MovementType move = ability.getMovement();
                     if (
                             ability.cost() <= getMomentum()
-                            && move.testMovementCompleted(this, ctx)
+                            && move.testMovementCondition(this, ctx)
                             && inputManager().consume(slot.input)
                     ) {
                         moveState = move;
@@ -132,8 +136,8 @@ public class SpiritVector {
     }
 
     public int getMomentum() {
-//        return MAX_MOMENTUM;
-        return momentum;
+        return MAX_MOMENTUM;
+//        return momentum;
     }
 
     public void modifyMomentum(int v) {
@@ -174,4 +178,7 @@ public class SpiritVector {
         return new SVEntityState(stateManager().isActive(WingsEffectState.ID));
     }
 
+    public float consumeSpeedMultiplier() {
+        return GroundPoundAbility.consumeSpeedMultiplier(this);
+    }
 }

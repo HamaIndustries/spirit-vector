@@ -40,7 +40,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
     public void travel(Vec3d movementInput, CallbackInfo ci) {
         if (this instanceof ISpiritVectorUser user) {
-            if (!this.isLogicalSideForUpdatingMovement() || this.isInFluid() || this.hasVehicle() || ((LivingEntity)(Entity)this).isFallFlying()) {
+            if (!this.isLogicalSideForUpdatingMovement() || this.hasVehicle() || ((LivingEntity)(Entity)this).isFallFlying()) {
                 return;
             }
             user.getSpiritVector().ifPresent(sv -> sv.travel(movementInput, ci));

@@ -11,17 +11,17 @@ import java.util.List;
 public final class SpiritVectorSFX {
     private static final List<SimpleSFX> simpleSFX = new ArrayList<>();
 
-    public static final SimpleSFX BUTTERFLY = registerSimple("butterfly");
-    public static final SimpleSFX BIRD = registerSimple("bird");
-    public static final SimpleSFX V1 = registerSimple("v1");
-    public static final SimpleSFX ROBO = registerSimple("robo");
-    public static final SimpleSFX DRAGON = registerSimple("dragon");
-    public static final SimpleSFX LOVE = registerSimple("love");
-    public static final SimpleSFX ANGEL = registerSimple("angel");
+    public static final SimpleSFX BUTTERFLY = registerSimple("butterfly", 0xe68a25);
+    public static final SimpleSFX BIRD = registerSimple("bird", 0x4cc2e0);
+    public static final SimpleSFX V1 = registerSimple("v1", 0xebbd33);
+    public static final SimpleSFX ROBO = registerSimple("robo", 0x54e5ac);
+    public static final SimpleSFX DRAGON = registerSimple("dragon", 0xe14d2f);
+    public static final SimpleSFX LOVE = registerSimple("love", 0xed3299);
+    public static final SimpleSFX ANGEL = registerSimple("angel", 0xffffff);
 
-    private static SimpleSFX registerSimple(String name) {
+    private static SimpleSFX registerSimple(String name, int color) {
         Identifier id = SpiritVectorMod.id(name);
-        SimpleSFX pack = register(new SimpleSFX(id), id);
+        SimpleSFX pack = register(new SimpleSFX(id, color), id);
         simpleSFX.add(pack);
         return pack;
     }

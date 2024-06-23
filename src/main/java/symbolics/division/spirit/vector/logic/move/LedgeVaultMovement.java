@@ -48,9 +48,8 @@ public class LedgeVaultMovement extends AbstractMovementType {
         } else {
             result = ctx.inputDir().withAxis(Direction.Axis.Y, Math.max(0.3, y)).normalize();
         }
-        sv.user.addVelocity(result.multiply(VAULT_SPEED));
+        sv.user.addVelocity(result.multiply(VAULT_SPEED *  sv.consumeSpeedMultiplier()));
         sv.effectsManager().spawnRing(sv.user.getPos(), result);
-//        ctx.ci().cancel();
     }
 
     @Override

@@ -19,30 +19,10 @@ public class WallJumpMovement extends AbstractMovementType {
 
     @Override
     public boolean testMovementCondition(SpiritVector sv, TravelMovementContext ctx) {
-        if (!sv.user.isOnGround() && ctx.inputDir().length() > 0 && sv.inputManager().pressed(Input.JUMP)) {
-            var pos = sv.user.getBlockPos();
-            Direction[] dirs = {
-                    ctx.inputDir().getComponentAlongAxis(Direction.Axis.Z) > 0 ? Direction.NORTH : Direction.SOUTH,
-                    ctx.inputDir().getComponentAlongAxis(Direction.Axis.X) > 0 ? Direction.WEST : Direction.EAST
-            };
-
-            var world = sv.user.getWorld();
-            for (Direction dir : dirs) {
-                BlockPos wallPos = pos.offset(dir);
-                if (isSolidWall(world, wallPos, dir.getOpposite())
-                    && (
-                        (isSolidWall(world, wallPos.up(), dir.getOpposite())
-                        && world.isAir(pos.up()))
-                            ||
-                        (isSolidWall(world, wallPos.down(), dir.getOpposite())
-                        && world.isAir(pos.down()))
-                )) {
-                    sv.inputManager().consume(Input.JUMP);
-                    return true;
-                }
-            }
-        }
-        return false;
+        return !sv.user.isOnGround()
+                && ctx.inputDir().length() > 0
+                && sv.inputManager().pressed(Input.JUMP)
+                && idealWalljumpingConditions(sv, ctx);
     }
 
     private static boolean isSolidWall(World world, BlockPos wallPos, Direction dir) {
@@ -51,9 +31,33 @@ public class WallJumpMovement extends AbstractMovementType {
 
     @Override
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
-        Vec3d motion = new Vec3d(ctx.inputDir().x/2, 0.5, ctx.inputDir().z/2);
+        Vec3d motion = new Vec3d(ctx.inputDir().x/2, 0.5, ctx.inputDir().z/2).multiply(sv.consumeSpeedMultiplier());
         sv.user.setVelocity(motion);
         sv.effectsManager().spawnRing(sv.user.getPos(), motion);
+    }
+
+    public static boolean idealWalljumpingConditions(SpiritVector sv, TravelMovementContext ctx) {
+        var pos = sv.user.getBlockPos();
+        Direction[] dirs = {
+                ctx.inputDir().getComponentAlongAxis(Direction.Axis.Z) > 0 ? Direction.NORTH : Direction.SOUTH,
+                ctx.inputDir().getComponentAlongAxis(Direction.Axis.X) > 0 ? Direction.WEST : Direction.EAST
+        };
+
+        var world = sv.user.getWorld();
+        for (Direction dir : dirs) {
+            BlockPos wallPos = pos.offset(dir);
+            if (isSolidWall(world, wallPos, dir.getOpposite())
+                    && (
+                    (isSolidWall(world, wallPos.up(), dir.getOpposite())
+                            && world.isAir(pos.up()))
+                            ||
+                            (isSolidWall(world, wallPos.down(), dir.getOpposite())
+                                    && world.isAir(pos.down()))
+            )) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

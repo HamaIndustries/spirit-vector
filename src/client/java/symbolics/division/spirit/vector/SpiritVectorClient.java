@@ -10,6 +10,7 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import symbolics.division.spirit.vector.logic.SVEntityState;
+import symbolics.division.spirit.vector.logic.ability.SlamPacketC2S;
 import symbolics.division.spirit.vector.logic.ability.TeleportAbilityC2SPayload;
 import symbolics.division.spirit.vector.render.SpiritVectorSkatesRenderer;
 import symbolics.division.spirit.vector.render.SpiritWingsFeatureRenderer;
@@ -20,6 +21,9 @@ import symbolics.division.spirit.vector.sfx.EffectsManager;
 public class SpiritVectorClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
+
+		/// pardon the dust.
+
 		EffectsManager.registerSFXRequestC2SCallback(ClientPlayNetworking::send);
 //		registerS2C(
 //				SVEntityState.Payload.ID, SVEntityState.Payload.CODEC,
@@ -52,6 +56,11 @@ public class SpiritVectorClient implements ClientModInitializer {
 		// teleport ability req
 		TeleportAbilityC2SPayload.registerRequestCallback(
 				p -> ClientPlayNetworking.send(new TeleportAbilityC2SPayload(p))
+		);
+
+		// space jam
+		SlamPacketC2S.registerRequestCallback(
+				p -> ClientPlayNetworking.send(new SlamPacketC2S((p)))
 		);
 	}
 

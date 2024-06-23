@@ -1,6 +1,8 @@
 {
   "values": [
     "spirit_vector:dream_rune_teleport",
-    "spirit_vector:dream_rune_dash"
+    "spirit_vector:dream_rune_dash",
+    "spirit_vector:dream_rune_slam",
+    "spirit_vector:dream_rune_soar"
   ]
 }

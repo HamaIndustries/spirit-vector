@@ -1,12 +1,9 @@
 package symbolics.division.spirit.vector;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.block.jukebox.JukeboxSong;
-import net.minecraft.block.jukebox.JukeboxSongs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -40,6 +37,8 @@ public final class SpiritVectorItems {
 
     public static final DreamRuneItem TELEPORT_RUNE = registerRuneAndModel("teleport", TeleportAbility::new);
     public static final DreamRuneItem DASH_RUNE = registerRuneAndModel("dash", DashAbility::new);
+    public static final DreamRuneItem SLAM_RUNE = registerRuneAndModel("slam", GroundPoundAbility::new);
+    public static final DreamRuneItem SOAR_RUNE = registerRuneAndModel("soar", BulletJumpAbility::new);
 
     public static final SlotTemplateItem LEFT_SLOT_TEMPLATE = registerAndModel("burst_rune_left", new SlotTemplateItem(AbilitySlot.LEFT));
     public static final SlotTemplateItem UP_SLOT_TEMPLATE = registerAndModel("burst_rune_up", new SlotTemplateItem(AbilitySlot.UP));

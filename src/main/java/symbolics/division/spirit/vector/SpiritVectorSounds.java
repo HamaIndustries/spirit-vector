@@ -22,4 +22,6 @@ public class SpiritVectorSounds {
     private static SoundEvent registerWithId(Identifier id) {
         return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
     }
+
+    public static void init(){}
 }

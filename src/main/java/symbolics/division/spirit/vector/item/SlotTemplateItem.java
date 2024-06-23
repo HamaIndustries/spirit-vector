@@ -24,13 +24,17 @@ public class SlotTemplateItem extends Item {
     }
 
     @Override
+    public Text getName() {
+        return super.getName().copy().withColor(0xFFA500);
+    }
+
+    @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack, context, tooltip, type);
         AbilitySlot slot = stack.get(AbilitySlot.COMPONENT);
         if (slot != null) {
             tooltip.add(Text.translatable(
                     "tooltip.spirit_vector.slot_template_contents",
-                    Text.literal(slot.arrow).withColor(0xFFA500),
                     Text.keybind(slot.input.key).withColor(0xffffff)).withColor(0x808080)
             );
         }

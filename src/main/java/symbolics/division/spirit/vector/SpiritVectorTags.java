@@ -19,4 +19,6 @@ public class SpiritVectorTags {
     private static <T> TagKey<T> ofRegistry(RegistryKey<? extends Registry<T>> key, String name) {
         return TagKey.of(key, SpiritVectorMod.id(name));
     }
+
+    public static void init(){}
 }

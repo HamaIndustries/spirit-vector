@@ -10,6 +10,7 @@ import net.minecraft.text.Text;
 import symbolics.division.spirit.vector.logic.ability.AbilitySlot;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbility;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorHeldAbilities;
+import symbolics.division.spirit.vector.sfx.SFXPack;
 
 import java.util.List;
 
@@ -24,8 +25,14 @@ public class SpiritVectorItem extends ArmorItem {
     }
 
     @Override
+    public Text getName(ItemStack stack) {
+        return SFXPackItem.applySFXToText(stack, this, super.getName(stack));
+    }
+
+    @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack, context, tooltip, type);
+
         var ab = stack.get(SpiritVectorHeldAbilities.COMPONENT);
         if (ab != null) {
             tooltip.add(Text.translatable("tooltip.spirit_vector.held_abilities").withColor(0x808080));

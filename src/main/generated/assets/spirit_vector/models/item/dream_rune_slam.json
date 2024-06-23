@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "spirit_vector:item/cassette_show_done"
+    "layer0": "spirit_vector:item/dream_rune_slam"
   }
 }

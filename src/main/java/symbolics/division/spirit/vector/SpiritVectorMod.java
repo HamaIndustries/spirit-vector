@@ -20,6 +20,7 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import symbolics.division.spirit.vector.logic.SVEntityState;
+import symbolics.division.spirit.vector.logic.ability.SlamPacketC2S;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbilitiesRegistry;
 import symbolics.division.spirit.vector.logic.ability.TeleportAbilityC2SPayload;
 import symbolics.division.spirit.vector.sfx.EffectsManager;
@@ -38,13 +39,14 @@ public final class SpiritVectorMod implements ModInitializer {
 	public void onInitialize() {
 		SpiritVectorAbilitiesRegistry.init();
 		SpiritVectorItems.init();
+		SpiritVectorSounds.init();
+		SpiritVectorTags.init();
 
 		PayloadTypeRegistry.playC2S().register(SFXRequestPayload.ID, SFXRequestPayload.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(SFXRequestPayload.ID, EffectsManager::acceptC2SPayload);
 
-		registerC2S(
-				TeleportAbilityC2SPayload.ID, TeleportAbilityC2SPayload.CODEC, TeleportAbilityC2SPayload::HANDLER
-		);
+		registerC2S(TeleportAbilityC2SPayload.ID, TeleportAbilityC2SPayload.CODEC, TeleportAbilityC2SPayload::HANDLER);
+		registerC2S(SlamPacketC2S.ID, SlamPacketC2S.CODEC, SlamPacketC2S::HANDLER);
 
 		// if this happens more often, may need a factory for generalizing this over record attachments
 		PayloadTypeRegistry.playC2S().register(SVEntityState.Payload.ID, SVEntityState.Payload.CODEC);

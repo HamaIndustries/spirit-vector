@@ -7,9 +7,11 @@ import symbolics.division.spirit.vector.logic.move.AbstractMovementType;
 import symbolics.division.spirit.vector.logic.move.MovementType;
 
 public abstract class AbstractSpiritVectorAbility extends AbstractMovementType implements SpiritVectorAbility {
+
     protected int abilityCost;
     protected String translationString;
-    public AbstractSpiritVectorAbility(Identifier id, int cost) {
+
+    protected AbstractSpiritVectorAbility(Identifier id, int cost) {
         super(id);
         this.abilityCost = cost;
         this.translationString = SpiritVectorAbility.translationKeyOf(id);

@@ -42,7 +42,7 @@ public final class StateManager {
         }
     }
 
-    private IManagedState getState(Identifier id) {
+    public IManagedState getState(Identifier id) {
         var state = states.get(id);
         if (state == null) {
             throw new RuntimeException("Tried to get unregistered state with id " + id);
@@ -52,5 +52,8 @@ public final class StateManager {
 
     public boolean isActive(Identifier id) {
         return getState(id).isActive();
+    }
+    public Optional<IManagedState> getOptional(Identifier id) {
+        return Optional.ofNullable(states.get(id));
     }
 }
