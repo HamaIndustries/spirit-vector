@@ -136,8 +136,8 @@ public class SpiritVector {
     }
 
     public int getMomentum() {
-        return MAX_MOMENTUM;
-//        return momentum;
+//        return MAX_MOMENTUM;
+        return momentum;
     }
 
     public void modifyMomentum(int v) {

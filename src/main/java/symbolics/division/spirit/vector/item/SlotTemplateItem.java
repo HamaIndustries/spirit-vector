@@ -25,7 +25,7 @@ public class SlotTemplateItem extends Item {
 
     @Override
     public Text getName() {
-        return super.getName().copy().withColor(0xFFA500);
+        return super.getName();
     }
 
     @Override
