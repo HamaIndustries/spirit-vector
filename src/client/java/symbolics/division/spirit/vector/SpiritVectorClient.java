@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.option.KeyBinding;
@@ -12,6 +13,7 @@ import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import symbolics.division.spirit.vector.logic.SVEntityState;
 import symbolics.division.spirit.vector.logic.ability.SlamPacketC2S;
 import symbolics.division.spirit.vector.logic.ability.TeleportAbilityC2SPayload;
+import symbolics.division.spirit.vector.render.SpiritGaugeHUD;
 import symbolics.division.spirit.vector.render.SpiritVectorSkatesRenderer;
 import symbolics.division.spirit.vector.render.SpiritWingsFeatureRenderer;
 import symbolics.division.spirit.vector.render.SpiritWingsModel;
@@ -62,6 +64,8 @@ public class SpiritVectorClient implements ClientModInitializer {
 		SlamPacketC2S.registerRequestCallback(
 				p -> ClientPlayNetworking.send(new SlamPacketC2S((p)))
 		);
+
+		HudRenderCallback.EVENT.register(SpiritGaugeHUD::onHudRender);
 	}
 
 //	private <T extends CustomPayload>
