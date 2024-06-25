@@ -36,5 +36,12 @@
   "tooltip.desc.spirit_vector_ability.spirit_vector.slam": "(cost: medium) Slam into the earth, flattening those around you. Experienced Spectres whisper of a technique known as \"slam storage.\"",
   "tooltip.desc.spirit_vector_ability.spirit_vector.leap": "(cost: small) Invoke the strength of the celestial mountain climbers with an extra jump.",
   "tooltip.desc.spirit_vector_ability.spirit_vector.power_slide": "(cost: variable) Dive into a power slide, barrelling through enemies until you hit an obstacle. [bugged]",
-  "tooltip.desc.spirit_vector_ability.spirit_vector.cosmetic_wings": "Rare blessing of the Nephilim."
+  "tooltip.desc.spirit_vector_ability.spirit_vector.cosmetic_wings": "Rare blessing of the Nephilim.",
+  "subtitles.spirit_vector.burst": "magical explosion",
+  "subtitles.spirit_vector.engine": "magical engine whir",
+  "subtitles.spirit_vector.slide": "spirit vector slide",
+  "subtitles.spirit_vector.slide_start": "spirit vector slide",
+  "subtitles.spirit_vector.step": "spirit vector step",
+  "subtitles.spirit_vector.cassette.take_break": "Cassette: Take It and Break It!!!",
+  "subtitles.spirit_vector.cassette.show_done": "Cassette: Show 'Em How It's Done!!!"
 }
