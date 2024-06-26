@@ -44,7 +44,7 @@ public class WallRushMovement extends AbstractMovementType {
         // consume because we're managing with a state anyways
         if (       !sv.user.isOnGround()
                 && !sv.stateManager().isActive(WALL_CLING_CD_STATE)
-                && MovementUtils.idealWallrunningConditions(sv, ctx)
+                && MovementUtils.idealWallrunningConditions(sv)
                 && sv.inputManager().rawInput(Input.CROUCH)) { // sticky, ignores consumption
             sv.inputManager().consume(Input.CROUCH);
             sv.stateManager().enableStateFor(WALL_CLING_STATE, WALL_CLING_TICKS);
@@ -58,7 +58,7 @@ public class WallRushMovement extends AbstractMovementType {
         boolean completed =  sv.inputManager().rawInput(Input.JUMP)
                      || !sv.inputManager().rawInput(Input.CROUCH)
                      || !sv.stateManager().isActive(WALL_CLING_STATE)
-                     || !MovementUtils.idealWallrunningConditions(sv, ctx);
+                     || !MovementUtils.idealWallrunningConditions(sv);
         if (completed) {
             sv.stateManager().enableStateFor(WALL_CLING_CD_STATE, WALL_CLING_COOLDOWN_TICKS);
         }

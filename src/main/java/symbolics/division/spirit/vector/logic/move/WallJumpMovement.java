@@ -23,7 +23,6 @@ public class WallJumpMovement extends AbstractMovementType {
     @Override
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
         var input = MovementUtils.augmentedInput(sv, ctx);
-        System.out.println(sv.user.getRotationVector());
         Vec3d motion = new Vec3d(input.x/2, 0.5, input.z/2).multiply(sv.consumeSpeedMultiplier());
         sv.user.setVelocity(motion);
         sv.effectsManager().spawnRing(sv.user.getPos(), motion);

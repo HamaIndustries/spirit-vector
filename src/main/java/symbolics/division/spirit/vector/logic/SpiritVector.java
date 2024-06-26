@@ -200,11 +200,6 @@ public class SpiritVector {
         return moveState.fluidMovementAllowed(this);
     }
 
-
-    public boolean slidingAudioClientOverride() {
-        return moveState  == MovementType.WALL_RUSH;
-    }
-
     public static float safeFallDistance() {
         return 5;
     }

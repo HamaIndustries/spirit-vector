@@ -43,12 +43,14 @@ public final class MovementUtils {
         return false;
     }
 
-    public static boolean idealWallrunningConditions(SpiritVector sv, TravelMovementContext ctx) {
+    public static boolean idealWallrunningConditions(SpiritVector sv) {
         // similar to idealWalljumpingConditions, but checks for any wall surrounding
         // user instead of in opposite direction. Should be employed for wall running/
         // wall clinging contexts where a directional input is not necessarily considered.
-        World world = sv.user.getWorld();
-        BlockPos pos = sv.user.getBlockPos();
+        return idealWallrunningConditions(sv.user.getWorld(), sv.user.getBlockPos());
+    }
+
+    public static boolean idealWallrunningConditions(World world, BlockPos pos) {
         for (Direction dir : Direction.values()) {
             if (dir == Direction.DOWN || dir == Direction.UP) continue;
             if (validWallAnchor(world, pos, dir)) {
@@ -74,16 +76,14 @@ public final class MovementUtils {
         // does a few things:
         // - TODO: if setting toggled, calc input from look vec always (accessibility)
         // - if zero (horizontal) directional input, use input calculated from look instead
-
-        if (ctx.inputDir().lengthSquared() > 0.0001) {
+        float minLength = 0.001f;
+        if (ctx.inputDir().lengthSquared() > minLength) {
             return ctx.inputDir();
         }
-
-//        var cameraRot = sv.user.getRotat
-
-//        if ()
-
-        return ctx.inputDir().lengthSquared() > 0.0001 ? ctx.inputDir()
-                : sv.user.getRotationVecClient().withAxis(Direction.Axis.Y, 0).normalize();
+        var cameraInput = sv.user.getRotationVecClient().withAxis(Direction.Axis.Y, 0);
+        if (cameraInput.lengthSquared() > minLength) {
+            return cameraInput.normalize();
+        }
+        return Vec3d.fromPolar(0, sv.user.getYaw()).normalize();
     }
 }

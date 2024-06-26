@@ -8,16 +8,14 @@ import net.minecraft.sound.SoundCategory;
 import symbolics.division.spirit.vector.SpiritVectorSounds;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.move.MovementUtils;
 
 public class SlidingSoundInstance extends MovingSoundInstance {
 
     public static boolean shouldPlayFor(PlayerEntity player) {
         if (EngineSoundInstance.shouldPlayFor(player) && player.isInPose(EntityPose.CROUCHING)) {
-            return player.isOnGround() || (
-                       player instanceof ISpiritVectorUser user
-                    && user.spiritVector() != null
-                    && user.spiritVector().slidingAudioClientOverride()
-            );
+            return player.isOnGround()
+                    || MovementUtils.idealWallrunningConditions(player.getWorld(), player.getBlockPos());
         }
         return false;
     }
