@@ -34,7 +34,7 @@ public class EngineSoundInstance extends MovingSoundInstance {
             this.volume = Math.min(0.5f, speed) / 0.5f * VOLUME_RELATIVE;
             if (player instanceof ISpiritVectorUser user) {
                 user.getSpiritVector().ifPresent(
-                        sv -> this.pitch = ((float)sv.getMomentum() / (float)SpiritVector.MAX_MOMENTUM * 0.5f) + 0.5f
+                        sv -> this.pitch = ((float)sv.getMomentum() / (float)SpiritVector.MAX_MOMENTUM * 0.5f) + 0.5f + (player.getRandom().nextFloat() * 0.2f - 0.1f)
                 );
             }
             this.x = this.player.getX();

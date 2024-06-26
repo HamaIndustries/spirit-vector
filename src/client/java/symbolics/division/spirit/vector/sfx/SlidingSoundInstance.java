@@ -35,6 +35,7 @@ public class SlidingSoundInstance extends MovingSoundInstance {
         float speedSq = (float)this.player.getVelocity().lengthSquared();
         if (!this.player.isRemoved() && shouldPlayFor(this.player)) {
             this.volume = Math.min(0.5f, speedSq) / 0.5f * (ticksPlaying / WINDUP_TICKS) * VOLUME_RELATIVE;
+            this.pitch = 0.2f + (player.getRandom().nextFloat() * 0.1f);
             this.x = this.player.getX();
             this.y = this.player.getY();
             this.z = this.player.getZ();
