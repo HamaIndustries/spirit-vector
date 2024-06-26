@@ -22,6 +22,7 @@ import symbolics.division.spirit.vector.logic.ability.SpiritVectorHeldAbilities;
 import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.input.InputManager;
 import symbolics.division.spirit.vector.logic.move.MovementType;
+import symbolics.division.spirit.vector.logic.move.MovementUtils;
 import symbolics.division.spirit.vector.logic.state.ParticleTrailEffectState;
 import symbolics.division.spirit.vector.logic.state.StateManager;
 import symbolics.division.spirit.vector.logic.state.WingsEffectState;
@@ -59,7 +60,8 @@ public class SpiritVector {
             MovementType.VAULT,
             MovementType.JUMP,
             MovementType.SLIDE,
-            MovementType.WALL_JUMP
+            MovementType.WALL_JUMP,
+            MovementType.WALL_RUSH
     };
 
     private final SpiritVectorHeldAbilities abilities;
@@ -85,7 +87,7 @@ public class SpiritVector {
 
     public void travel(Vec3d movementInput, CallbackInfo ci) {
         stateManager.tick();
-        var inputDirection = SVMathHelper.movementInputToVelocity(movementInput, 1, user.getYaw());
+        var inputDirection = MovementUtils.movementInputToVelocity(movementInput, 1, user.getYaw());
         var ctx = new TravelMovementContext(movementInput, ci, inputDirection);
         updateMovementType(ctx);
         moveState.travel(this, ctx);
@@ -198,7 +200,12 @@ public class SpiritVector {
         return moveState.fluidMovementAllowed(this);
     }
 
+
+    public boolean slidingAudioClientOverride() {
+        return moveState  == MovementType.WALL_RUSH;
+    }
+
     public static float safeFallDistance() {
-        return 30;
+        return 5;
     }
 }

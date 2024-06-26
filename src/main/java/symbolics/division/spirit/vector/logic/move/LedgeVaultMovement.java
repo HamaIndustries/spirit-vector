@@ -41,11 +41,16 @@ public class LedgeVaultMovement extends AbstractMovementType {
     @Override
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
         sv.stateManager().clearTicks(VAULT_STATE_ID);
-        double y = sv.user.getRotationVector().y;
         Vec3d result;
         if (ctx.inputDir().lengthSquared() < 0.1) { // no input
-            result = new Vec3d(0, 0.7, 0);
+            result = new Vec3d(0, 0.9, 0);
         } else {
+            // backwards talljump
+            // remove this check if its too confusing
+            double y = sv.user.getRotationVector().y;
+            if (sv.user.getRotationVecClient().dotProduct(sv.user.getVelocity()) < 0) {
+                y = -y;
+            }
             result = ctx.inputDir().withAxis(Direction.Axis.Y, Math.max(0.3, y)).normalize();
         }
         sv.user.addVelocity(result.multiply(VAULT_SPEED *  sv.consumeSpeedMultiplier()));

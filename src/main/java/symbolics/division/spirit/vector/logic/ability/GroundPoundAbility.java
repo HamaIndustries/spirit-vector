@@ -1,8 +1,6 @@
 package symbolics.division.spirit.vector.logic.ability;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -11,7 +9,7 @@ import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.move.MovementType;
-import symbolics.division.spirit.vector.logic.move.WallJumpMovement;
+import symbolics.division.spirit.vector.logic.move.MovementUtils;
 import symbolics.division.spirit.vector.logic.state.ManagedState;
 
 public class GroundPoundAbility extends AbstractSpiritVectorAbility {
@@ -58,7 +56,7 @@ public class GroundPoundAbility extends AbstractSpiritVectorAbility {
 
     @Override
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
-        if (WallJumpMovement.idealWalljumpingConditions(sv, ctx) && sv.inputManager().consume(Input.JUMP)) {
+        if (MovementUtils.idealWalljumpingConditions(sv, ctx) && sv.inputManager().consume(Input.JUMP)) {
             // slam storage
             sv.stateManager().enableStateFor(SLAM_STORAGE_EFFECT_ID, SLAM_STORAGE_DURATION_TICKS);
             MovementType.WALL_JUMP.travel(sv, ctx);

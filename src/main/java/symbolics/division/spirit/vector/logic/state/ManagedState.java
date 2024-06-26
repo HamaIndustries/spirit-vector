@@ -39,7 +39,9 @@ public class ManagedState implements IManagedState {
 
     @Override
     public void tick() {
-        ticksLeft--;
+        if (ticksLeft > 0) {
+            ticksLeft--;
+        }
     }
 
     @Override

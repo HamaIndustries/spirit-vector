@@ -1,18 +1,25 @@
 package symbolics.division.spirit.vector.sfx;
 
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.MovingSoundInstance;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import symbolics.division.spirit.vector.SpiritVectorSounds;
+import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 
 public class SlidingSoundInstance extends MovingSoundInstance {
 
     public static boolean shouldPlayFor(PlayerEntity player) {
-        return EngineSoundInstance.shouldPlayFor(player)
-                && player.isInPose(EntityPose.CROUCHING)
-                && player.isOnGround();
+        if (EngineSoundInstance.shouldPlayFor(player) && player.isInPose(EntityPose.CROUCHING)) {
+            return player.isOnGround() || (
+                       player instanceof ISpiritVectorUser user
+                    && user.spiritVector() != null
+                    && user.spiritVector().slidingAudioClientOverride()
+            );
+        }
+        return false;
     }
 
     private static final float VOLUME_RELATIVE = 0.2f;
