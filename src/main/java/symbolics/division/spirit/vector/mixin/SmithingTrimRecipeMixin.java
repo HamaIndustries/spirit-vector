@@ -18,6 +18,7 @@ import symbolics.division.spirit.vector.logic.ability.AbilitySlot;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbility;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorHeldAbilities;
 import symbolics.division.spirit.vector.sfx.SFXPack;
+import symbolics.division.spirit.vector.sfx.SFXRegistry;
 
 @Mixin(SmithingTrimRecipe.class)
 public abstract class SmithingTrimRecipeMixin implements SmithingRecipe {
@@ -28,7 +29,7 @@ public abstract class SmithingTrimRecipeMixin implements SmithingRecipe {
         RegistryEntry<SFXPack<?>> entry = input.template().get(SFXPack.COMPONENT);
         if (entry != null && input.addition().isIn(SpiritVectorTags.Items.SFX_PACK_ADDITIONS)) {
             var pack = entry.value();
-            svStack.set(SFXPack.COMPONENT, RegistryEntry.of(pack));
+            svStack.set(SFXPack.COMPONENT, SFXRegistry.entryOf(pack));
             ci.setReturnValue(svStack);
         }
 

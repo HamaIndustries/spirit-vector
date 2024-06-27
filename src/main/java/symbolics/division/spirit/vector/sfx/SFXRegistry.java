@@ -15,7 +15,19 @@ public class SFXRegistry {
             .buildAndRegister();
 
     public static RegistryEntry<SFXPack<?>> defaultEntry() {
-        return RegistryEntry.of(SpiritVectorSFX.getDefault());
+        return entryOf(SpiritVectorSFX.getDefault());
+    }
+
+    public static RegistryEntry<SFXPack<?>> entryOf(SFXPack<?> pack) {
+        var key = INSTANCE.getKey(pack);
+        return key.or(() -> {
+            SpiritVectorMod.LOGGER.error("Trying to get a key for apparently non-registered SFX pack " + pack + ", this should not happen! Message the mod author.\nSupplying default instead.");
+            return INSTANCE.getKey(SpiritVectorSFX.getDefault());
+        }).flatMap(INSTANCE::getEntry)
+        // if you are here, your default was not registered for some reason
+        // which really should not be happening
+        .orElseThrow();
+
     }
 
 }
