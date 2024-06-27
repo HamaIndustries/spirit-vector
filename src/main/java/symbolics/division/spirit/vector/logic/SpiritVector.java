@@ -200,7 +200,8 @@ public class SpiritVector {
         return moveState.fluidMovementAllowed(this);
     }
 
-    public static float safeFallDistance() {
-        return 5;
+    public float safeFallDistance() {
+        //  broken, ground damage disabled. needs networking.
+        return this.getMoveState().safeFallDistance(this);
     }
 }

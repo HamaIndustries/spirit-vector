@@ -31,6 +31,10 @@ public interface MovementType {
 
     default boolean fluidMovementAllowed(SpiritVector sv) { return false; }
 
+    default float safeFallDistance(SpiritVector sv) {
+        return 5;
+    }
+
     default String getTranslationKey() {
         return getID().withPrefixedPath("abilities.").toTranslationKey();
     }

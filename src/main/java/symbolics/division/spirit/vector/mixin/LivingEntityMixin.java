@@ -81,7 +81,15 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "handleFallDamage", at = @At("HEAD"), cancellable = true)
     public void handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> ci) {
         if (SpiritVector.hasEquipped((LivingEntity)(Entity)this)) {
-            if (SpiritVector.safeFallDistance() > fallDistance) {
+            // needs networking
+//            if (this instanceof ISpiritVectorUser user) {
+//                var sv = user.spiritVector();
+//                if (sv.safeFallDistance() >= fallDistance) {
+//                    ci.setReturnValue(false);
+//                    ci.cancel();
+//                }
+//            } else
+            if (SpiritVector.hasEquipped((LivingEntity)(Entity)this)) {
                 ci.setReturnValue(false);
                 ci.cancel();
             }

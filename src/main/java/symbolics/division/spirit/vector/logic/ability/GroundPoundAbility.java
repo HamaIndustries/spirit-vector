@@ -15,10 +15,9 @@ import symbolics.division.spirit.vector.logic.state.ManagedState;
 public class GroundPoundAbility extends AbstractSpiritVectorAbility {
 
     public static final float SLAM_SPEED = 2f;
-    private static final float SLAM_STORAGE_SPEED_MULTIPLIER = 1.5f;
+    private static final float SLAM_STORAGE_SPEED_MULTIPLIER = 2f;
     private static final int SLAM_STORAGE_DURATION_TICKS = 20 * 10;
     private static final double SLAM_ATTACK_RANGE_BLOCKS = 3;
-    private static final Identifier CURRENTLY_SLAMMING_STATE_ID = SpiritVectorMod.id("currently_slamming");
     private static final Identifier SLAM_STORAGE_EFFECT_ID = SpiritVectorMod.id("slam_storage");
 
     public GroundPoundAbility(Identifier id) {
@@ -28,43 +27,27 @@ public class GroundPoundAbility extends AbstractSpiritVectorAbility {
     @Override
     public void configure(SpiritVector sv) {
         sv.stateManager().register(SLAM_STORAGE_EFFECT_ID, new ManagedState(sv));
-        sv.stateManager().register(CURRENTLY_SLAMMING_STATE_ID, new SlamJamState(sv));
     }
 
     @Override
     public boolean testMovementCompleted(SpiritVector sv, TravelMovementContext ctx) {
-        SlamJamState slamJam = ((SlamJamState)sv.stateManager().getState(CURRENTLY_SLAMMING_STATE_ID));
-        if (!sv.stateManager().isActive(CURRENTLY_SLAMMING_STATE_ID)) {
-            slamJam.ticksActive = 0;
-            return true;
-        } else if (sv.user.isInFluid() || sv.user.isOnGround()) {
-            requestSlamEffect(sv, slamJam.ticksActive);
-            slamJam.ticksActive = 0;
-            sv.stateManager().disableState(CURRENTLY_SLAMMING_STATE_ID);
+        if (!sv.user.isOnGround() && MovementUtils.idealWalljumpingConditions(sv, ctx) && sv.inputManager().consume(Input.JUMP)) {
+            sv.stateManager().enableStateFor(SLAM_STORAGE_EFFECT_ID, SLAM_STORAGE_DURATION_TICKS);
+            MovementType.WALL_JUMP.travel(sv, ctx); // do not do this during tests. do not.
             return true;
         }
-        return false;
+        return sv.user.isInFluid() || sv.user.isOnGround();
     }
 
     @Override
     public boolean testMovementCondition(SpiritVector sv, TravelMovementContext ctx) {
-        // ability conditions are always called if they would otherwise be allowed to run
-        // making this an acceptable entrypoint for setting up state
-        sv.stateManager().enableState(CURRENTLY_SLAMMING_STATE_ID);
         return true;
     }
 
     @Override
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
-        if (MovementUtils.idealWalljumpingConditions(sv, ctx) && sv.inputManager().consume(Input.JUMP)) {
-            // slam storage
-            sv.stateManager().enableStateFor(SLAM_STORAGE_EFFECT_ID, SLAM_STORAGE_DURATION_TICKS);
-            MovementType.WALL_JUMP.travel(sv, ctx);
-            sv.stateManager().disableState(CURRENTLY_SLAMMING_STATE_ID);
-        } else {
-            sv.user.setVelocity(0, -SLAM_SPEED, 0);
-            MovementType.NEUTRAL.travel(sv, ctx);
-        }
+        sv.user.setVelocity(0, -SLAM_SPEED, 0);
+        MovementType.NEUTRAL.travel(sv, ctx);
     }
 
     public static void requestSlamEffect(SpiritVector sv, int power) {
@@ -87,6 +70,9 @@ public class GroundPoundAbility extends AbstractSpiritVectorAbility {
     public static float consumeSpeedMultiplier(SpiritVector sv) {
         return sv.stateManager().getOptional(SLAM_STORAGE_EFFECT_ID).map(state -> {
             float m = state.isActive() ? SLAM_STORAGE_SPEED_MULTIPLIER : 1;
+            if (m > 1) {
+                System.out.println("slam jam");
+            }
             state.clearTicks();
             return m;
         }).orElse(1f);
