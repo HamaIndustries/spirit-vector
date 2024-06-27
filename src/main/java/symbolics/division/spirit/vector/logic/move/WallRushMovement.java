@@ -1,6 +1,7 @@
 package symbolics.division.spirit.vector.logic.move;
 
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.SpiritVector;
@@ -68,7 +69,12 @@ public class WallRushMovement extends AbstractMovementType {
     @Override
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
         // No DI, you either got it you don't
-        Vec3d vel = new Vec3d(sv.user.getVelocity().x, 0, sv.user.getVelocity().z);
+        Vec3d vel = sv.user.getVelocity();
+        vel = vel.withAxis(
+                Direction.Axis.Y,
+                vel.y > 0 ? vel.y - sv.user.getFinalGravity() : 0 // apply gravity only going up
+        );
+//        Vec3d vel = new Vec3d(sv.user.getVelocity().x, 0, sv.user.getVelocity().z);
         double speed = vel.length();
         sv.user.setVelocity(vel);
         if (speed > WALL_CLING_SPEED_THRESHOLD) {
