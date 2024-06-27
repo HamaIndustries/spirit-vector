@@ -12,9 +12,7 @@ public final class InputManager {
     In addition, inputs should always be consumed if they are expected to be the primary
     means of firing some event that expects to be exclusive to that input.
 
-    maybe we should make this an event-based thing rather than state. /shrug
-
-    its like 1 am hopefully this means something
+    maybe should make this an event-based thing rather than state. /shrug
      */
 
     private final Map<Input, Boolean> trackedStates = new HashMap<>();

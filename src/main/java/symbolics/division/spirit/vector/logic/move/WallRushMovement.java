@@ -60,7 +60,7 @@ public class WallRushMovement extends AbstractMovementType {
                      || !sv.inputManager().rawInput(Input.CROUCH)
                      || !sv.stateManager().isActive(WALL_CLING_STATE)
                      || !MovementUtils.idealWallrunningConditions(sv);
-        if (completed) {
+        if (completed && !sv.stateManager().isActive(WALL_CLING_STATE)) {
             sv.stateManager().enableStateFor(WALL_CLING_CD_STATE, WALL_CLING_COOLDOWN_TICKS);
         }
         return completed;
