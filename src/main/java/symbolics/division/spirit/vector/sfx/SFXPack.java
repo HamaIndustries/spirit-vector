@@ -8,16 +8,10 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryCodecs;
-import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryFixedCodec;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.dynamic.Codecs;
 import symbolics.division.spirit.vector.SpiritVectorRegistration;
-
-import java.util.Optional;
 
 public interface SFXPack<T extends ParticleEffect> {
     Identifier wingsTexture();
