@@ -4,11 +4,15 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import symbolics.division.spirit.vector.SpiritVectorMod;
+import symbolics.division.spirit.vector.api.SpiritVectorSFXApi;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class SpiritVectorSFX {
+    // Spirit Vector's default SFX.
+    // use the API to add your own.
+
     private static final List<SimpleSFX> simpleSFX = new ArrayList<>();
 
     public static final SimpleSFX BUTTERFLY = registerSimple("butterfly", 0xe68a25);
@@ -21,14 +25,9 @@ public final class SpiritVectorSFX {
 
     private static SimpleSFX registerSimple(String name, int color) {
         Identifier id = SpiritVectorMod.id(name);
-        SimpleSFX pack = register(new SimpleSFX(id, color), id);
+        SimpleSFX pack = SpiritVectorSFXApi.registerSimple(id, color);
         simpleSFX.add(pack);
         return pack;
-    }
-
-    private static <T extends SFXPack<?>> T register(T pack, Identifier id) {
-        Registry.register(Registries.PARTICLE_TYPE, id, pack.particleType());
-        return Registry.register(SFXRegistry.INSTANCE, id, pack);
     }
 
     public static SFXPack<?> getDefault() { return BUTTERFLY; }
@@ -36,5 +35,4 @@ public final class SpiritVectorSFX {
     public static List<SimpleSFX> getSimpleSFX() {
         return simpleSFX.stream().toList();
     }
-
 }

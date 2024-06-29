@@ -13,8 +13,9 @@ public class SimpleSFX implements SFXPack<SimpleParticleType> {
     protected final int color;
 
     public SimpleSFX(Identifier id) { this(id, 0xffffff); }
-    public SimpleSFX(Identifier id, int color) {
-        this.wingsTexture = Identifier.of(id.getNamespace(),  "textures/wing/" + id.getPath() + ".png");
+    public SimpleSFX(Identifier id, int color) { this(id, color, "textures/wing/"); }
+    public SimpleSFX(Identifier id, int color, String wingTexturePath) {
+        this.wingsTexture = Identifier.of(id.getNamespace(),  wingTexturePath + id.getPath() + ".png");
         this.id = id;
         this.color = color;
     }
