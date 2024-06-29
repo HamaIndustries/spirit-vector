@@ -48,13 +48,11 @@ public final class MovementUtils {
             var normal = dir.getOpposite().getUnitVector();
             float dp = normal.dot(inputV3f);
             if (dp > 0) {
-                System.out.println("dppp: " + dp);
                 return input;
             } else if(dp < AXIS_ALIGN_THRESHOLD || invertedInput == null) {
                 invertedInput = new Vec3d(normal);
             }
         }
-        System.out.println(invertedInput);
         return invertedInput;
     }
 
