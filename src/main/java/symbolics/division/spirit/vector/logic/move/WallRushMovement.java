@@ -44,9 +44,8 @@ public class WallRushMovement extends AbstractMovementType {
         if (!ready) {
             throw new RuntimeException("Wall rush movement was not configured!");
         }
-        // consume because we're managing with a state anyways
+
         if (       !sv.user.isOnGround()
-                && !sv.stateManager().isActive(WALL_CLING_CD_STATE)
                 && MovementUtils.idealWallrunningConditions(sv)
                 && sv.inputManager().rawInput(Input.CROUCH)) { // sticky, ignores consumption
             sv.inputManager().consume(Input.CROUCH);
@@ -60,12 +59,15 @@ public class WallRushMovement extends AbstractMovementType {
     public boolean testMovementCompleted(SpiritVector sv, TravelMovementContext ctx) {
         boolean completed = sv.inputManager().rawInput(Input.JUMP)
                      || !sv.inputManager().rawInput(Input.CROUCH)
-                     || !sv.stateManager().isActive(WALL_CLING_STATE)
                      || !MovementUtils.idealWallrunningConditions(sv);
-        if (completed && !sv.stateManager().isActive(WALL_CLING_STATE)) {
+        return completed;
+    }
+
+    @Override
+    public void exit(SpiritVector sv) {
+        if (!sv.stateManager().isActive(WALL_CLING_STATE)) { // avoid spam
             sv.stateManager().enableStateFor(WALL_CLING_CD_STATE, WALL_CLING_COOLDOWN_TICKS);
         }
-        return completed;
     }
 
     // if one axis speed significantly higher than another, set it all to one axis.
@@ -73,7 +75,6 @@ public class WallRushMovement extends AbstractMovementType {
         double aX = Math.abs(vel.x);
         double aZ = Math.abs(vel.z);
         if (MathHelper.absMax(vel.x, vel.z) > SPEED_SNAP_PROPORTION) {
-            System.out.println("snap");
             var speed = Math.sqrt(aX*aX+aZ*aZ);
             if (aX > aZ) {
                 vel = new Vec3d(Math.signum(vel.x) * speed, vel.y, 0);
@@ -88,19 +89,29 @@ public class WallRushMovement extends AbstractMovementType {
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
         // No DI, you either got it you don't
         Vec3d vel = sv.user.getVelocity();
-        vel = vel.withAxis(
-                Direction.Axis.Y,
-                vel.y > 0 ? vel.y - sv.user.getFinalGravity() : 0 // apply gravity only going up
-        );
-        double speed = vel.length();
-        if (speed > WALL_CLING_SPEED_THRESHOLD) {
-            vel = snapAxis(vel);
-            sv.user.setVelocity(vel);
-            sv.user.move(net.minecraft.entity.MovementType.SELF, sv.user.getVelocity());
-            if (speed > SlideMovement.MIN_SPEED_FOR_TRAIL) {
-                sv.stateManager().enableStateFor(ParticleTrailEffectState.ID, 1);
-            }
+        double vy = 0;
+        if (vel.y > 0) {
+            // apply gravity only going up
+            vy = vel.y - sv.user.getFinalGravity();
+        } else if (!sv.stateManager().isActive(WALL_CLING_STATE) || sv.stateManager().isActive(WALL_CLING_CD_STATE)) {
+            // apply small gravity (wall slide) if clinging too long
+            vy = -Math.abs(sv.user.getFinalGravity() * 0.5f);
         }
+
+        double speed = vel.x*vel.x+vel.z*vel.z;
+        if (speed < WALL_CLING_SPEED_THRESHOLD) {
+            vel = new Vec3d(0, vy, 0);
+        } else {
+            vel = vel.withAxis(Direction.Axis.Y, vy);
+        }
+
+        vel = snapAxis(vel);
+        sv.user.setVelocity(vel);
+        sv.user.move(net.minecraft.entity.MovementType.SELF, sv.user.getVelocity());
+        if (speed > SlideMovement.MIN_SPEED_FOR_TRAIL) {
+            sv.stateManager().enableStateFor(ParticleTrailEffectState.ID, 1);
+        }
+
         ctx.ci().cancel();
     }
 

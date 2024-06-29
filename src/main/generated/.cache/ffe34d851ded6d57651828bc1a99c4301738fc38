@@ -1,4 +1,4 @@
-// 1.21	2024-06-23T17:51:18.706754	Dream Burst Spirit Vector/Model Definitions
+// 1.21	2024-06-28T20:42:59.8524669	Dream Burst Spirit Vector/Model Definitions
 60a7490ce4af5e9779b7c513848fc156fd54bff5 assets\spirit_vector\models\item\anima_core_v1.json
 1fdfc08f558db96ef2304e3bee6c3da4bc2a89c4 assets\spirit_vector\models\item\anima_core_robo.json
 25d1c1d89d43d43a66ab517e42de78ceb9dee43f assets\spirit_vector\models\item\anima_core_bird.json
@@ -17,6 +17,6 @@ fcf3af498e4ea65f9f74aa2b25d96e35e82f7b50 assets\spirit_vector\models\item\spirit
 ac201c8999d003974a7f44da2eed72b35f878383 assets\spirit_vector\models\item\cassette_show_done.json
 2163e86faa27082b3d48b68c9dfd7b84d2ce27b3 assets\spirit_vector\models\item\anima_core_love.json
 fdc3e93639ea2a91c96b4a1d6b71e02a37e4f198 assets\spirit_vector\models\item\burst_rune_right.json
+503ad02f3dee1bb8e51d496ed8b72ae0904410a6 assets\spirit_vector\models\item\cassette_take_break.json
 2a839539fa06046785962044b395f1acb290c223 assets\spirit_vector\models\item\anima_core_butterfly.json
 3e3652e5225689abbb3bd51cc3ac7ab8fe4ccf75 assets\spirit_vector\models\item\burst_rune_left.json
-503ad02f3dee1bb8e51d496ed8b72ae0904410a6 assets\spirit_vector\models\item\cassette_take_break.json
