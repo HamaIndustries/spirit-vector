@@ -17,33 +17,67 @@ public final class MovementUtils {
         return world.getBlockState(wallPos).isSideSolid(world, wallPos, dir, SideShapeType.RIGID);
     }
 
-    public static boolean validWallAnchor(World world, BlockPos playerPos, Direction dir) {
-        // is valid for jumping/running/clinging to at this position,
-        // pointing in this direction (from player to side)
-        // must be 2 blocks tall up or down (otherwise it would be too small
-        // to target consistently vs ledging, bad ux)
-        BlockPos wallPos = playerPos.offset(dir);
+    @FunctionalInterface
+    private interface AnchorValidator {
+        boolean validate(World world, Vec3d pos, Direction dir);
+    }
+
+    // abstraction over anchor validity for different scenarios
+    public static boolean checkSurroundingAnchorConditions(World world, Vec3d pos, AnchorValidator validator) {
+        for (Direction dir : Direction.values()) {
+            if (dir == Direction.DOWN || dir == Direction.UP || !closeToSide(pos, dir)) continue;
+            if (validator.validate(world, pos, dir)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // ensure we are on the half of this cube
+    // corresponding to the given direction
+    // ie, if we are on the north half of a cube, return true if dir == Direction.NORTH
+    private static boolean closeToSide(Vec3d pos, Direction dir) {
+        double axisComponent = pos.getComponentAlongAxis(dir.getAxis());
+        double axisOffset = BlockPos.ofFloored(pos).offset(dir).toCenterPos().getComponentAlongAxis(dir.getAxis());
+        return Math.abs(axisComponent - axisOffset) <= 1;
+    }
+
+    // separate wall jump/cling anchor logic
+    // wall jump allows jumps off a 2-pillar up or down from foot position
+    public static boolean validWallJumpAnchor(World world, Vec3d pos, Direction dir) {
+        BlockPos anchorPos = BlockPos.ofFloored(pos);
+        BlockPos wallPos = anchorPos.offset(dir);
         return isSolidWall(world, wallPos, dir.getOpposite()) &&
-                (isSolidWall(world, wallPos.up(), dir.getOpposite()) && world.isAir(playerPos.up()))
+                (isSolidWall(world, wallPos.up(), dir.getOpposite()) && world.isAir(anchorPos.up()))
                 ||
-                (isSolidWall(world, wallPos.down(), dir.getOpposite()) && world.isAir(playerPos.down()));
+                (isSolidWall(world, wallPos.down(), dir.getOpposite()) && world.isAir(anchorPos.down()));
+
+    }
+
+    // cling only allows against 2-pillars up
+    public static boolean validWallRushAnchor(World world, Vec3d pos, Direction dir) {
+        BlockPos anchorPos = BlockPos.ofFloored(pos);
+        BlockPos wallPos = anchorPos.offset(dir);
+        return     isSolidWall(world, wallPos, dir.getOpposite())
+                && isSolidWall(world, wallPos.up(), dir.getOpposite())
+                && world.isAir(anchorPos.up());
     }
 
     // convert context to input used for wall jumps
     // normal if normally valid, and
     // orthogonal (to wall) otherwise.
-    private static float AXIS_ALIGN_THRESHOLD = -(float)Math.cos(Math.PI/4); // must be < cos(pi/4) or we can't consistently choose an inverted
+    private static float AXIS_ALIGN_THRESHOLD = -(float)Math.cos(Math.PI/4-0.01); // must be < cos(pi/4) or we can't consistently choose an inverted
     @Nullable
     public static Vec3d getWalljumpingInput(SpiritVector sv, TravelMovementContext ctx) {
         var input = augmentedInput(sv, ctx);
         var inputV3f = input.toVector3f();
-        var pos = sv.user.getBlockPos();
+        var pos = sv.user.getPos();
         var world = sv.user.getWorld();
         Vec3d invertedInput = null;
 
         for (Direction dir : Direction.values()) {
             // check if ok for a jump
-            if (dir == Direction.DOWN || dir == Direction.UP || !validWallAnchor(world, pos, dir)) continue;
+            if (dir == Direction.DOWN || dir == Direction.UP || !validWallJumpAnchor(world, pos, dir)) continue;
             // determine if return normal, or prepare to return inverted
             var normal = dir.getOpposite().getUnitVector();
             float dp = normal.dot(inputV3f);
@@ -57,39 +91,24 @@ public final class MovementUtils {
     }
 
     public static boolean idealWalljumpingConditions(SpiritVector sv, TravelMovementContext ctx) {
-        // testing: any input
-        return idealWallrunningConditions(sv);
-//        var input = augmentedInput(sv, ctx);
-//        var pos = sv.user.getBlockPos();
+        // testing: any input dir
+        return checkSurroundingAnchorConditions(sv.user.getWorld(), sv.user.getPos(), MovementUtils::validWallJumpAnchor);
+        // in case we feel like going back to directional
 //        Direction[] dirs = {
 //                input.getComponentAlongAxis(Direction.Axis.Z) > 0 ? Direction.NORTH : Direction.SOUTH,
 //                input.getComponentAlongAxis(Direction.Axis.X) > 0 ? Direction.WEST : Direction.EAST
 //        };
-//
-//        var world = sv.user.getWorld();
-//        for (Direction dir : dirs) {
-//            if (validWallAnchor(world, pos, dir)) {
-//                return true;
-//            }
-//        }
-//        return false;
     }
 
     public static boolean idealWallrunningConditions(SpiritVector sv) {
         // similar to idealWalljumpingConditions, but checks for any wall surrounding
         // user instead of in opposite direction. Should be employed for wall running/
         // wall clinging contexts where a directional input is not necessarily considered.
-        return idealWallrunningConditions(sv.user.getWorld(), sv.user.getBlockPos());
+        return idealWallrunningConditions(sv.user.getWorld(), sv.user.getPos());
     }
 
-    public static boolean idealWallrunningConditions(World world, BlockPos pos) {
-        for (Direction dir : Direction.values()) {
-            if (dir == Direction.DOWN || dir == Direction.UP) continue;
-            if (validWallAnchor(world, pos, dir)) {
-                return true;
-            }
-        }
-        return false;
+    public static boolean idealWallrunningConditions(World world, Vec3d pos) {
+        return checkSurroundingAnchorConditions(world, pos, MovementUtils::validWallRushAnchor);
     }
 
     public static Vec3d movementInputToVelocity(Vec3d movementInput, float speed, float yaw) {

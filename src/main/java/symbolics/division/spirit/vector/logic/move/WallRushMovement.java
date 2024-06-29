@@ -25,7 +25,6 @@ public class WallRushMovement extends AbstractMovementType {
     private static int WALL_CLING_TICKS = 20 * 3;
     private static int WALL_CLING_COOLDOWN_TICKS = 20 * 1;
     private static float WALL_CLING_SPEED_THRESHOLD = 0.1f;
-    private static float SPEED_SNAP_PROPORTION = 0.9f;
     private static boolean ready = false;
 
     public WallRushMovement(Identifier id) {
@@ -70,21 +69,6 @@ public class WallRushMovement extends AbstractMovementType {
         }
     }
 
-    // if one axis speed significantly higher than another, set it all to one axis.
-    protected static Vec3d snapAxis(Vec3d vel) {
-        double aX = Math.abs(vel.x);
-        double aZ = Math.abs(vel.z);
-        if (MathHelper.absMax(vel.x, vel.z) > SPEED_SNAP_PROPORTION) {
-            var speed = Math.sqrt(aX*aX+aZ*aZ);
-            if (aX > aZ) {
-                vel = new Vec3d(Math.signum(vel.x) * speed, vel.y, 0);
-            } else {
-                vel = new Vec3d(0, vel.y, Math.signum(vel.z) * speed);
-            }
-        }
-        return vel;
-    }
-
     @Override
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
         // No DI, you either got it you don't
@@ -98,14 +82,13 @@ public class WallRushMovement extends AbstractMovementType {
             vy = -Math.abs(sv.user.getFinalGravity() * 0.5f);
         }
 
-        double speed = vel.x*vel.x+vel.z*vel.z;
+        double speed = Math.sqrt(vel.x*vel.x+vel.z*vel.z);
         if (speed < WALL_CLING_SPEED_THRESHOLD) {
             vel = new Vec3d(0, vy, 0);
         } else {
             vel = vel.withAxis(Direction.Axis.Y, vy);
         }
 
-        vel = snapAxis(vel);
         sv.user.setVelocity(vel);
         sv.user.move(net.minecraft.entity.MovementType.SELF, sv.user.getVelocity());
         if (speed > SlideMovement.MIN_SPEED_FOR_TRAIL) {

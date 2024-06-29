@@ -15,7 +15,7 @@ public class SlidingSoundInstance extends MovingSoundInstance {
     public static boolean shouldPlayFor(PlayerEntity player) {
         if (EngineSoundInstance.shouldPlayFor(player) && player.isInPose(EntityPose.CROUCHING)) {
             return player.isOnGround()
-                    || MovementUtils.idealWallrunningConditions(player.getWorld(), player.getBlockPos());
+                    || MovementUtils.idealWallrunningConditions(player.getWorld(), player.getPos());
         }
         return false;
     }
