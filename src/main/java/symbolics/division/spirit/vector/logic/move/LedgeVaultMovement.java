@@ -2,6 +2,7 @@ package symbolics.division.spirit.vector.logic.move;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.SpiritVector;
@@ -42,15 +43,11 @@ public class LedgeVaultMovement extends AbstractMovementType {
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
         sv.stateManager().clearTicks(VAULT_STATE_ID);
         Vec3d result;
-        if (ctx.inputDir().lengthSquared() < 0.1) { // no input
+        if (ctx.inputDir().lengthSquared() < 0.1) {          // no input, vault
             result = new Vec3d(0, 0.9, 0);
-        } else {
-            // backwards talljump
+        } else {                                             // input: ledgetrick
             // remove this check if its too confusing
-            double y = sv.user.getRotationVector().y;
-            if (sv.user.getRotationVecClient().dotProduct(sv.user.getVelocity()) < 0) {
-                y = -y;
-            }
+            double y = Math.abs(sv.user.getRotationVector().y);
             result = ctx.inputDir().withAxis(Direction.Axis.Y, Math.max(0.3, y)).normalize();
         }
         sv.user.addVelocity(result.multiply(VAULT_SPEED *  sv.consumeSpeedMultiplier()));
