@@ -1,11 +1,14 @@
 package symbolics.division.spirit.vector.logic.move;
 
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.block.SideShapeType;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 
@@ -26,21 +29,52 @@ public final class MovementUtils {
                 (isSolidWall(world, wallPos.down(), dir.getOpposite()) && world.isAir(playerPos.down()));
     }
 
-    public static boolean idealWalljumpingConditions(SpiritVector sv, TravelMovementContext ctx) {
+    // convert context to input used for wall jumps
+    // normal if normally valid, and
+    // orthogonal (to wall) otherwise.
+    private static float AXIS_ALIGN_THRESHOLD = -(float)Math.cos(Math.PI/4); // must be < cos(pi/4) or we can't consistently choose an inverted
+    @Nullable
+    public static Vec3d getWalljumpingInput(SpiritVector sv, TravelMovementContext ctx) {
         var input = augmentedInput(sv, ctx);
+        var inputV3f = input.toVector3f();
         var pos = sv.user.getBlockPos();
-        Direction[] dirs = {
-                input.getComponentAlongAxis(Direction.Axis.Z) > 0 ? Direction.NORTH : Direction.SOUTH,
-                input.getComponentAlongAxis(Direction.Axis.X) > 0 ? Direction.WEST : Direction.EAST
-        };
-
         var world = sv.user.getWorld();
-        for (Direction dir : dirs) {
-            if (validWallAnchor(world, pos, dir)) {
-                return true;
+        Vec3d invertedInput = null;
+
+        for (Direction dir : Direction.values()) {
+            // check if ok for a jump
+            if (dir == Direction.DOWN || dir == Direction.UP || !validWallAnchor(world, pos, dir)) continue;
+            // determine if return normal, or prepare to return inverted
+            var normal = dir.getOpposite().getUnitVector();
+            float dp = normal.dot(inputV3f);
+            if (dp > 0) {
+                System.out.println("dppp: " + dp);
+                return input;
+            } else if(dp < AXIS_ALIGN_THRESHOLD || invertedInput == null) {
+                invertedInput = new Vec3d(normal);
             }
         }
-        return false;
+        System.out.println(invertedInput);
+        return invertedInput;
+    }
+
+    public static boolean idealWalljumpingConditions(SpiritVector sv, TravelMovementContext ctx) {
+        // testing: any input
+        return idealWallrunningConditions(sv);
+//        var input = augmentedInput(sv, ctx);
+//        var pos = sv.user.getBlockPos();
+//        Direction[] dirs = {
+//                input.getComponentAlongAxis(Direction.Axis.Z) > 0 ? Direction.NORTH : Direction.SOUTH,
+//                input.getComponentAlongAxis(Direction.Axis.X) > 0 ? Direction.WEST : Direction.EAST
+//        };
+//
+//        var world = sv.user.getWorld();
+//        for (Direction dir : dirs) {
+//            if (validWallAnchor(world, pos, dir)) {
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
     public static boolean idealWallrunningConditions(SpiritVector sv) {

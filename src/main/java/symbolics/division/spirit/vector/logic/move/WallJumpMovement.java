@@ -22,7 +22,8 @@ public class WallJumpMovement extends AbstractMovementType {
 
     @Override
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
-        var input = MovementUtils.augmentedInput(sv, ctx);
+//        var input = MovementUtils.augmentedInput(sv, ctx);
+        var input = MovementUtils.getWalljumpingInput(sv, ctx);
         Vec3d motion = new Vec3d(input.x/2, 0.5, input.z/2);
         if (sv.getMoveState() == this) { // only apply for normal walljumps
             motion = motion.multiply(sv.consumeSpeedMultiplier());
