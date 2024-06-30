@@ -23,9 +23,9 @@ public final class MovementUtils {
     }
 
     // abstraction over anchor validity for different scenarios
-    public static boolean checkSurroundingAnchorConditions(World world, Vec3d pos, AnchorValidator validator) {
+    public static boolean checkSurroundingAnchorConditions(World world, Vec3d pos, AnchorValidator validator, boolean requireClose) {
         for (Direction dir : Direction.values()) {
-            if (dir == Direction.DOWN || dir == Direction.UP || !closeToSide(pos, dir)) continue;
+            if (dir == Direction.DOWN || dir == Direction.UP || (requireClose && !closeToSide(pos, dir))) continue;
             if (validator.validate(world, pos, dir)) {
                 return true;
             }
@@ -92,7 +92,7 @@ public final class MovementUtils {
 
     public static boolean idealWalljumpingConditions(SpiritVector sv, TravelMovementContext ctx) {
         // testing: any input dir
-        return checkSurroundingAnchorConditions(sv.user.getWorld(), sv.user.getPos(), MovementUtils::validWallJumpAnchor);
+        return checkSurroundingAnchorConditions(sv.user.getWorld(), sv.user.getPos(), MovementUtils::validWallJumpAnchor, false);
         // in case we feel like going back to directional
 //        Direction[] dirs = {
 //                input.getComponentAlongAxis(Direction.Axis.Z) > 0 ? Direction.NORTH : Direction.SOUTH,
@@ -108,7 +108,7 @@ public final class MovementUtils {
     }
 
     public static boolean idealWallrunningConditions(World world, Vec3d pos) {
-        return checkSurroundingAnchorConditions(world, pos, MovementUtils::validWallRushAnchor);
+        return checkSurroundingAnchorConditions(world, pos, MovementUtils::validWallRushAnchor, true);
     }
 
     public static Vec3d movementInputToVelocity(Vec3d movementInput, float speed, float yaw) {
