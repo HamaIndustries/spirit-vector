@@ -28,7 +28,7 @@ public class SpiritParticle extends SpriteBillboardParticle {
         int i = (int)(8.0 / (Math.random() * 0.8 + 0.3));
         this.maxAge = (int)Math.max((float)i * 2.5F, 1.0F);
         this.collidesWithWorld = false;
-        this.setSpriteForAge(spriteProvider);
+        this.setSprite(this.spriteProvider.getSprite(world.getRandom()));
     }
 
     @Override
@@ -60,6 +60,9 @@ public class SpiritParticle extends SpriteBillboardParticle {
             }
         }
     }
+
+    @Override
+    public void setSpriteForAge(SpriteProvider spriteProvider) {}
 
     public static class SpiritParticleFactory implements ParticleFactory<SimpleParticleType> {
         private final SpriteProvider spriteProvider;
