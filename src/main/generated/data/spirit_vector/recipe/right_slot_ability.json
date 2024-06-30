@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing_trim",
+  "addition": {
+    "tag": "spirit_vector:ability_upgrade_runes"
+  },
+  "base": {
+    "item": "spirit_vector:spirit_vector"
+  },
+  "template": {
+    "tag": "spirit_vector:slot_upgrade_runes"
+  }
+}

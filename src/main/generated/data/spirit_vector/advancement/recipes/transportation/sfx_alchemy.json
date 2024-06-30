@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_spirit_vector": {
+      "conditions": {
+        "items": [
+          {
+            "items": "spirit_vector:spirit_vector"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "spirit_vector:sfx_alchemy"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_spirit_vector"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "spirit_vector:sfx_alchemy"
+    ]
+  }
+}

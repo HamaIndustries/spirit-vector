@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_spirit_vector_slot_template_up": {
+      "conditions": {
+        "items": [
+          {
+            "items": "spirit_vector:burst_rune_up"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "spirit_vector:up_slot_ability"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_spirit_vector_slot_template_up"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "spirit_vector:up_slot_ability"
+    ]
+  }
+}
