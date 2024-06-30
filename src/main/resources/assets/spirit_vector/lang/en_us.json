@@ -48,6 +48,6 @@
   "subtitles.spirit_vector.cassette.show_done": "Cassette: Show 'Em How It's Done!!!",
   "subtitles.spirit_vector.loop.take_break": "Music: Take It and Break It!!!",
   "subtitles.spirit_vector.loop.show_done": "Music: Show 'Em How It's Done!!!",
-  "jukebox_song.spirit_vector.show_done": "§fShow 'Em How It's Done!!! - Nulb",
-  "jukebox_song.spirit_vector.take_break": "§fTake It and Break It!!! - Nulb"
+  "jukebox_song.spirit_vector.cassette.show_done.desc": "§fShow 'Em How It's Done!!! - Nulb",
+  "jukebox_song.spirit_vector.cassette.take_break.desc": "§fTake It and Break It!!! - Nulb"
 }

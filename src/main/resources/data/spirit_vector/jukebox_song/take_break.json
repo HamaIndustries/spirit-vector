@@ -3,7 +3,7 @@
     "sound_id": "spirit_vector:cassette.take_break"
   },
   "description": {
-    "translate": "jukebox_song.spirit_vector.take_break"
+    "translate": "jukebox_song.spirit_vector.cassette.take_break.desc"
   },
   "length_in_seconds": 80,
   "comparator_output": 15
