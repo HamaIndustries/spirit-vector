@@ -1,38 +1,52 @@
 package symbolics.division.spirit.vector.sfx;
 
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
+import net.minecraft.particle.SimpleParticleType;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.api.SpiritVectorSFXApi;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public final class SpiritVectorSFX {
     // Spirit Vector's default SFX.
     // use the API to add your own.
 
-    private static final List<SimpleSFX> simpleSFX = new ArrayList<>();
+    private static final List<SimpleSFX> SIMPLE_SFX = new ArrayList<>();
+    private static final Map<UUID, SimpleSFX> UNIQUE_SFX = new HashMap<>();
 
     public static final SimpleSFX BUTTERFLY = registerSimple("butterfly", 0xe68a25);
     public static final SimpleSFX BIRD = registerSimple("bird", 0x4cc2e0);
-    public static final SimpleSFX V1 = registerSimple("v1", 0xebbd33);
+    public static final SimpleSFX V = registerSimple("v", 0xebbd33);
     public static final SimpleSFX ROBO = registerSimple("robo", 0x54e5ac);
     public static final SimpleSFX DRAGON = registerSimple("dragon", 0xe14d2f);
     public static final SimpleSFX LOVE = registerSimple("love", 0xed3299);
-    public static final SimpleSFX ANGEL = registerSimple("angel", 0xffffff);
+
+    static {
+        registerUnique("angel", UUID.fromString("62d5f675-f2b1-48a3-b5b6-78127cd1ed2c"));
+        registerUnique("zy", UUID.fromString("0af7b31f-63a5-426d-8cee-6c54385856b6"));
+    }
 
     private static SimpleSFX registerSimple(String name, int color) {
-        Identifier id = SpiritVectorMod.id(name);
-        SimpleSFX pack = SpiritVectorSFXApi.registerSimple(id, color);
-        simpleSFX.add(pack);
+        SimpleSFX pack = SpiritVectorSFXApi.registerSimple(SpiritVectorMod.id(name), color);
+        SIMPLE_SFX.add(pack);
         return pack;
+    }
+
+    private static SFXPack<?> registerUnique(String name, UUID bind) {
+        SimpleSFX pact = SpiritVectorSFXApi.registerSimple(
+                SpiritVectorMod.id(name),
+                0xffffff,
+                "textures/wing/unique/"
+        );
+        UNIQUE_SFX.put(bind, pact);
+        return pact;
     }
 
     public static SFXPack<?> getDefault() { return BUTTERFLY; }
 
     public static List<SimpleSFX> getSimpleSFX() {
-        return simpleSFX.stream().toList();
+        return SIMPLE_SFX.stream().toList();
+    }
+    public static Map<UUID, SimpleSFX> getUniqueSFX() {
+        return Collections.unmodifiableMap(UNIQUE_SFX);
     }
 }

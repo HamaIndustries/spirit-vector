@@ -36,8 +36,7 @@ public class SpiritWingsFeatureRenderer<T extends LivingEntity, M extends Entity
         if (state != null && state.wingsVisible()) {
             ItemStack sv = SpiritVector.getEquippedItem(entity);
             if (sv != null) {
-
-                SFXPack<?> sfx = sv.getComponents().getOrDefault(SFXPack.COMPONENT, SFXRegistry.defaultEntry()).value();
+                SFXPack<?> sfx = SFXPack.getFromStack(sv, entity.getUuid());
 
                 matrices.push();
                 matrices.translate(0, 0, 0.3f);

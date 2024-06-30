@@ -1,10 +1,9 @@
-// 1.21	2024-06-28T20:42:59.8524669	Dream Burst Spirit Vector/Model Definitions
-60a7490ce4af5e9779b7c513848fc156fd54bff5 assets\spirit_vector\models\item\anima_core_v1.json
+// 1.21	2024-06-29T19:06:44.749204	Dream Burst Spirit Vector/Model Definitions
 1fdfc08f558db96ef2304e3bee6c3da4bc2a89c4 assets\spirit_vector\models\item\anima_core_robo.json
 25d1c1d89d43d43a66ab517e42de78ceb9dee43f assets\spirit_vector\models\item\anima_core_bird.json
 82f856bd1641e055ba13f43b19d5d2acebc9303f assets\spirit_vector\models\item\spirit_rune_cosmetic_wings.json
-ba29d672b841f3136ee66adb033f3aa257cd2a5c assets\spirit_vector\models\item\anima_core_angel.json
 c64fec37901468bda89303de7afce0ebab47fc45 assets\spirit_vector\models\item\spirit_rune_soar.json
+c7dc7208cfcd1d7ef95bc384015b3914805b445c assets\spirit_vector\models\item\anima_core_v.json
 3c76bb65856d794a5001db9652e1f6eb037aa08e assets\spirit_vector\models\item\burst_rune_up.json
 dade2505bd2cae80a849a34ebc83d8603984537d assets\spirit_vector\models\item\spirit_rune_teleport.json
 2b3e31892b197b1e0d2b8616a33c819c881f4955 assets\spirit_vector\models\item\spirit_rune_slam.json
@@ -17,6 +16,6 @@ fcf3af498e4ea65f9f74aa2b25d96e35e82f7b50 assets\spirit_vector\models\item\spirit
 ac201c8999d003974a7f44da2eed72b35f878383 assets\spirit_vector\models\item\cassette_show_done.json
 2163e86faa27082b3d48b68c9dfd7b84d2ce27b3 assets\spirit_vector\models\item\anima_core_love.json
 fdc3e93639ea2a91c96b4a1d6b71e02a37e4f198 assets\spirit_vector\models\item\burst_rune_right.json
-503ad02f3dee1bb8e51d496ed8b72ae0904410a6 assets\spirit_vector\models\item\cassette_take_break.json
 2a839539fa06046785962044b395f1acb290c223 assets\spirit_vector\models\item\anima_core_butterfly.json
+503ad02f3dee1bb8e51d496ed8b72ae0904410a6 assets\spirit_vector\models\item\cassette_take_break.json
 3e3652e5225689abbb3bd51cc3ac7ab8fe4ccf75 assets\spirit_vector\models\item\burst_rune_left.json

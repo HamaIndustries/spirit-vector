@@ -29,6 +29,8 @@ import symbolics.division.spirit.vector.logic.state.WingsEffectState;
 import symbolics.division.spirit.vector.sfx.EffectsManager;
 import symbolics.division.spirit.vector.sfx.SFXPack;
 
+import java.util.UUID;
+
 public class SpiritVector {
 
     public static final int MAX_FUEL = 100;
@@ -69,7 +71,7 @@ public class SpiritVector {
     public final LivingEntity user;
 
     public SpiritVector(LivingEntity user, ItemStack itemStack) {
-        this.sfx = SFXPack.getFromStack(itemStack);
+        this.sfx = SFXPack.getFromStack(itemStack, user.getUuid());
         this.effectsManager = new EffectsManager(this);
         this.user = user;
         stateManager.register(ParticleTrailEffectState.ID, new ParticleTrailEffectState(this));

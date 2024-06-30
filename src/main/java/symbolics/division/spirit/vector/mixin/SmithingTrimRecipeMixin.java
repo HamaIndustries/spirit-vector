@@ -1,8 +1,6 @@
 package symbolics.division.spirit.vector.mixin;
 
-import net.minecraft.component.ComponentType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.recipe.SmithingRecipe;
 import net.minecraft.recipe.SmithingTrimRecipe;
 import net.minecraft.recipe.input.SmithingRecipeInput;

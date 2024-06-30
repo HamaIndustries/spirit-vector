@@ -11,7 +11,10 @@ import net.minecraft.particle.ParticleType;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryFixedCodec;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 import symbolics.division.spirit.vector.SpiritVectorRegistration;
+
+import java.util.UUID;
 
 public interface SFXPack<T extends ParticleEffect> {
     Identifier wingsTexture();
@@ -19,8 +22,13 @@ public interface SFXPack<T extends ParticleEffect> {
     T particleEffect();
     default int color() { return 0xffffff; }
 
-    static SFXPack<?> getFromStack(ItemStack stack) {
-        return stack.getComponents().getOrDefault(COMPONENT, SFXRegistry.defaultEntry()).value();
+    static SFXPack<?> getFromStack(ItemStack stack, @Nullable UUID uid) {
+        var pack = stack.getComponents().get(COMPONENT);
+        if (pack == null) {
+             var alt = SpiritVectorSFX.getUniqueSFX().get(uid);
+             return alt != null ? alt : SFXRegistry.defaultEntry().value();
+        }
+        return pack.value();
     }
 
     PacketCodec<RegistryByteBuf, SFXPack<?>> PACKET_CODEC = PacketCodecs.registryValue(SFXRegistry.KEY);
