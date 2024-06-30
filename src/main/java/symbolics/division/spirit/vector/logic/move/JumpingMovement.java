@@ -23,7 +23,7 @@ public class JumpingMovement extends GroundMovement {
 
     @Override
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
-        float f = ((LivingEntityAccessor)sv.user).callGetJumpVelocity() * 1.2f;
+        float f = ((LivingEntityAccessor)sv.user).spirit_vector$invokeGetJumpVelocity() * 1.2f;
         if (f <= 0.00001) return;
         sv.user.addVelocity(0, f, 0);
         sv.user.velocityDirty = true;

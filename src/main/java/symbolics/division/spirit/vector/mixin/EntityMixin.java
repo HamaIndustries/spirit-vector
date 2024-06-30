@@ -17,6 +17,7 @@ import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.move.LedgeVaultMovement;
 
+@SuppressWarnings({"UnreachableCode", "ConstantValue"})
 @Mixin(Entity.class)
 public class EntityMixin {
     // tells the "physics system" (lol) that we're on the ground for the purpose of ledge climbing
@@ -44,6 +45,7 @@ public class EntityMixin {
         return result;
     }
 
+    @SuppressWarnings("Convert2MethodRef") // Let me keep my comments, please
     @Inject(method = "onLanding", at = @At("HEAD"))
     public void onLanding(CallbackInfo ci) {
         if (this instanceof ISpiritVectorUser user) {

@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "spirit-vector",
+	"id": "spirit_vector",
 	"version": "${version}",
 	"name": "Dream Burst Spirit Vector",
 	"description": "This is an example description! Tell everyone what your mod is about!",
@@ -12,7 +12,7 @@
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/spirit-vector/icon.png",
+	"icon": "assets/spirit_vector/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -26,9 +26,9 @@
 		]
 	},
 	"mixins": [
-		"spirit-vector.mixins.json",
+		"spirit_vector.mixins.json",
 		{
-			"config": "spirit-vector.client.mixins.json",
+			"config": "spirit_vector.client.mixins.json",
 			"environment": "client"
 		}
 	],
