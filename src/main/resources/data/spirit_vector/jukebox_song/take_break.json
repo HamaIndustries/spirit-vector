@@ -1,0 +1,10 @@
+{
+  "sound_event": {
+    "sound_id": "spirit_vector:cassette.take_break"
+  },
+  "description": {
+    "translate": "jukebox_song.spirit_vector.take_break"
+  },
+  "length_in_seconds": 80,
+  "comparator_output": 15
+}

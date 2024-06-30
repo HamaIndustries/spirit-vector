@@ -1,0 +1,10 @@
+{
+  "sound_event": {
+    "sound_id": "spirit_vector:cassette.show_done"
+  },
+  "description": {
+    "translate": "jukebox_song.spirit_vector.show_done"
+  },
+  "length_in_seconds": 102,
+  "comparator_output": 15
+}

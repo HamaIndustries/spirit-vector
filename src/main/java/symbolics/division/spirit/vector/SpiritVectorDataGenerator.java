@@ -14,6 +14,7 @@ import net.fabricmc.fabric.impl.datagen.FabricDataGenHelper;
 import net.fabricmc.fabric.mixin.recipe.ingredient.IngredientMixin;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CraftingTableBlock;
+import net.minecraft.block.jukebox.JukeboxSong;
 import net.minecraft.block.jukebox.JukeboxSongs;
 import net.minecraft.data.client.*;
 import net.minecraft.data.server.DynamicRegistriesProvider;

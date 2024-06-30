@@ -1,4 +1,4 @@
-package symbolics.division.spirit.vector.sfx;
+package symbolics.division.spirit.vector.sfx.particle;
 
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
@@ -8,12 +8,13 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class SpiritParticle extends SpriteBillboardParticle {
-    private final SpriteProvider spriteProvider;
+
+    protected final SpriteProvider spriteProvider;
+
     protected SpiritParticle(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider spriteProvider) {
         super(world, x, y, z, 0.0, 0.0, 0.0);
         this.velocityMultiplier = 0.96F;
         this.spriteProvider = spriteProvider;
-        float f = 2.5F;
         this.velocityX *= 0.1F;
         this.velocityY *= 0.1F;
         this.velocityZ *= 0.1F;

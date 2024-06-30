@@ -12,7 +12,9 @@ public class SpiritVectorSounds {
     public static final SoundEvent SLIDE_START = register("sfx.slide_start");
     public static final SoundEvent ENGINE = register("sfx.engine");
 
+    public static final SoundEvent TAKE_BREAK_LOOP = register("loop.take_break");
     public static final SoundEvent TAKE_BREAK_SONG = register("cassette.take_break");
+    public static final SoundEvent SHOW_DONE_LOOP = register("loop.show_done");
     public static final SoundEvent SHOW_DONE_SONG = register("cassette.show_done");
 
     private static SoundEvent register(String id) {

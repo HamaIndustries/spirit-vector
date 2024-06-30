@@ -46,7 +46,6 @@ public class SpiritWingsFeatureRenderer<T extends LivingEntity, M extends Entity
                 this.model.setAngles(entity, limbAngle, limbDistance, entity.age, headYaw, headPitch, tickDelta);
                 this.model.render(matrices, vc, light, OverlayTexture.DEFAULT_UV);
                 matrices.pop();
-
             }
         }
 

@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -51,8 +52,8 @@ public final class SpiritVectorItems {
 
     public static final MomentumGaugeItem MOMENTUM_GAUGE = registerAndModel("momentum_gauge", new MomentumGaugeItem());
 
-    public static final Item TAKE_BREAK_CASSETTE = registerCassette(SpiritVectorSounds.TAKE_BREAK_SONG);
-    public static final Item SHOW_DONE_SONG = registerCassette(SpiritVectorSounds.SHOW_DONE_SONG);
+    public static final Item TAKE_BREAK_CASSETTE = registerCassette("take_break");
+    public static final Item SHOW_DONE_SONG = registerCassette("show_done");
 
     static {
         for (SimpleSFX pack : SpiritVectorSFX.getSimpleSFX()) {
@@ -80,10 +81,13 @@ public final class SpiritVectorItems {
         return item;
     }
 
-    private static Item registerCassette(SoundEvent sound) {
-        var id = sound.getId().withPath(p -> p.replace('.', '_'));
-        var key = RegistryKey.of(RegistryKeys.JUKEBOX_SONG, sound.getId().withPath(p -> p.substring(p.indexOf('.')+1)));
-        return registerAndModel(id, new Item(new Item.Settings().maxCount(1).rarity(Rarity.RARE).jukeboxPlayable(key)));
+    private static Item registerCassette(String name) {
+        var id = SpiritVectorMod.id(name);
+        var key = RegistryKey.of(RegistryKeys.JUKEBOX_SONG, id);
+        return registerAndModel(
+                id.withPrefixedPath("cassette."),
+                new Item(new Item.Settings().maxCount(1).rarity(Rarity.RARE).jukeboxPlayable(key))
+        );
     }
 
     public static List<Item> getGeneratedItems() {

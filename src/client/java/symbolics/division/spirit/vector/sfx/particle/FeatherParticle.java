@@ -1,4 +1,4 @@
-package symbolics.division.spirit.vector.sfx;
+package symbolics.division.spirit.vector.sfx.particle;
 
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleFactory;

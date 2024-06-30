@@ -15,6 +15,8 @@
   "item.spirit_vector.spirit_rune_power_slide": "Spirit Rune \"Dive\"",
   "item.spirit_vector.spirit_rune_cosmetic_wings": "Spirit Rune \"Alight\"",
   "item.spirit_vector.spirit_vector": "Spirit Vector",
+  "item.spirit_vector.cassette.take_break": "Cassette",
+  "item.spirit_vector.cassette.show_done": "Cassette",
   "itemGroup.spirit_vector.creative_tab": "Spirit Vector",
   "tooltip.spirit_vector.dream_rune_contents": "Contains Ability [%s]",
   "tooltip.spirit_vector.slot_template_contents": "Modifies Slot [%s]",
@@ -43,5 +45,9 @@
   "subtitles.spirit_vector.slide_start": "Spirit Vector Slides",
   "subtitles.spirit_vector.step": "Spirit Vector Steps",
   "subtitles.spirit_vector.cassette.take_break": "Cassette: Take It and Break It!!!",
-  "subtitles.spirit_vector.cassette.show_done": "Cassette: Show 'Em How It's Done!!!"
+  "subtitles.spirit_vector.cassette.show_done": "Cassette: Show 'Em How It's Done!!!",
+  "subtitles.spirit_vector.loop.take_break": "Music: Take It and Break It!!!",
+  "subtitles.spirit_vector.loop.show_done": "Music: Show 'Em How It's Done!!!",
+  "jukebox_song.spirit_vector.show_done": "§fShow 'Em How It's Done!!! - Nulb",
+  "jukebox_song.spirit_vector.take_break": "§fTake It and Break It!!! - Nulb"
 }

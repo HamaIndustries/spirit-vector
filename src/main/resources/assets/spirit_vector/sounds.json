@@ -46,5 +46,23 @@
         "stream": true
       }
     ]
+  },
+  "loop.show_done": {
+    "subtitle": "subtitles.spirit_vector.loop.show_done",
+    "sounds": [
+      {
+        "name": "spirit_vector:show_done_loop",
+        "stream": true
+      }
+    ]
+  },
+  "loop.take_break": {
+    "subtitle": "subtitles.spirit_vector.loop.take_break",
+    "sounds": [
+      {
+        "name": "spirit_vector:take_break_loop",
+        "stream": true
+      }
+    ]
   }
 }
