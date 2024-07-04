@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import symbolics.division.spirit.vector.sfx.EngineSoundInstance;
-import symbolics.division.spirit.vector.sfx.SlidingSoundInstance;
+import symbolics.division.spirit.vector.sfx.sound.EngineSoundInstance;
+import symbolics.division.spirit.vector.sfx.sound.SlidingSoundInstance;
 
 @Mixin(AbstractClientPlayerEntity.class)
 public abstract class AbstractClientPlayerEntityMixin extends PlayerEntity {

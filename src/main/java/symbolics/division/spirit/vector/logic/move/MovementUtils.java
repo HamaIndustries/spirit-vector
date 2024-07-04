@@ -71,13 +71,16 @@ public final class MovementUtils {
     // normal if normally valid, and
     // orthogonal (to wall) otherwise.
     private static float AXIS_ALIGN_THRESHOLD = -(float)Math.cos(Math.PI/4-0.01); // must be < cos(pi/4) or we can't consistently choose an inverted
-    @Nullable
+
     public static Vec3d getWalljumpingInput(SpiritVector sv, TravelMovementContext ctx) {
         var input = augmentedInput(sv, ctx);
         var inputV3f = input.toVector3f();
-        var pos = sv.user.getPos();
+        var pos = sv.user.getPos().add(0, 1, 0); // see below, needs to be more consistent
         var world = sv.user.getWorld();
-        Vec3d invertedInput = null;
+        // todo: band aid for npe
+        // sometimes it can ask for wall jump input with no walls around,
+        // happened initially because of the player-foot-height adjust
+        Vec3d invertedInput = input;
 
         for (Direction dir : Direction.values()) {
             // check if ok for a jump

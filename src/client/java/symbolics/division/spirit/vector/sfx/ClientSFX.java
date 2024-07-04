@@ -1,8 +1,13 @@
 package symbolics.division.spirit.vector.sfx;
 
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.sfx.particle.FeatherParticle;
 import symbolics.division.spirit.vector.sfx.particle.RuneParticle;
@@ -32,5 +37,11 @@ public class ClientSFX {
                     overrides.getOrDefault(sfx.id, SpiritParticle.SpiritParticleFactory::new)
             );
         }
+    }
+
+    public static PositionedSoundInstance cassette(SoundEvent sound, Vec3d pos) {
+        return new PositionedSoundInstance(
+                sound.getId(), SoundCategory.RECORDS, 4, 1, SoundInstance.createRandom(), true, 0, SoundInstance.AttenuationType.LINEAR, pos.x, pos.y, pos.z, false
+        );
     }
 }

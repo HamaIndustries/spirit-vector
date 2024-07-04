@@ -47,20 +47,20 @@
       }
     ]
   },
-  "loop.show_done": {
-    "subtitle": "subtitles.spirit_vector.loop.show_done",
+  "music.show_done": {
+    "subtitle": "subtitles.spirit_vector.music.show_done",
     "sounds": [
       {
-        "name": "spirit_vector:show_done_loop",
+        "name": "spirit_vector:show_done",
         "stream": true
       }
     ]
   },
-  "loop.take_break": {
-    "subtitle": "subtitles.spirit_vector.loop.take_break",
+  "music.take_break": {
+    "subtitle": "subtitles.spirit_vector.music.take_break",
     "sounds": [
       {
-        "name": "spirit_vector:take_break_loop",
+        "name": "spirit_vector:take_break",
         "stream": true
       }
     ]

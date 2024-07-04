@@ -6,7 +6,8 @@
 		"ClientPlayerEntityMixin",
 		"GameRendererMixin",
 		"BipedEntityModelMixin",
-		"AbstractClientPlayerEntityMixin"
+		"AbstractClientPlayerEntityMixin",
+		"WorldRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

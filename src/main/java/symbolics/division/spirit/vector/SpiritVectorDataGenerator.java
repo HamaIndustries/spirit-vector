@@ -19,12 +19,15 @@ import net.minecraft.block.jukebox.JukeboxSongs;
 import net.minecraft.data.client.*;
 import net.minecraft.data.server.DynamicRegistriesProvider;
 import net.minecraft.data.server.recipe.*;
+import net.minecraft.data.server.tag.TagProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.*;
+import net.minecraft.registry.tag.TagBuilder;
 import net.minecraft.screen.CraftingScreenHandler;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import symbolics.division.spirit.vector.item.DreamRuneItem;
@@ -40,8 +43,9 @@ public class SpiritVectorDataGenerator implements DataGeneratorEntrypoint {
 	public void onInitializeDataGenerator(FabricDataGenerator generator) {
 		FabricDataGenerator.Pack pack = generator.createPack();
 		pack.addProvider(SVModelGenerator::new);
-		pack.addProvider(SVTagGenerator::new);
+		pack.addProvider(SVItemTagGenerator::new);
 		pack.addProvider(SVRecipeGenerator::new);
+		pack.addProvider(SVSoundTagGenerator::new);
 	}
 
 	private static class SVModelGenerator extends FabricModelProvider {
@@ -63,9 +67,9 @@ public class SpiritVectorDataGenerator implements DataGeneratorEntrypoint {
 		}
 	}
 
-	private static class SVTagGenerator extends FabricTagProvider.ItemTagProvider {
+	private static class SVItemTagGenerator extends FabricTagProvider.ItemTagProvider {
 
-		public SVTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
+		public SVItemTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
 			super(output, completableFuture);
 		}
 
@@ -84,6 +88,19 @@ public class SpiritVectorDataGenerator implements DataGeneratorEntrypoint {
 
 			getOrCreateTagBuilder(SpiritVectorTags.Items.ABILITY_UPGRADE_RUNES)
 					.add(SpiritVectorItems.getDreamRunes().toArray(Item[]::new));
+		}
+	}
+
+	private static class SVSoundTagGenerator extends FabricTagProvider<SoundEvent> {
+		public SVSoundTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+			super(output, RegistryKeys.SOUND_EVENT, registriesFuture);
+		}
+
+		@Override
+		protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+			getOrCreateTagBuilder(SpiritVectorTags.Misc.JUKEBOX_LOOPING)
+					.add(SpiritVectorSounds.TAKE_BREAK_LOOP)
+					.add(SpiritVectorSounds.SHOW_DONE_LOOP);
 		}
 	}
 

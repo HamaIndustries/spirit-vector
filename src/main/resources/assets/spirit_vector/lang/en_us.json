@@ -33,8 +33,8 @@
   "spirit_vector.abilities.power_slide": "DIVE",
   "spirit_vector.abilities.cosmetic_wings": "NEPHILIM BLESSING",
   "tooltip.desc.spirit_vector_ability.spirit_vector.dash":  "(cost: small) Immediately set your movement in your horizontal input direction. Activate with no input to use as an airbrake.",
-  "tooltip.desc.spirit_vector_ability.spirit_vector.teleport": "(cost: very high) Consume all Momentum to teleport a short distance.",
-  "tooltip.desc.spirit_vector_ability.spirit_vector.soar": "(cost: medium) Gain a velocity impulse in your viewing direction.",
+  "tooltip.desc.spirit_vector_ability.spirit_vector.teleport": "(cost: very high) Consume all Poise to teleport a short distance.",
+  "tooltip.desc.spirit_vector_ability.spirit_vector.soar": "(cost: medium) Gain a velocity impulse in your look direction.",
   "tooltip.desc.spirit_vector_ability.spirit_vector.slam": "(cost: medium) Slam into the earth, flattening those around you. Experienced Spectres whisper of a technique known as \"slam storage.\"",
   "tooltip.desc.spirit_vector_ability.spirit_vector.leap": "(cost: small) Invoke the strength of the celestial mountain climbers with an extra jump.",
   "tooltip.desc.spirit_vector_ability.spirit_vector.power_slide": "(cost: variable) Dive into a power slide, barrelling through enemies until you hit an obstacle. [bugged]",
@@ -46,8 +46,8 @@
   "subtitles.spirit_vector.step": "Spirit Vector Steps",
   "subtitles.spirit_vector.cassette.take_break": "Cassette: Take It and Break It!!!",
   "subtitles.spirit_vector.cassette.show_done": "Cassette: Show 'Em How It's Done!!!",
-  "subtitles.spirit_vector.loop.take_break": "Music: Take It and Break It!!!",
-  "subtitles.spirit_vector.loop.show_done": "Music: Show 'Em How It's Done!!!",
+  "subtitles.spirit_vector.music.take_break": "Music: Take It and Break It!!!",
+  "subtitles.spirit_vector.music.show_done": "Music: Show 'Em How It's Done!!!",
   "jukebox_song.spirit_vector.cassette.show_done.desc": "§fShow 'Em How It's Done!!! - Nulb",
   "jukebox_song.spirit_vector.cassette.take_break.desc": "§fTake It and Break It!!! - Nulb"
 }

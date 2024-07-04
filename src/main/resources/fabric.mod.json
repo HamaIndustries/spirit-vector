@@ -8,8 +8,8 @@
 		"hama"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/spirit-vector",
+		"sources": "https://github.com/HamaIndustries/spirit-vector"
 	},
 	"license": "MIT",
 	"icon": "assets/spirit-vector/icon.png",

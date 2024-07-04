@@ -8,7 +8,8 @@
 		"LivingEntityAccessor",
 		"EntityMixin",
 		"SmithingTrimRecipeMixin",
-		"EntityAccessor"
+		"EntityAccessor",
+		"sound.JukeboxSongMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -17,6 +17,7 @@ import symbolics.division.spirit.vector.render.SpiritGaugeHUD;
 import symbolics.division.spirit.vector.render.SpiritVectorSkatesRenderer;
 import symbolics.division.spirit.vector.render.SpiritWingsFeatureRenderer;
 import symbolics.division.spirit.vector.render.SpiritWingsModel;
+import symbolics.division.spirit.vector.sfx.AudioGirl;
 import symbolics.division.spirit.vector.sfx.ClientSFX;
 import symbolics.division.spirit.vector.sfx.EffectsManager;
 
