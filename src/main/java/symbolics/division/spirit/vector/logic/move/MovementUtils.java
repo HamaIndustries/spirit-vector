@@ -1,16 +1,19 @@
 package symbolics.division.spirit.vector.logic.move;
 
-import net.fabricmc.fabric.api.util.TriState;
+import it.unimi.dsi.fastutil.floats.FloatArraySet;
+import it.unimi.dsi.fastutil.floats.FloatArrays;
+import it.unimi.dsi.fastutil.floats.FloatSet;
 import net.minecraft.block.SideShapeType;
-import net.minecraft.util.Pair;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.*;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
+import symbolics.division.spirit.vector.mixin.EntityAccessor;
+
+import java.util.List;
 
 public final class MovementUtils {
     public static boolean isSolidWall(World world, BlockPos wallPos, Direction dir) {
@@ -136,5 +139,29 @@ public final class MovementUtils {
             return cameraInput.normalize();
         }
         return Vec3d.fromPolar(0, sv.user.getYaw()).normalize();
+    }
+
+    public static Vec3d stepDown(Entity entity, Vec3d result, Vec3d movement) {
+
+        // hypothetical hitbox of entity after movement is applied
+        Box hypothetical = entity.getBoundingBox().offset(result);
+        // drop bottom by step height
+        Box down = hypothetical.stretch(0, -entity.getStepHeight(), 0);
+        // get collisions such as with other entities
+        List<VoxelShape> specialCollisions = entity.getWorld().getEntityCollisions(entity, down);
+        // add world border and block collisions
+        List<VoxelShape> collisions = EntityAccessor.invokeFindCollisionsForMovement(entity, entity.getWorld(), specialCollisions, down);
+
+        double stepdown = ((EntityAccessor)entity).invokeAdjustMovementForCollisions(
+                new Vec3d(0, -entity.getStepHeight() - 0.001, 0), // add a little bit to filter air movement
+                hypothetical,
+                collisions
+        ).y;
+
+        //don't step into open air
+        if (stepdown >= -entity.getStepHeight()) {
+            return result.add(0, stepdown, 0);
+        }
+        return result;
     }
 }

@@ -7,7 +7,8 @@
 		"PlayerEntityMixin",
 		"LivingEntityAccessor",
 		"EntityMixin",
-		"SmithingTrimRecipeMixin"
+		"SmithingTrimRecipeMixin",
+		"EntityAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1
