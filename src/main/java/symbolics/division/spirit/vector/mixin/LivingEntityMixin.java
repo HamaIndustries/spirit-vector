@@ -1,5 +1,6 @@
 package symbolics.division.spirit.vector.mixin;
-
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -13,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
+import symbolics.division.spirit.vector.logic.SVEntityState;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 
 @Mixin(LivingEntity.class)
@@ -108,4 +110,14 @@ public abstract class LivingEntityMixin extends Entity {
         }
     }
 
+    @Inject(method = "takeKnockback", at = @At("HEAD"), cancellable = true)
+    public void takeKnockback(double strength, double x, double z, CallbackInfo ci, @Local(ordinal = 0) LocalDoubleRef strRef) {
+        if (SpiritVector.hasEquipped((LivingEntity)(Object)this)) {
+            // also needs networking for momentum-based resistance
+            var state = this.getAttached(SVEntityState.ATTACHMENT);
+            if (state != null && state.wingsVisible()) {
+                strRef.set(strength/10);
+            }
+        }
+    }
 }
