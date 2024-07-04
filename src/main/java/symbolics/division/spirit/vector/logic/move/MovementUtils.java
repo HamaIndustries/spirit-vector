@@ -152,7 +152,7 @@ public final class MovementUtils {
         // add world border and block collisions
         List<VoxelShape> collisions = EntityAccessor.invokeFindCollisionsForMovement(entity, entity.getWorld(), specialCollisions, down);
 
-        double stepdown = ((EntityAccessor)entity).invokeAdjustMovementForCollisions(
+        double stepdown = EntityAccessor.invokeAdjustMovementForCollisions(
                 new Vec3d(0, -entity.getStepHeight() - 0.001, 0), // add a little bit to filter air movement
                 hypothetical,
                 collisions

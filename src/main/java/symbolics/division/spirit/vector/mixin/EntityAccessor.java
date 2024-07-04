@@ -15,7 +15,9 @@ import java.util.List;
 @Mixin(Entity.class)
 public interface EntityAccessor {
     @Invoker("adjustMovementForCollisions")
-    Vec3d invokeAdjustMovementForCollisions(Vec3d movement, Box entityBoundingBox, List<VoxelShape> collisions);
+    static Vec3d invokeAdjustMovementForCollisions(Vec3d movement, Box entityBoundingBox, List<VoxelShape> collisions) {
+        throw new NotImplementedException("mixin  :{{{");
+    }
 
     @Invoker("findCollisionsForMovement")
     static List<VoxelShape> invokeFindCollisionsForMovement(

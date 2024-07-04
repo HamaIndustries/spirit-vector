@@ -1,4 +1,4 @@
-// 1.21	2024-06-29T21:38:01.4548195	Dream Burst Spirit Vector/Model Definitions
+// 1.21	2024-07-04T01:32:23.7783145	Dream Burst Spirit Vector/Model Definitions
 1fdfc08f558db96ef2304e3bee6c3da4bc2a89c4 assets\spirit_vector\models\item\anima_core_robo.json
 25d1c1d89d43d43a66ab517e42de78ceb9dee43f assets\spirit_vector\models\item\anima_core_bird.json
 82f856bd1641e055ba13f43b19d5d2acebc9303f assets\spirit_vector\models\item\spirit_rune_cosmetic_wings.json
@@ -10,8 +10,8 @@ dade2505bd2cae80a849a34ebc83d8603984537d assets\spirit_vector\models\item\spirit
 2b3e31892b197b1e0d2b8616a33c819c881f4955 assets\spirit_vector\models\item\spirit_rune_slam.json
 93fbef8a33189f323900a3f89b5245fc2a9f48a8 assets\spirit_vector\models\item\momentum_gauge.json
 8ae7bf81b8a65f500a5c6b4fababe9bb4d3e2ced assets\spirit_vector\models\item\spirit_rune_leap.json
-35a3a357341e69f91a8b1f1a4e67ede1309d5691 assets\spirit_vector\models\item\anima_core_dragon.json
 65a51dcd2ed93e13a3f9f90cf8fcbf643c11afea assets\spirit_vector\models\item\cassette.take_break.json
+35a3a357341e69f91a8b1f1a4e67ede1309d5691 assets\spirit_vector\models\item\anima_core_dragon.json
 8c06dad910a69ffe675aeb1f6baffa9a090d0d8c assets\spirit_vector\models\item\spirit_rune_power_slide.json
 0ca4057ad3455d04deb8c49c4ce37cb35bd2a031 assets\spirit_vector\models\item\spirit_vector.json
 fcf3af498e4ea65f9f74aa2b25d96e35e82f7b50 assets\spirit_vector\models\item\spirit_rune_dash.json
