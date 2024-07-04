@@ -6,12 +6,12 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.move.LedgeVaultMovement;
@@ -53,8 +53,8 @@ public class EntityMixin {
 
     // tells the "physics system" (lol) that we're on the ground for the purpose of ledging
     @WrapOperation(
-            method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isOnGround()Z")
+        method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isOnGround()Z")
     )
     public boolean youCanTellByTheWayIUseMyWalk(Entity instance, Operation<Boolean> value) {
         if (((Entity)(Object)this) instanceof LivingEntity entity && SpiritVector.hasEquipped(entity)) {
@@ -65,10 +65,10 @@ public class EntityMixin {
     }
 
     @ModifyReturnValue( // chainable with others, if they exist
-            method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;",
-            at = @At(value = "RETURN", ordinal = 0) // only for step-ups
+        method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;",
+        at = @At(value = "RETURN", ordinal = 0) // only for step-ups
     )
-    public void imAWomansManNoTimeToTalk(Vec3d result, @Local(ordinal = 0) Vec3d movement) {
+    public Vec3d imAWomansManNoTimeToTalk(Vec3d result, @Local(ordinal = 0) Vec3d movement) {
         Entity entity = ((Entity)(Object)this);
         double stepAdjust = result.y - movement.y;
         if ((  ( stepAdjust >= VAULT_TRIGGER_STEP_DISTANCE && entity.isOnGround() )
@@ -76,13 +76,14 @@ public class EntityMixin {
             && entity instanceof ISpiritVectorUser user) {
             user.getSpiritVector().ifPresent(LedgeVaultMovement::triggerLedge);
         }
+        return result;
     }
 
     @ModifyReturnValue(
-            method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;",
-            at = @At("TAIL") // only non-step-ups
+        method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;",
+        at = @At("TAIL") // only non-step-ups
     )
-    public Vec3d goDown(Vec3d result, @Local(ordinal = 0) Vec3d movement) {
+    public Vec3d stepDown(Vec3d result, @Local(ordinal = 0) Vec3d movement) {
         Entity entity = (Entity)(Object)this;
         if ( result.y <= 0.0
              && (result.x + result.z != 0.0)
@@ -99,6 +100,19 @@ public class EntityMixin {
         if (this instanceof ISpiritVectorUser user) {
             // fake reset for chain jumps
             user.getSpiritVector().ifPresent(SpiritVector::onLanding);
+        }
+    }
+
+    @Inject(
+        method = "move",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/Entity;hasCollidedSoftly(Lnet/minecraft/util/math/Vec3d;)Z"
+        )
+    )
+    public void triggerWallVault(MovementType type, Vec3d move, CallbackInfo ci) {
+        if (this instanceof ISpiritVectorUser user) {
+            user.getSpiritVector().ifPresent(LedgeVaultMovement::triggerLedge);
         }
     }
 }
