@@ -27,6 +27,7 @@ public final class MovementUtils {
 
     // abstraction over anchor validity for different scenarios
     public static boolean checkSurroundingAnchorConditions(World world, Vec3d pos, AnchorValidator validator, boolean requireClose) {
+        pos = pos.add(0, 0.5, 0); // assume we are given players feet position
         for (Direction dir : Direction.values()) {
             if (dir == Direction.DOWN || dir == Direction.UP || (requireClose && !closeToSide(pos, dir))) continue;
             if (validator.validate(world, pos, dir)) {
@@ -95,7 +96,12 @@ public final class MovementUtils {
 
     public static boolean idealWalljumpingConditions(SpiritVector sv, TravelMovementContext ctx) {
         // testing: any input dir
-        return checkSurroundingAnchorConditions(sv.user.getWorld(), sv.user.getPos(), MovementUtils::validWallJumpAnchor, false);
+        return checkSurroundingAnchorConditions(
+                sv.user.getWorld(),
+                sv.user.getPos(),
+                MovementUtils::validWallJumpAnchor,
+                false
+        );
         // in case we feel like going back to directional
 //        Direction[] dirs = {
 //                input.getComponentAlongAxis(Direction.Axis.Z) > 0 ? Direction.NORTH : Direction.SOUTH,
