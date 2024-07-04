@@ -23,6 +23,7 @@ public final class SpiritVectorSFX {
     static {
         registerUnique("angel", UUID.fromString("62d5f675-f2b1-48a3-b5b6-78127cd1ed2c"));
         registerUnique("zy", UUID.fromString("0af7b31f-63a5-426d-8cee-6c54385856b6"));
+        registerUnique("familiar", UUID.fromString("97f88493-9d69-42f8-b1c8-aaab1e05c89f"));
     }
 
     private static SimpleSFX registerSimple(String name, int color) {

@@ -8,9 +8,9 @@ public class RuneParticle extends SpriteBillboardParticle {
 
     private final SpriteProvider spriteProvider;
 
-    protected RuneParticle(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider spriteProvider) {
+    protected RuneParticle(ClientWorld world, double x, double y, double z, float acceleration, float scale, SpriteProvider spriteProvider) {
         super(world, x, y, z, 0.0, 0.0, 0.0);
-        this.velocityMultiplier = 0.96F;
+        this.velocityMultiplier = acceleration;
         this.spriteProvider = spriteProvider;
         this.x = x;
         this.y = y;
@@ -18,7 +18,7 @@ public class RuneParticle extends SpriteBillboardParticle {
         this.velocityX = 0;
         this.velocityY = Math.max(this.velocityY, 0.01);
         this.velocityZ = 0;
-        this.scale *= 1.4F;
+        this.scale *= scale;
         int i = (int)(8.0 / (Math.random() * 0.8 + 0.3));
         this.maxAge = (int)Math.max((float)i * 2.5F, 1.0F);
         this.collidesWithWorld = false;
@@ -54,7 +54,19 @@ public class RuneParticle extends SpriteBillboardParticle {
         }
 
         public Particle createParticle(SimpleParticleType simpleParticleType, ClientWorld clientWorld, double x, double y, double z, double vx, double vy, double vz) {
-            return new RuneParticle(clientWorld, x, y, z, vx, vy, vz, this.spriteProvider);
+            return new RuneParticle(clientWorld, x, y, z, 0.96F, 1.4F, this.spriteProvider);
+        }
+    }
+
+    public static class EmberParticleFactory implements ParticleFactory<SimpleParticleType> {
+        private final SpriteProvider spriteProvider;
+
+        public EmberParticleFactory(SpriteProvider spriteProvider) {
+            this.spriteProvider = spriteProvider;
+        }
+
+        public Particle createParticle(SimpleParticleType simpleParticleType, ClientWorld clientWorld, double x, double y, double z, double vx, double vy, double vz) {
+            return new RuneParticle(clientWorld, x, y-1, z, 0.9f, 1.1f - clientWorld.random.nextFloat() * 0.2f, this.spriteProvider);
         }
     }
 }
