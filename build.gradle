@@ -55,13 +55,8 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	// DANCERIZER COMPAT DEV RUNTIME
-//	modRuntimeOnly "net.fabricmc:fabric-language-kotlin:1.11.0+kotlin.2.0.0"
-//	modRuntimeOnly "maven.modrinth:modmenu:11.0.0-beta.1"
-//	runtimeOnly "org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0"
-//	runtimeOnly "net.peanuuutz.tomlkt:tomlkt:0.4.0"
-//	runtimeOnly "net.peanuuutz.tomlkt:tomlkt:0.4.0"
-//	modLocalRuntime "maven.modrinth:dancerizer:1.1.0"
+	// compat
+	modCompileOnly "maven.modrinth:dancerizer:1.1.0"
 }
 
 processResources {
