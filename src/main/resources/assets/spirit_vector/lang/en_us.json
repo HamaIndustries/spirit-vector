@@ -1,10 +1,9 @@
 {
-  "item.spirit_vector.anima_core_angel": "Anima Core \"Angel\"",
   "item.spirit_vector.anima_core_bird": "Anima Core \"Plume\"",
   "item.spirit_vector.anima_core_butterfly": "Anima Core \"Ageha\"",
-  "item.spirit_vector.anima_core_dragon": "Anima Core \"Dragon\"",
-  "item.spirit_vector.anima_core_love": "Anima Core \"Love\"",
-  "item.spirit_vector.anima_core_v1": "Anima Core \"V1\"",
+  "item.spirit_vector.anima_core_dragon": "Anima Core \"Tiamat\"",
+  "item.spirit_vector.anima_core_love": "Anima Core \"Venus\"",
+  "item.spirit_vector.anima_core_v": "Anima Core \"Catabasis\"",
   "item.spirit_vector.anima_core_robo": "Anima Core \"Axiom\"",
   "item.spirit_vector.spirit_rune_null": "Spirit Rune \"Null\"",
   "item.spirit_vector.spirit_rune_dash": "Spirit Rune \"Burst\"",
