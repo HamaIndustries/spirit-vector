@@ -70,9 +70,6 @@ public class GroundPoundAbility extends AbstractSpiritVectorAbility {
     public static float consumeSpeedMultiplier(SpiritVector sv) {
         return sv.stateManager().getOptional(SLAM_STORAGE_EFFECT_ID).map(state -> {
             float m = state.isActive() ? SLAM_STORAGE_SPEED_MULTIPLIER : 1;
-            if (m > 1) {
-                System.out.println("slam jam");
-            }
             state.clearTicks();
             return m;
         }).orElse(1f);

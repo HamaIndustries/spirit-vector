@@ -19,10 +19,12 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import symbolics.division.spirit.vector.compat.ModCompatibility;
 import symbolics.division.spirit.vector.logic.SVEntityState;
 import symbolics.division.spirit.vector.logic.ability.SlamPacketC2S;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbilitiesRegistry;
 import symbolics.division.spirit.vector.logic.ability.TeleportAbilityC2SPayload;
+import symbolics.division.spirit.vector.networking.ModifyMomentumPayloadS2C;
 import symbolics.division.spirit.vector.sfx.EffectsManager;
 import symbolics.division.spirit.vector.sfx.SFXRequestPayload;
 
@@ -62,6 +64,10 @@ public final class SpiritVectorMod implements ModInitializer {
 			if (entity instanceof ServerPlayerEntity player) SVEntityState.updatePlayerStatesOnSpawn(player);
 		}));
 		ServerPlayConnectionEvents.JOIN.register(((handler, sender, server) -> SVEntityState.updatePlayerStatesOnSpawn(handler.player)));
+
+		PayloadTypeRegistry.playS2C().register(ModifyMomentumPayloadS2C.ID, ModifyMomentumPayloadS2C.CODEC);
+
+		ModCompatibility.init();
 	}
 	//<T extends CustomPayload> CustomPayload.Type<? super B, T>
 	private <T extends CustomPayload>

@@ -13,6 +13,7 @@ import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import symbolics.division.spirit.vector.logic.SVEntityState;
 import symbolics.division.spirit.vector.logic.ability.SlamPacketC2S;
 import symbolics.division.spirit.vector.logic.ability.TeleportAbilityC2SPayload;
+import symbolics.division.spirit.vector.networking.ModifyMomentumPayloadS2C;
 import symbolics.division.spirit.vector.render.SpiritGaugeHUD;
 import symbolics.division.spirit.vector.render.SpiritVectorSkatesRenderer;
 import symbolics.division.spirit.vector.render.SpiritWingsFeatureRenderer;
@@ -35,6 +36,11 @@ public class SpiritVectorClient implements ClientModInitializer {
 
 		ClientPlayNetworking.registerGlobalReceiver(
 				SVEntityState.Payload.ID, (payload, context) -> SVEntityState.handleStateSync(payload, context.player().getWorld())
+		);
+
+		ClientPlayNetworking.registerGlobalReceiver(
+				ModifyMomentumPayloadS2C.ID,
+				((payload, context) -> ModifyMomentumPayloadS2C.HANDLER(payload, context.player()))
 		);
 
 		// spirit wings reg

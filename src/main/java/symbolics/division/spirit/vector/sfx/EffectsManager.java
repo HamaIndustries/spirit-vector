@@ -67,12 +67,13 @@ public class EffectsManager {
     }
 
     private static void spawnRingImpl(ServerWorld world, SFXPack<?> sfx, Vec3d pos, Vec3d dir) {
+        var speed = dir.length();
         Vec3d[] uv = basis(dir.normalize());
         for (float i = 0; i <= Math.PI*2; i += Math.PI/12) {
             Vec3d p = pos.add(uv[0].multiply(Math.cos(i))).add(uv[1].multiply(Math.sin(i)));
             Vec3d d = p.subtract(pos);
             world.spawnParticles(
-                    sfx.particleEffect(), p.x, p.y, p.z, 1, d.x, d.y, d.z, 0.4
+                    sfx.particleEffect(), p.x, p.y, p.z, 1, d.x, d.y, d.z, 0.4  * speed
             );
         }
     }

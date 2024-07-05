@@ -19,6 +19,7 @@ public class DreamRuneItem extends Item {
         super(new Item.Settings().component(SpiritVectorAbility.COMPONENT, ability));
     }
 
+    @SuppressWarnings("deprecated")
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         super.appendTooltip(stack, context, tooltip, type);

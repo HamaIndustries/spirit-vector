@@ -11,10 +11,12 @@ package symbolics.division.spirit.vector.logic;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import symbolics.division.spirit.vector.SpiritVectorItems;
+import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.ability.AbilitySlot;
 import symbolics.division.spirit.vector.logic.ability.GroundPoundAbility;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbility;
@@ -23,6 +25,7 @@ import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.input.InputManager;
 import symbolics.division.spirit.vector.logic.move.MovementType;
 import symbolics.division.spirit.vector.logic.move.MovementUtils;
+import symbolics.division.spirit.vector.logic.state.ManagedState;
 import symbolics.division.spirit.vector.logic.state.ParticleTrailEffectState;
 import symbolics.division.spirit.vector.logic.state.StateManager;
 import symbolics.division.spirit.vector.logic.state.WingsEffectState;
@@ -35,6 +38,8 @@ public class SpiritVector {
     public static final int MAX_MOMENTUM = 100;
     public static final int MOMENTUM_FAST_THRESHOLD = MAX_MOMENTUM / 4;
     public static final float MINIMUM_SPEED_FOR_TRAIL_WHILE_SOARING = 0.2f;
+
+    private static final Identifier MODIFY_MOMENTUM_COOLDOWN_STATE = SpiritVectorMod.id("momentum_cd_state");
 
     @Nullable
     public static ItemStack getEquippedItem(LivingEntity entity) {
@@ -74,6 +79,7 @@ public class SpiritVector {
         this.user = user;
         stateManager.register(ParticleTrailEffectState.ID, new ParticleTrailEffectState(this));
         stateManager.register(WingsEffectState.ID, new WingsEffectState(this));
+        stateManager.register(MODIFY_MOMENTUM_COOLDOWN_STATE, new ManagedState(this));
 
         for (MovementType move : movements) {
             move.configure(this);
@@ -150,6 +156,14 @@ public class SpiritVector {
 
     public void modifyMomentum(int v) {
         momentum = Math.clamp(momentum + v, 0, MAX_MOMENTUM);
+    }
+    public boolean modifyMomentumWithCooldown(int v, int cdTicks) {
+        if (!stateManager().isActive(MODIFY_MOMENTUM_COOLDOWN_STATE)) {
+            modifyMomentum(v);
+            stateManager().enableStateFor(MODIFY_MOMENTUM_COOLDOWN_STATE, cdTicks);
+            return true;
+        }
+        return false;
     }
 
     public int getFuel() {
