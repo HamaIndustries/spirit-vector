@@ -101,7 +101,7 @@ public class WallRushMovement extends AbstractMovementType {
     @Override
     public void updateValues(SpiritVector sv) {
         // grants 2 momentum/sec while wallrunning as a little treat
-        if (sv.user.speed > 0.001 && sv.user.age % 10 == 0) {
+        if (sv.user.speed > 1 && sv.user.age % 10 == 0 && !sv.stateManager().isActive(WALL_CLING_CD_STATE)) {
             sv.modifyMomentum(2);
         }
     }
