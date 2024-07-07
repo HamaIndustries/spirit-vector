@@ -41,7 +41,7 @@ public class SpiritGaugeHUD {
         var client = MinecraftClient.getInstance();
         var player = client.player;
         if (    player.isAlive()
-                && player.getStackInHand(Hand.MAIN_HAND).isOf(SpiritVectorItems.MOMENTUM_GAUGE)
+                && shouldRenderGauge(player)
                 && player instanceof ISpiritVectorUser user) {
             var sv = user.spiritVector();
             if (sv == null) return;

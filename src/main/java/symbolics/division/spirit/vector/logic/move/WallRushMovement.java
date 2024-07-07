@@ -20,11 +20,11 @@ cooldown. possibly in future increase this at cost of momentum.
  */
 
 public class WallRushMovement extends AbstractMovementType {
-    private static Identifier WALL_CLING_STATE = SpiritVectorMod.id("wall_cling");
-    private static Identifier WALL_CLING_CD_STATE = SpiritVectorMod.id("wall_cling_cd");
-    private static int WALL_CLING_TICKS = 20 * 3;
-    private static int WALL_CLING_COOLDOWN_TICKS = 20 * 1;
-    private static float WALL_CLING_SPEED_THRESHOLD = 0.1f;
+    private static final Identifier WALL_CLING_STATE = SpiritVectorMod.id("wall_cling");
+    private static final Identifier WALL_CLING_CD_STATE = SpiritVectorMod.id("wall_cling_cd");
+    private static final int WALL_CLING_TICKS = 20 * 3;
+    private static final int WALL_CLING_COOLDOWN_TICKS = 20 * 1;
+    private static final float WALL_CLING_SPEED_THRESHOLD = 0.1f;
     private static boolean ready = false;
 
     public WallRushMovement(Identifier id) {
@@ -85,8 +85,15 @@ public class WallRushMovement extends AbstractMovementType {
         double speed = Math.sqrt(vel.x*vel.x+vel.z*vel.z);
         if (speed < WALL_CLING_SPEED_THRESHOLD) {
             vel = new Vec3d(0, vy, 0);
+
         } else {
             vel = vel.withAxis(Direction.Axis.Y, vy);
+
+            // do update value here, save a calc
+            // grants 1 momentum/sec while wallrunning as a little treat
+            if (sv.user.age % 20 == 0 && sv.stateManager().isActive(WALL_CLING_STATE)) {
+                sv.modifyMomentum(2);
+            }
         }
 
         sv.user.setVelocity(vel);
@@ -99,10 +106,5 @@ public class WallRushMovement extends AbstractMovementType {
     }
 
     @Override
-    public void updateValues(SpiritVector sv) {
-        // grants 2 momentum/sec while wallrunning as a little treat
-        if (sv.user.speed > 1 && sv.user.age % 10 == 0 && !sv.stateManager().isActive(WALL_CLING_CD_STATE)) {
-            sv.modifyMomentum(2);
-        }
-    }
+    public void updateValues(SpiritVector sv) {}
 }

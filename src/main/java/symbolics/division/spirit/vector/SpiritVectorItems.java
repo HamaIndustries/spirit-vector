@@ -50,7 +50,7 @@ public final class SpiritVectorItems {
     public static final SlotTemplateItem UP_SLOT_TEMPLATE = registerAndModel("burst_rune_up", new SlotTemplateItem(AbilitySlot.UP));
     public static final SlotTemplateItem RIGHT_SLOT_TEMPLATE = registerAndModel("burst_rune_right", new SlotTemplateItem(AbilitySlot.RIGHT));
 
-    public static final MomentumGaugeItem MOMENTUM_GAUGE = registerAndModel("momentum_gauge", new MomentumGaugeItem());
+    public static final MomentumGaugeItem MOMENTUM_GAUGE = registerAndModel("style_meter", new MomentumGaugeItem());
 
     public static final Item TAKE_BREAK_CASSETTE = registerCassette("take_break");
     public static final Item SHOW_DONE_SONG = registerCassette("show_done");
