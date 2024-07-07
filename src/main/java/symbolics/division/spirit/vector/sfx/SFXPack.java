@@ -20,7 +20,7 @@ public interface SFXPack<T extends ParticleEffect> {
     Identifier wingsTexture();
     ParticleType<T> particleType();
     T particleEffect();
-    default int color() { return 0xffffff; }
+    default int color() { return 0xffffff; } // rgb
 
     static SFXPack<?> getFromStack(ItemStack stack, @Nullable UUID uid) {
         var pack = stack.getComponents().get(COMPONENT);

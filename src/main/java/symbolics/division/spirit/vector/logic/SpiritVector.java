@@ -196,6 +196,10 @@ public class SpiritVector {
 
     public InputManager inputManager() { return inputManager; }
 
+    public SpiritVectorHeldAbilities heldAbilities() {
+        return abilities;
+    }
+
     public SVEntityState entityState() {
         return new SVEntityState(stateManager().isActive(WingsEffectState.ID));
     }
