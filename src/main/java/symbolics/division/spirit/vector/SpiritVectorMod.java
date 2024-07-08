@@ -39,6 +39,7 @@ public final class SpiritVectorMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		System.out.println("Fly forth, Spirit Vector!");
 		SpiritVectorAbilitiesRegistry.init();
 		SpiritVectorItems.init();
 		SpiritVectorSounds.init();
@@ -54,9 +55,6 @@ public final class SpiritVectorMod implements ModInitializer {
 		PayloadTypeRegistry.playC2S().register(SVEntityState.Payload.ID, SVEntityState.Payload.CODEC);
 		PayloadTypeRegistry.playS2C().register(SVEntityState.Payload.ID, SVEntityState.Payload.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(SVEntityState.Payload.ID, SVEntityState::handleStateSyncC2S);
-//		registerC2S(
-//				SVEntityState.Payload.ID, SVEntityState.Payload.CODEC, SVEntityState::handleStateSyncC2S
-//		);
 
 		// hoping this covers all cases where players should be updated on wing state
 		// TODO doesn't seem to work, figure out during integration with larger sample size
