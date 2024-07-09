@@ -24,6 +24,7 @@ public class ClientSFX {
         overrides.put(SpiritVectorSFX.BIRD.id, FeatherParticle.FeatherParticleFactory::new);
         overrides.put(SpiritVectorMod.id("angel"), RuneParticle.RuneParticleFactory::new);
         overrides.put(SpiritVectorMod.id("familiar"), RuneParticle.EmberParticleFactory::new);
+        overrides.put(SpiritVectorMod.id("clover"), FeatherParticle.FeatherParticleFactory::new);
     }
 
     public static void registerAll() {
