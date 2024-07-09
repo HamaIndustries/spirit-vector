@@ -33,7 +33,7 @@
     "subtitle": "subtitles.spirit_vector.cassette.take_break",
     "sounds": [
       {
-        "name": "spirit_vector:take_break",
+        "name": "spirit_vector:take_break_loop",
         "stream": true
       }
     ]
@@ -42,7 +42,7 @@
     "subtitle": "subtitles.spirit_vector.cassette.show_done",
     "sounds": [
       {
-        "name": "spirit_vector:show_done",
+        "name": "spirit_vector:show_done_loop",
         "stream": true
       }
     ]
