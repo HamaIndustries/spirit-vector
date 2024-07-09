@@ -64,5 +64,41 @@
         "stream": true
       }
     ]
+  },
+  "music.perception_rebound": {
+    "subtitle": "subtitles.spirit_vector.music.perception_rebound",
+    "sounds": [
+      {
+        "name": "spirit_vector:perception_rebound",
+        "stream": true
+      }
+    ]
+  },
+  "music.perception_rebound.loop": {
+    "subtitle": "subtitles.spirit_vector.music.perception_rebound",
+    "sounds": [
+      {
+        "name": "spirit_vector:perception_rebound_loop",
+        "stream": true
+      }
+    ]
+  },
+  "music.fratricide": {
+    "subtitle": "subtitles.spirit_vector.music.fratricide",
+    "sounds": [
+      {
+        "name": "spirit_vector:fratricide",
+        "stream": true
+      }
+    ]
+  },
+  "music.fratricide.loop": {
+    "subtitle": "subtitles.spirit_vector.music.fratricide",
+    "sounds": [
+      {
+        "name": "spirit_vector:fratricide_loop",
+        "stream": true
+      }
+    ]
   }
 }
