@@ -1,14 +1,10 @@
 package symbolics.division.spirit.vector.logic.move;
 
-import it.unimi.dsi.fastutil.floats.FloatArraySet;
-import it.unimi.dsi.fastutil.floats.FloatArrays;
-import it.unimi.dsi.fastutil.floats.FloatSet;
 import net.minecraft.block.SideShapeType;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.mixin.EntityAccessor;
@@ -26,7 +22,7 @@ public final class MovementUtils {
     }
 
     // abstraction over anchor validity for different scenarios
-    public static boolean checkSurroundingAnchorConditions(World world, Vec3d pos, AnchorValidator validator, boolean requireClose) {
+    private static boolean checkSurroundingAnchorConditions(World world, Vec3d pos, AnchorValidator validator, boolean requireClose) {
         pos = pos.add(0, 0.5, 0); // assume we are given players feet position
         for (Direction dir : Direction.values()) {
             if (dir == Direction.DOWN || dir == Direction.UP || (requireClose && !closeToSide(pos, dir))) continue;
@@ -65,36 +61,6 @@ public final class MovementUtils {
         return     isSolidWall(world, wallPos, dir.getOpposite())
                 && isSolidWall(world, wallPos.up(), dir.getOpposite())
                 && world.isAir(anchorPos.up());
-    }
-
-    // convert context to input used for wall jumps
-    // normal if normally valid, and
-    // orthogonal (to wall) otherwise.
-    private static float AXIS_ALIGN_THRESHOLD = -(float)Math.cos(Math.PI/4-0.01); // must be < cos(pi/4) or we can't consistently choose an inverted
-
-    public static Vec3d getWalljumpingInput(SpiritVector sv, TravelMovementContext ctx) {
-        var input = augmentedInput(sv, ctx);
-        var inputV3f = input.toVector3f();
-        var pos = sv.user.getPos().add(0, 1, 0); // see below, needs to be more consistent
-        var world = sv.user.getWorld();
-        // todo: band aid for npe
-        // sometimes it can ask for wall jump input with no walls around,
-        // happened initially because of the player-foot-height adjust
-        Vec3d invertedInput = input;
-
-        for (Direction dir : Direction.values()) {
-            // check if ok for a jump
-            if (dir == Direction.DOWN || dir == Direction.UP || !validWallJumpAnchor(world, pos, dir)) continue;
-            // determine if return normal, or prepare to return inverted
-            var normal = dir.getOpposite().getUnitVector();
-            float dp = normal.dot(inputV3f);
-            if (dp > 0) {
-                return input;
-            } else if(dp < AXIS_ALIGN_THRESHOLD || invertedInput == null) {
-                invertedInput = new Vec3d(normal);
-            }
-        }
-        return invertedInput;
     }
 
     public static boolean idealWalljumpingConditions(SpiritVector sv, TravelMovementContext ctx) {

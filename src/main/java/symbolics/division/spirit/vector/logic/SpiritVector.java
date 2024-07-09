@@ -25,6 +25,7 @@ import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.input.InputManager;
 import symbolics.division.spirit.vector.logic.move.MovementType;
 import symbolics.division.spirit.vector.logic.move.MovementUtils;
+import symbolics.division.spirit.vector.logic.move.WallJumpMovement;
 import symbolics.division.spirit.vector.logic.state.ManagedState;
 import symbolics.division.spirit.vector.logic.state.ParticleTrailEffectState;
 import symbolics.division.spirit.vector.logic.state.StateManager;
@@ -184,7 +185,9 @@ public class SpiritVector {
 
     public void onLanding() {
         if (this.user.fallDistance > 0.01) {
+            // make this configurable
             inputManager.update(Input.JUMP, false);
+            WallJumpMovement.resetWallJumpPlane(this);
         }
     }
 
