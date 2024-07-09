@@ -10,6 +10,7 @@ package symbolics.division.spirit.vector.logic;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
@@ -44,6 +45,9 @@ public class SpiritVector {
 
     @Nullable
     public static ItemStack getEquippedItem(LivingEntity entity) {
+        if (entity instanceof PlayerEntity player && player.isSpectator()) {
+            return null;
+        }
         ItemStack item = entity.getEquippedStack(EquipmentSlot.FEET);
         return item.isOf(SpiritVectorItems.SPIRIT_VECTOR) ? item : null;
     }

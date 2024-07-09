@@ -43,7 +43,7 @@ public final class SpiritVectorSFX {
         return pact;
     }
 
-    public static SFXPack<?> getDefault() { return BUTTERFLY; }
+    public static SFXPack<?> getDefault() { return BIRD; }
 
     public static List<SimpleSFX> getSimpleSFX() {
         return SIMPLE_SFX.stream().toList();

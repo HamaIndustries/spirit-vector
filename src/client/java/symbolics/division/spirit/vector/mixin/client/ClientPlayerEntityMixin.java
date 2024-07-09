@@ -27,14 +27,12 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implemen
     @Override
     public SpiritVector spiritVector() {
         ItemStack item = SpiritVector.getEquippedItem(this);
-        if (item != null) {
-            if (spiritVector == null || !ItemStack.areItemsAndComponentsEqual(item, prevStack)) {
-                spiritVector = new SpiritVector((LivingEntity)(Entity)this, item);
-                prevStack = item;
-                setWingState(false);
-            }
-        } else {
+        if (item == null) {
             spiritVector = null;
+        } else if (spiritVector == null || !ItemStack.areItemsAndComponentsEqual(item, prevStack)) {
+            spiritVector = new SpiritVector((LivingEntity)(Entity)this, item);
+            prevStack = item;
+            setWingState(false);
         }
         return spiritVector;
     }
