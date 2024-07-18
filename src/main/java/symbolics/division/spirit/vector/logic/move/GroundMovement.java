@@ -3,6 +3,7 @@ package symbolics.division.spirit.vector.logic.move;
 import net.minecraft.entity.Flutterer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -40,7 +41,7 @@ public class GroundMovement extends AbstractMovementType {
 
         // prevent air input
         Vec3d input = ctx.input();
-        if (!user.isOnGround()) {
+        if (!user.isOnGround() && !user.isClimbing()) {
             input = new Vec3d(0, 0, 0);
         }
 

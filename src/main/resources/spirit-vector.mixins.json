@@ -5,6 +5,7 @@
 	"mixins": [
 		"LivingEntityMixin",
 		"PlayerEntityMixin",
+		"ServerPlayerEntityMixin",
 		"LivingEntityAccessor",
 		"EntityMixin",
 		"SmithingTrimRecipeMixin",
