@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import symbolics.division.spirit.vector.logic.SVEntityState;
 import symbolics.division.spirit.vector.logic.ability.SlamPacketC2S;
@@ -18,7 +17,6 @@ import symbolics.division.spirit.vector.render.SpiritGaugeHUD;
 import symbolics.division.spirit.vector.render.SpiritVectorSkatesRenderer;
 import symbolics.division.spirit.vector.render.SpiritWingsFeatureRenderer;
 import symbolics.division.spirit.vector.render.SpiritWingsModel;
-import symbolics.division.spirit.vector.sfx.AudioGirl;
 import symbolics.division.spirit.vector.sfx.ClientSFX;
 import symbolics.division.spirit.vector.sfx.EffectsManager;
 

@@ -88,7 +88,8 @@ public class EntityMixin {
         if ( result.y <= 0.0
              && (result.x + result.z != 0.0)
              && entity.isOnGround()
-             && entity instanceof ISpiritVectorUser ) {
+             && entity instanceof ISpiritVectorUser user
+             && user.spiritVector() != null) {
             // try to make movement go down as far as possible
             return MovementUtils.stepDown(entity, result, movement);
         }
