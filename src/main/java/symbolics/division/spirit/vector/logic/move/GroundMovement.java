@@ -89,7 +89,7 @@ public class GroundMovement extends AbstractMovementType {
     @Override
     public void updateValues(SpiritVector sv) {
         // by default, momentum decays over time
-        if (sv.user.age % 20 == 0) {
+        if (sv.user.age % 20 == 0 && !sv.stateManager().isActive(SpiritVector.POISE_DECAY_GRACE_STATE)) {
             sv.modifyMomentum(-1);
         }
     }

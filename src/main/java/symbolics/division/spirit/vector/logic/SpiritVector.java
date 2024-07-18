@@ -40,6 +40,7 @@ public class SpiritVector {
     public static final int MAX_MOMENTUM = 100;
     public static final int MOMENTUM_FAST_THRESHOLD = MAX_MOMENTUM / 4;
     public static final float MINIMUM_SPEED_FOR_TRAIL_WHILE_SOARING = 0.2f;
+    public static final Identifier POISE_DECAY_GRACE_STATE = SpiritVectorMod.id("poise_decay_grace");
 
     private static final Identifier MODIFY_MOMENTUM_COOLDOWN_STATE = SpiritVectorMod.id("momentum_cd_state");
 
@@ -85,6 +86,7 @@ public class SpiritVector {
         stateManager.register(ParticleTrailEffectState.ID, new ParticleTrailEffectState(this));
         stateManager.register(WingsEffectState.ID, new WingsEffectState(this));
         stateManager.register(MODIFY_MOMENTUM_COOLDOWN_STATE, new ManagedState(this));
+        stateManager.register(POISE_DECAY_GRACE_STATE, new ManagedState(this));
 
         for (MovementType move : movements) {
             move.configure(this);

@@ -57,5 +57,6 @@ public class LedgeVaultMovement extends AbstractMovementType {
     @Override
     public void updateValues(SpiritVector sv) {
         sv.modifyMomentum(MOMENTUM_GAINED);
+        sv.stateManager().enableStateFor(SpiritVector.POISE_DECAY_GRACE_STATE, 20);
     }
 }
