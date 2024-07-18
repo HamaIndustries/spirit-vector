@@ -86,7 +86,8 @@ public class EntityMixin {
     public Vec3d stepDown(Vec3d result, @Local(ordinal = 0) Vec3d movement) {
         Entity entity = (Entity)(Object)this;
         if ( result.y <= 0.0
-             && (result.x + result.z != 0.0)
+             && result.x != 0.0
+             && result.z != 0.0
              && entity.isOnGround()
              && entity instanceof ISpiritVectorUser user
              && user.spiritVector() != null) {
