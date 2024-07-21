@@ -68,6 +68,7 @@ public class SpiritVector {
 
     // these are checked in order prior to rune movements
     private final MovementType[] movements = {
+            MovementType.STOP,
             MovementType.VAULT,
             MovementType.JUMP,
             MovementType.SLIDE,
