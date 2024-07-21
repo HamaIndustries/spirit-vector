@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.move.LedgeVaultMovement;
@@ -112,6 +113,13 @@ public class EntityMixin {
     public void triggerWallVault(MovementType type, Vec3d move, CallbackInfo ci) {
         if (this instanceof ISpiritVectorUser user) {
             user.getSpiritVector().ifPresent(LedgeVaultMovement::triggerLedge);
+        }
+    }
+
+    @Inject(method = "setSprinting", at = @At("HEAD"), cancellable = true)
+    public void preventSprintingWithSpiritVectorEquipped(boolean sprinting, CallbackInfo ci) {
+        if (sprinting && this instanceof ISpiritVectorUser user && user.spiritVector() != null) {
+            ci.cancel();
         }
     }
 }
