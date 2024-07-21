@@ -10,6 +10,7 @@
 		"EntityMixin",
 		"SmithingTrimRecipeMixin",
 		"EntityAccessor",
+		"JukeboxManagerMixin",
 		"sound.JukeboxSongMixin"
 	],
 	"injectors": {

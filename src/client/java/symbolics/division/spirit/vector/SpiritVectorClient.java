@@ -7,9 +7,13 @@ import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
+import symbolics.division.spirit.vector.event.JukeboxEvent;
+import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SVEntityState;
+import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.ability.SlamPacketC2S;
 import symbolics.division.spirit.vector.logic.ability.TeleportAbilityC2SPayload;
 import symbolics.division.spirit.vector.networking.ModifyMomentumPayloadS2C;
@@ -71,6 +75,16 @@ public class SpiritVectorClient implements ClientModInitializer {
 		);
 
 		HudRenderCallback.EVENT.register(SpiritGaugeHUD::onHudRender);
+
+		JukeboxEvent.PLAY.register(((world, jukeboxManager, pos) -> {
+			if (MinecraftClient.getInstance().player instanceof ISpiritVectorUser user) {
+				var sv = user.spiritVector();
+				if (sv != null && pos.isWithinDistance(sv.user.getPos(), 32)) {
+					sv.modifyMomentum(SpiritVector.MAX_MOMENTUM / 10);
+					sv.stateManager().enableStateFor(SpiritVector.POISE_DECAY_GRACE_STATE, 20);
+				}
+			}
+		}));
 	}
 
 //	private <T extends CustomPayload>

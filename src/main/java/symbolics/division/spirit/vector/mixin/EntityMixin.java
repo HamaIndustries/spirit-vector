@@ -3,7 +3,6 @@ package symbolics.division.spirit.vector.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
@@ -68,7 +67,7 @@ public class EntityMixin {
         method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;",
         at = @At(value = "RETURN", ordinal = 0) // only for step-ups
     )
-    public Vec3d imAWomansManNoTimeToTalk(Vec3d result, @Local(ordinal = 0) Vec3d movement) {
+    public Vec3d triggerLedgeVault(Vec3d result, Vec3d movement) {
         Entity entity = ((Entity)(Object)this);
         double stepAdjust = result.y - movement.y;
         if ((  ( stepAdjust >= VAULT_TRIGGER_STEP_DISTANCE && entity.isOnGround() )
@@ -81,9 +80,9 @@ public class EntityMixin {
 
     @ModifyReturnValue(
         method = "adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;",
-        at = @At("TAIL") // only non-step-ups
+        at = @At("TAIL") // tail means this only fires on non-step-ups
     )
-    public Vec3d stepDown(Vec3d result, @Local(ordinal = 0) Vec3d movement) {
+    public Vec3d stepDown(Vec3d result, Vec3d movement) {
         Entity entity = (Entity)(Object)this;
         if ( result.y <= 0.0
              && result.x != 0.0
@@ -109,9 +108,7 @@ public class EntityMixin {
         method = "move",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/entity/Entity;hasCollidedSoftly(Lnet/minecraft/util/math/Vec3d;)Z"
-        )
-    )
+            target = "Lnet/minecraft/entity/Entity;hasCollidedSoftly(Lnet/minecraft/util/math/Vec3d;)Z"))
     public void triggerWallVault(MovementType type, Vec3d move, CallbackInfo ci) {
         if (this instanceof ISpiritVectorUser user) {
             user.getSpiritVector().ifPresent(LedgeVaultMovement::triggerLedge);
