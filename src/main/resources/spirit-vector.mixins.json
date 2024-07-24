@@ -11,6 +11,7 @@
 		"SmithingTrimRecipeMixin",
 		"EntityAccessor",
 		"JukeboxManagerMixin",
+		"ServerPlayNetworkHandlerMixin",
 		"sound.JukeboxSongMixin"
 	],
 	"injectors": {
