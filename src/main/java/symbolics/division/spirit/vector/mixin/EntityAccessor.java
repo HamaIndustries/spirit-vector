@@ -15,12 +15,17 @@ import java.util.List;
 @Mixin(Entity.class)
 public interface EntityAccessor {
     @Invoker("adjustMovementForCollisions")
-    static Vec3d invokeAdjustMovementForCollisions(Vec3d movement, Box entityBoundingBox, List<VoxelShape> collisions) {
-        throw new NotImplementedException("mixin  :{{{");
+    static Vec3d invokeCollideWithShapes(Vec3d movement, Box entityBoundingBox, List<VoxelShape> collisions) {
+        throw new NotImplementedException("mixin :{{{");
     }
 
     @Invoker("findCollisionsForMovement")
-    static List<VoxelShape> invokeFindCollisionsForMovement(
+    static List<VoxelShape> invokeCollectColliders(
             @Nullable Entity entity, World world, List<VoxelShape> regularCollisions, Box movingEntityBoundingBox
     ){ throw new NotImplementedException("mixin access failed"); }
+
+    @Invoker("collectStepHeights")
+    static float[] invokeCollectStepHeights(Box collisionBox, List<VoxelShape> collisions, float maxStepHeight, float movementMaxStepHeight) {
+        throw new NotImplementedException("mixin access failed");
+    }
 }
