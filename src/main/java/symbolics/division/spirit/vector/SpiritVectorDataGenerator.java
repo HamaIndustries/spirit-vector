@@ -3,40 +3,29 @@ package symbolics.division.spirit.vector;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
-import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
-import net.fabricmc.fabric.api.recipe.v1.ingredient.FabricIngredient;
-import net.fabricmc.fabric.impl.datagen.FabricDataGenHelper;
-import net.fabricmc.fabric.mixin.recipe.ingredient.IngredientMixin;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CraftingTableBlock;
-import net.minecraft.block.jukebox.JukeboxSong;
-import net.minecraft.block.jukebox.JukeboxSongs;
+import net.fabricmc.fabric.api.datagen.v1.provider.*;
+import net.minecraft.advancement.Advancement;
+import net.minecraft.advancement.AdvancementRequirements;
+import net.minecraft.advancement.AdvancementRewards;
+import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
 import net.minecraft.data.client.*;
-import net.minecraft.data.server.DynamicRegistriesProvider;
 import net.minecraft.data.server.recipe.*;
-import net.minecraft.data.server.tag.TagProvider;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.*;
-import net.minecraft.registry.tag.TagBuilder;
-import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 import symbolics.division.spirit.vector.item.DreamRuneItem;
 import symbolics.division.spirit.vector.item.SlotTemplateItem;
-import symbolics.division.spirit.vector.item.SpiritVectorItem;
 import symbolics.division.spirit.vector.logic.ability.AbilitySlot;
+import symbolics.division.spirit.vector.sfx.SFXPack;
 
-import java.util.Optional;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 
 public class SpiritVectorDataGenerator implements DataGeneratorEntrypoint {
 	@Override
@@ -112,7 +101,7 @@ public class SpiritVectorDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generate(RecipeExporter exporter) {
-			// not enough time for good recipes sorry
+
 			DreamRuneItem[] runes = SpiritVectorItems.getDreamRunes().toArray(DreamRuneItem[]::new);
 
 			genSlotTemplateUpgrade(exporter, runes, SpiritVectorItems.LEFT_SLOT_TEMPLATE);
@@ -126,6 +115,31 @@ public class SpiritVectorDataGenerator implements DataGeneratorEntrypoint {
 							RecipeCategory.TRANSPORTATION
 					).criterion("has_spirit_vector", conditionsFromItem(SpiritVectorItems.SPIRIT_VECTOR))
 					.offerTo(exporter, SpiritVectorMod.id("sfx_alchemy"));
+
+			// sv per-core recipes
+			for (var core : SpiritVectorItems.getSfxUpgradeItems()) {
+				Identifier recipeId = Identifier.of(RecipeProvider.getItemPath(SpiritVectorItems.SPIRIT_VECTOR) + "_crafted_from_" + RecipeProvider.getItemPath(core));
+				ItemStack stack = SpiritVectorItems.SPIRIT_VECTOR.getDefaultStack();
+				stack.set(SFXPack.COMPONENT, core.getComponents().get(SFXPack.COMPONENT));
+				Advancement.Builder builder = exporter.getAdvancementBuilder()
+						.criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId))
+						.rewards(AdvancementRewards.Builder.recipe(recipeId))
+						.criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
+				builder.criterion("has_core", conditionsFromItem(core));
+				RawShapedRecipe rawRecipe = RawShapedRecipe.create(
+						Map.of('g', Ingredient.ofItems(Items.GOLD_INGOT), 'c', Ingredient.ofItems(core)),
+						"gcg",
+						"g g"
+				);
+				ShapedRecipe recipe = new ShapedRecipe(
+						"",
+						CraftingRecipeJsonBuilder.toCraftingCategory(RecipeCategory.TRANSPORTATION),
+						rawRecipe,
+						stack.copy(),
+						true
+				);
+				exporter.accept(recipeId, recipe, builder.build(recipeId.withPrefixedPath("recipes/" + RecipeCategory.TRANSPORTATION.getName() + "/")));
+			}
 		}
 
 		void genSlotTemplateUpgrade(RecipeExporter exporter, DreamRuneItem[] runes, SlotTemplateItem slot) {

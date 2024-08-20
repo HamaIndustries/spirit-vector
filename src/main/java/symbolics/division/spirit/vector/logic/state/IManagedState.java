@@ -8,4 +8,5 @@ public interface IManagedState {
     void tick();
     default void tickInactive() {}
     boolean isActive();
+    int ticksLeft();
 }

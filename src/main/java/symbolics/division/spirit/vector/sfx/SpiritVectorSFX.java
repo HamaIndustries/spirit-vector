@@ -17,7 +17,7 @@ public final class SpiritVectorSFX {
     public static final SimpleSFX BIRD = registerSimple("bird", 0x4cc2e0);
     public static final SimpleSFX V = registerSimple("v", 0xebbd33);
     public static final SimpleSFX ROBO = registerSimple("robo", 0x54e5ac);
-    public static final SimpleSFX DRAGON = registerSimple("dragon", 0xe14d2f);
+//    public static final SimpleSFX DRAGON = registerSimple("dragon", 0xe14d2f);
     public static final SimpleSFX LOVE = registerSimple("love", 0xed3299);
 
     static {

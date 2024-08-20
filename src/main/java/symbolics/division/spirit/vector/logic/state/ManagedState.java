@@ -48,4 +48,9 @@ public class ManagedState implements IManagedState {
     public void clearTicks() {
         ticksLeft = 0;
     }
+
+    @Override
+    public int ticksLeft() {
+        return ticksLeft;
+    }
 }

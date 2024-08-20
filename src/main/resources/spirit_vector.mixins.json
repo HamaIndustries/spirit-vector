@@ -1,0 +1,18 @@
+{
+	"required": true,
+	"package": "symbolics.division.spirit.vector.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"LivingEntityMixin",
+		"PlayerEntityMixin",
+		"ServerPlayerEntityMixin",
+		"EntityMixin",
+		"SmithingTrimRecipeMixin",
+		"JukeboxManagerMixin",
+		"ServerPlayNetworkHandlerMixin",
+		"sound.JukeboxSongMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.impl.client.indigo.renderer.helper.ColorHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.hud.DebugHud;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.*;
 import net.minecraft.client.texture.Scaling;
@@ -45,13 +46,6 @@ public class SpiritGaugeHUD {
                 && player instanceof ISpiritVectorUser user) {
             var sv = user.spiritVector();
             if (sv == null) return;
-//            drawContext.drawCenteredTextWithShadow(
-//                    client.textRenderer,
-//                    "Momentum: " + sv.getMomentum() + " / " + SpiritVector.MAX_MOMENTUM,
-//                    drawContext.getScaledWindowWidth() / 2,
-//                    drawContext.getScaledWindowHeight() / 2,
-//                    0xffffff
-//            );
             hud.render(drawContext, tickCounter, sv);
         }
     }

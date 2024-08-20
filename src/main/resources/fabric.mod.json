@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "spirit-vector",
+	"id": "spirit_vector",
 	"version": "${version}",
 	"name": "Dream Burst Spirit Vector",
 	"description": "Fly Forth, Spirit Vector!",
@@ -8,11 +8,11 @@
 		"hama"
 	],
 	"contact": {
-		"homepage": "https://modrinth.com/mod/spirit-vector",
-		"sources": "https://github.com/HamaIndustries/spirit-vector"
+		"homepage": "https://modrinth.com/mod/spirit_vector",
+		"sources": "https://github.com/HamaIndustries/spirit_vector"
 	},
 	"license": "MIT",
-	"icon": "assets/spirit-vector/icon.png",
+	"icon": "assets/spirit_vector/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -26,12 +26,13 @@
 		]
 	},
 	"mixins": [
-		"spirit-vector.mixins.json",
+		"spirit_vector.mixins.json",
 		{
-			"config": "spirit-vector.client.mixins.json",
+			"config": "spirit_vector.client.mixins.json",
 			"environment": "client"
 		}
 	],
+	"accessWidener": "spirit_vector.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.15.11",
 		"minecraft": "~1.21-",

@@ -5,7 +5,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.*;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.World;
+import org.apache.commons.lang3.NotImplementedException;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -50,6 +54,21 @@ public class EntityMixin {
     // slabs count as 1.0 for some reason, whatever
     private static final float VAULT_TRIGGER_STEP_DISTANCE = 0.3f;
 
+    @Shadow // collectColliders
+    static List<VoxelShape> findCollisionsForMovement(
+            @Nullable Entity entity, World world, List<VoxelShape> regularCollisions, Box movingEntityBoundingBox
+    ){ throw new NotImplementedException("mixin access failed"); }
+
+    @Shadow // collideWithShapes
+    static Vec3d adjustMovementForCollisions(Vec3d movement, Box entityBoundingBox, List<VoxelShape> collisions) {
+        throw new NotImplementedException("mixin access failed :{");
+    }
+
+    @Shadow
+    static float[] collectStepHeights(Box collisionBox, List<VoxelShape> collisions, float maxStepHeight, float movementMaxStepHeight) {
+        throw new NotImplementedException("mixin access failed");
+    }
+
     @Inject(method = "onLanding", at = @At("HEAD"))
     public void onLanding(CallbackInfo ci) {
         if (this instanceof ISpiritVectorUser user) {
@@ -68,14 +87,6 @@ public class EntityMixin {
             user.getSpiritVector().filter(sv -> sv.user.isOnGround()).ifPresent(LedgeVaultMovement::triggerLedge);
         }
     }
-
-    @Inject(method = "setSprinting", at = @At("HEAD"), cancellable = true)
-    public void preventSprintingWithSpiritVectorEquipped(boolean sprinting, CallbackInfo ci) {
-        if (sprinting && this instanceof ISpiritVectorUser user && user.spiritVector() != null) {
-            ci.cancel();
-        }
-    }
-
 
     @Inject(
             method = "Lnet/minecraft/entity/Entity;adjustMovementForCollisions(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;",
@@ -105,14 +116,14 @@ public class EntityMixin {
             }
 
             // collect possible blocks we can step up onto
-            List<VoxelShape> list2 = EntityAccessor.invokeCollectColliders(entity, entity.getWorld(), entityCollisions, entityMovementBB);
+            List<VoxelShape> list2 = findCollisionsForMovement(entity, entity.getWorld(), entityCollisions, entityMovementBB);
             float adjustedMovementY = (float)adjustedMovement.y;
-            float[] stepHeights = EntityAccessor.invokeCollectStepHeights(downwardsOffsetEntityBB, list2, stepHeight, adjustedMovementY);
+            float[] stepHeights = collectStepHeights(downwardsOffsetEntityBB, list2, stepHeight, adjustedMovementY);
 
             Vec3d stepUpMovement = adjustedMovement;
             boolean stepUpOccurred = false;
             for (float stepHeightCandidate : stepHeights) {
-                Vec3d candidateStepUpMovement = EntityAccessor.invokeCollideWithShapes(new Vec3d(movement.x, (double)stepHeightCandidate, movement.z), downwardsOffsetEntityBB, list2);
+                Vec3d candidateStepUpMovement = adjustMovementForCollisions(new Vec3d(movement.x, (double)stepHeightCandidate, movement.z), downwardsOffsetEntityBB, list2);
                 if (candidateStepUpMovement.horizontalLengthSquared() > adjustedMovement.horizontalLengthSquared()) {
                     stepUpMovement = candidateStepUpMovement;
                     stepUpOccurred = true;
@@ -159,9 +170,9 @@ public class EntityMixin {
         // todo remove this, use the one from the method
         List<VoxelShape> specialCollisions = entity.getWorld().getEntityCollisions(entity, down);
         // add world border and block collisions
-        List<VoxelShape> collisions = EntityAccessor.invokeCollectColliders(entity, entity.getWorld(), specialCollisions, down);
+        List<VoxelShape> collisions = findCollisionsForMovement(entity, entity.getWorld(), specialCollisions, down);
 
-        double stepdown = EntityAccessor.invokeCollideWithShapes(
+        double stepdown = adjustMovementForCollisions(
                 new Vec3d(0, -entity.getStepHeight() - 0.001, 0), // add a little bit to filter air movement
                 hypothetical,
                 collisions

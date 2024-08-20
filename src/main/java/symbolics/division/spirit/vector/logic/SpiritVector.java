@@ -13,6 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -103,6 +104,13 @@ public class SpiritVector {
         stateManager.tick();
         var inputDirection = MovementUtils.movementInputToVelocity(movementInput, 1, user.getYaw());
         var ctx = new TravelMovementContext(movementInput, ci, inputDirection);
+
+        if ( (      user.isOnGround()
+                || (getMoveState() == MovementType.WALL_RUSH && user.getVelocity().withAxis(Direction.Axis.Y, 0).lengthSquared() > 0) )
+             && inputManager().consume(Input.SPRINT)) {
+            user.setVelocity(0, 0, 0);
+        }
+
         updateMovementType(ctx);
         moveState.travel(this, ctx);
         moveState.updateValues(this);
@@ -118,38 +126,38 @@ public class SpiritVector {
     }
 
     private void updateMovementType(TravelMovementContext ctx) {
-        if (moveState.testMovementCompleted(this, ctx)) {
-            moveState.exit(this);
-            moveState = MovementType.NEUTRAL;
+        if (!moveState.testMovementCompleted(this, ctx)) return;
+        moveState.exit(this);
 
-            // first check standard movements
-            for (MovementType m : movements) {
-                if (m.testMovementCondition(this, ctx)) {
-                    moveState = m;
-                    return;
-                }
+        // first check standard movements
+        for (MovementType m : movements) {
+            if (m.testMovementCondition(this, ctx)) {
+                moveState = m;
+                return;
             }
+        }
 
-            // then test if any abilities apply while in air
-            if (!user.isOnGround()) {
-                if (queuedAbility != null && queuedAbility.cost() < getMomentum()) {
-                    moveState = queuedAbility.getMovement();
+        // then test if any abilities apply while in air
+        if (!user.isOnGround()) {
+            if (queuedAbility != null && queuedAbility.cost() < getMomentum()) {
+                moveState = queuedAbility.getMovement();
+                return;
+            }
+            for (AbilitySlot slot : AbilitySlot.values()) {
+                SpiritVectorAbility ability = abilities.get(slot);
+                MovementType move = ability.getMovement();
+                if (
+                        ability.cost() <= getMomentum()
+                        && move.testMovementCondition(this, ctx)
+                        && inputManager().consume(slot.input)
+                ) {
+                    moveState = move;
                     return;
-                }
-                for (AbilitySlot slot : AbilitySlot.values()) {
-                    SpiritVectorAbility ability = abilities.get(slot);
-                    MovementType move = ability.getMovement();
-                    if (
-                            ability.cost() <= getMomentum()
-                            && move.testMovementCondition(this, ctx)
-                            && inputManager().consume(slot.input)
-                    ) {
-                        moveState = move;
-                        return;
-                    }
                 }
             }
         }
+
+        moveState = MovementType.NEUTRAL;
     }
 
     public float getMovementSpeed() { return getMovementSpeed(0.6f); }
@@ -192,10 +200,13 @@ public class SpiritVector {
 
     public void onLanding() {
         if (this.user.fallDistance > 0.01) {
-            // make this configurable
-            inputManager.update(Input.JUMP, false);
-            WallJumpMovement.resetWallJumpPlane(this);
+            resetJump();
         }
+    }
+
+    public void resetJump() {
+        inputManager.update(Input.JUMP, false);
+        WallJumpMovement.resetWallJumpPlane(this);
     }
 
     public MovementType getMoveState() { return moveState; }

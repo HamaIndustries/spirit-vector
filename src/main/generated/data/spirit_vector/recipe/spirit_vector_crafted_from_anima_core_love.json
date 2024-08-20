@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "spirit_vector:anima_core_love"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    "gcg",
+    "g g"
+  ],
+  "result": {
+    "components": {
+      "spirit_vector:sfx_pack": "spirit_vector:love"
+    },
+    "count": 1,
+    "id": "spirit_vector:spirit_vector"
+  }
+}

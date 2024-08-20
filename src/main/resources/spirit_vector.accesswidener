@@ -1,0 +1,11 @@
+accessWidener v2 named
+# because accessors don't play nice with my hotswapping
+accessible method net/minecraft/entity/LivingEntity getJumpVelocity ()F
+
+# custom shapeless recipe builder extension
+accessible field net/minecraft/data/server/recipe/ShapelessRecipeJsonBuilder group Ljava/lang/String;
+accessible field net/minecraft/data/server/recipe/ShapelessRecipeJsonBuilder advancementBuilder Ljava/util/Map;
+accessible field net/minecraft/data/server/recipe/ShapelessRecipeJsonBuilder category Lnet/minecraft/recipe/book/RecipeCategory;
+accessible field net/minecraft/data/server/recipe/ShapelessRecipeJsonBuilder count I
+accessible field net/minecraft/data/server/recipe/ShapelessRecipeJsonBuilder inputs Lnet/minecraft/util/collection/DefaultedList;
+accessible method net/minecraft/data/server/recipe/ShapelessRecipeJsonBuilder validate (Lnet/minecraft/util/Identifier;)V

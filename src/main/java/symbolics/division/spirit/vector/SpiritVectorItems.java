@@ -44,6 +44,7 @@ public final class SpiritVectorItems {
     public static final DreamRuneItem SOAR_RUNE = registerRuneAndModel("soar", BulletJumpAbility::new);
     public static final DreamRuneItem LEAP_RUNE = registerRuneAndModel("leap", TransgenderAbility::new);
     public static final DreamRuneItem POWER_SLIDE_RUNE = registerRuneAndModel("power_slide", PowerSlideAbility::new);
+    public static final DreamRuneItem WATER_RUN_RUNE = registerRuneAndModel("water_run", WaterRunAbility::new);
     public static final DreamRuneItem COSMETIC_WINGS_RUNE = registerRuneAndModel("cosmetic_wings", CosmeticWingsAbility::new);
 
     public static final SlotTemplateItem LEFT_SLOT_TEMPLATE = registerAndModel("burst_rune_left", new SlotTemplateItem(AbilitySlot.LEFT));

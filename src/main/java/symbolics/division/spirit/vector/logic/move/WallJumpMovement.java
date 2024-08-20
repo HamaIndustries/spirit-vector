@@ -1,5 +1,8 @@
 package symbolics.division.spirit.vector.logic.move;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Direction;
@@ -7,6 +10,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.joml.Vector3f;
 import symbolics.division.spirit.vector.SpiritVectorMod;
+import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.SpiritVector;
 import symbolics.division.spirit.vector.logic.input.Input;

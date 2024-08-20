@@ -116,27 +116,4 @@ public final class MovementUtils {
         return Vec3d.fromPolar(0, sv.user.getYaw()).normalize();
     }
 
-    public static Vec3d stepDown(Entity entity, Vec3d result, Vec3d movement) {
-
-        // hypothetical hitbox of entity after movement is applied
-        Box hypothetical = entity.getBoundingBox().offset(result);
-        // drop bottom by step height
-        Box down = hypothetical.stretch(0, -entity.getStepHeight(), 0);
-        // get collisions such as with other entities
-        List<VoxelShape> specialCollisions = entity.getWorld().getEntityCollisions(entity, down);
-        // add world border and block collisions
-        List<VoxelShape> collisions = EntityAccessor.invokeFindCollisionsForMovement(entity, entity.getWorld(), specialCollisions, down);
-
-        double stepdown = EntityAccessor.invokeAdjustMovementForCollisions(
-                new Vec3d(0, -entity.getStepHeight() - 0.001, 0), // add a little bit to filter air movement
-                hypothetical,
-                collisions
-        ).y;
-
-        //don't step into open air
-        if (stepdown >= -entity.getStepHeight()) {
-            return result.add(0, stepdown, 0);
-        }
-        return result;
-    }
 }

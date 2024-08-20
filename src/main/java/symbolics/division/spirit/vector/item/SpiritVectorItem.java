@@ -1,5 +1,7 @@
 package symbolics.division.spirit.vector.item;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.UnbreakableComponent;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.ItemStack;
@@ -19,8 +21,9 @@ public class SpiritVectorItem extends ArmorItem {
         super(
                 ArmorMaterials.DIAMOND,
                 Type.BOOTS,
-                new Settings().maxDamage(Type.BOOTS.getMaxDamage(33))
+                new Settings()
                         .component(SpiritVectorHeldAbilities.COMPONENT, new SpiritVectorHeldAbilities())
+                        .component(DataComponentTypes.UNBREAKABLE, new UnbreakableComponent(false))
         );
     }
 

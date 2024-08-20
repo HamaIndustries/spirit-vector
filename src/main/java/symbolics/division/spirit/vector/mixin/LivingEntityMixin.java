@@ -42,11 +42,11 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
     public void travel(Vec3d movementInput, CallbackInfo ci) {
         if (this instanceof ISpiritVectorUser user) {
-            if (!this.isLogicalSideForUpdatingMovement() || this.hasVehicle() || ((LivingEntity)(Entity)this).isFallFlying()) {
+            if (!this.isLogicalSideForUpdatingMovement() || this.hasVehicle() || ((LivingEntity)(Entity)this).isFallFlying() || this.isSubmergedInWater()) {
                 return;
             }
             SpiritVector sv = user.spiritVector();
-            if (sv != null && (this.isInFluid() == sv.fluidMovementAllowed())) {
+            if (sv != null){// && (!this.isInFluid() || sv.fluidMovementAllowed())) {
                 sv.travel(movementInput, ci);
             }
         }
@@ -118,6 +118,13 @@ public abstract class LivingEntityMixin extends Entity {
             if (state != null && state.wingsVisible()) {
                 strRef.set(strength/10);
             }
+        }
+    }
+
+    @Inject(method = "setSprinting", at = @At("HEAD"), cancellable = true)
+    public void preventSprintingWithSpiritVectorEquipped(boolean sprinting, CallbackInfo ci) {
+        if (sprinting && this instanceof ISpiritVectorUser user && user.spiritVector() != null && !user.spiritVector().user.isSubmergedInWater()) {
+            ci.cancel();
         }
     }
 }

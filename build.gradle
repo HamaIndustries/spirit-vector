@@ -34,12 +34,13 @@ loom {
     splitEnvironmentSourceSets()
 
 	mods {
-		"spirit-vector" {
+		"spirit_vector" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
 	}
 
+	accessWidenerPath = file("src/main/resources/spirit_vector.accesswidener")
 }
 
 fabricApi {
