@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_core": {
+    "has_emerald": {
       "conditions": {
         "items": [
           {
-            "items": "spirit_vector:anima_core_dragon"
+            "items": "minecraft:emerald"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:spirit_vector_crafted_from_anima_core_dragon"
+        "recipe": "spirit_vector:burst_rune_right"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_core"
+      "has_emerald"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:spirit_vector_crafted_from_anima_core_dragon"
+      "spirit_vector:burst_rune_right"
     ]
   }
 }

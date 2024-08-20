@@ -16,6 +16,7 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.*;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import symbolics.division.spirit.vector.item.DreamRuneItem;
@@ -140,6 +141,10 @@ public class SpiritVectorDataGenerator implements DataGeneratorEntrypoint {
 				);
 				exporter.accept(recipeId, recipe, builder.build(recipeId.withPrefixedPath("recipes/" + RecipeCategory.TRANSPORTATION.getName() + "/")));
 			}
+
+			genVectorRuneRecipe(SpiritVectorItems.LEFT_SLOT_TEMPLATE, exporter, "ses", "ees", "ses");
+			genVectorRuneRecipe(SpiritVectorItems.UP_SLOT_TEMPLATE, exporter, "ses", "eee", "sss");
+			genVectorRuneRecipe(SpiritVectorItems.RIGHT_SLOT_TEMPLATE, exporter, "ses", "see", "ses");
 		}
 
 		void genSlotTemplateUpgrade(RecipeExporter exporter, DreamRuneItem[] runes, SlotTemplateItem slot) {
@@ -157,6 +162,15 @@ public class SpiritVectorDataGenerator implements DataGeneratorEntrypoint {
 					RecipeCategory.TRANSPORTATION
 			).criterion("has_spirit_vector_slot_template_" + name, conditionsFromItem(slot))
 			.offerTo(exporter, SpiritVectorMod.id(name + "_slot_ability"));
+		}
+
+		void genVectorRuneRecipe(Item item, RecipeExporter exporter, String... shape) {
+			var builder = ShapedRecipeJsonBuilder.create(RecipeCategory.TRANSPORTATION, item)
+					.input('e', Items.EMERALD)
+					.input('s', ItemTags.STONE_CRAFTING_MATERIALS);
+			for (String line : shape) builder.pattern(line);
+			builder.criterion("has_emerald", conditionsFromItem(Items.EMERALD))
+					.offerTo(exporter);
 		}
 	}
 }

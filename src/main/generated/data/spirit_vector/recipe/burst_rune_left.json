@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "e": {
+      "item": "minecraft:emerald"
+    },
+    "s": {
+      "tag": "minecraft:stone_crafting_materials"
+    }
+  },
+  "pattern": [
+    "ses",
+    "ees",
+    "ses"
+  ],
+  "result": {
+    "count": 1,
+    "id": "spirit_vector:burst_rune_left"
+  }
+}
