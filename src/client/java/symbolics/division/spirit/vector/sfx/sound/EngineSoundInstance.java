@@ -5,7 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import symbolics.division.spirit.vector.SpiritVectorSounds;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
-import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.skates.SpiritVector;
 
 public class EngineSoundInstance extends MovingSoundInstance {
 

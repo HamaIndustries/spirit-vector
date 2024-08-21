@@ -1,6 +1,7 @@
 package symbolics.division.spirit.vector.logic;
 
 import org.jetbrains.annotations.Nullable;
+import symbolics.division.spirit.vector.logic.skates.SpiritVector;
 
 import java.util.Optional;
 

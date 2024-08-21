@@ -3,15 +3,12 @@ package symbolics.division.spirit.vector.logic.move;
 import net.minecraft.entity.Flutterer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
-import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.skates.SpiritVector;
 
 public class NeutralMovement extends AbstractMovementType {
 
@@ -88,8 +85,7 @@ public class NeutralMovement extends AbstractMovementType {
 
     @Override
     public void updateValues(SpiritVector sv) {
-        // by default, momentum decays over time
-        if (sv.user.age % 20 == 0 && !sv.stateManager().isActive(SpiritVector.POISE_DECAY_GRACE_STATE)) {
+        if (sv.user.age % 20 == 0 && !sv.stateManager().isActive(SpiritVector.MOMENTUM_DECAY_GRACE_STATE)) {
             sv.modifyMomentum(-1);
         }
     }

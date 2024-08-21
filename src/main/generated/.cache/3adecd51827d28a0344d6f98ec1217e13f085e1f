@@ -1,5 +1,7 @@
-// 1.21	2024-08-20T01:22:18.9698015	Dream Burst Spirit Vector/Tags for minecraft:item
-fdab8ddd5529ae14b26bc1853b004131135318a4 data\spirit_vector\tags\item\sfx_upgrade_costs.json
+// 1.21	2024-08-21T13:08:42.2506803	Dream Burst Spirit Vector/Tags for minecraft:item
+15a800e4d0b97f986e056f7c540d683aeaa0b2d8 data\spirit_vector\tags\item\spirit_vector_crafting_materials.json
 736ddc58933ed21a34f3f197c2a8fc6c86e044b3 data\spirit_vector\tags\item\slot_upgrade_runes.json
 33f8c587faa0e59444b17968bab744ced808222f data\spirit_vector\tags\item\ability_upgrade_runes.json
 45d6045ec2f5a55ceaaf1056f09ffe68466b0f7c data\spirit_vector\tags\item\sfx_upgrade_templates.json
+46b269e896d0974300cf974e6692344dc811b1fd data\minecraft\tags\item\foot_armor.json
+fdab8ddd5529ae14b26bc1853b004131135318a4 data\spirit_vector\tags\item\sfx_upgrade_materials.json

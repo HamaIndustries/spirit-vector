@@ -8,19 +8,13 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SVEntityState;
-import symbolics.division.spirit.vector.logic.SpiritVector;
-import symbolics.division.spirit.vector.logic.state.WingsEffectState;
+import symbolics.division.spirit.vector.logic.skates.SpiritVector;
 import symbolics.division.spirit.vector.sfx.SFXPack;
-import symbolics.division.spirit.vector.sfx.SFXRegistry;
-import symbolics.division.spirit.vector.sfx.SpiritVectorSFX;
 
 public class SpiritWingsFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
     private final SpiritWingsModel<T> model;

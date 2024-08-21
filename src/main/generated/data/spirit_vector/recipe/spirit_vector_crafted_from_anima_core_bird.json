@@ -6,7 +6,7 @@
       "item": "spirit_vector:anima_core_bird"
     },
     "g": {
-      "item": "minecraft:gold_ingot"
+      "tag": "spirit_vector:spirit_vector_crafting_materials"
     }
   },
   "pattern": [
@@ -14,9 +14,6 @@
     "g g"
   ],
   "result": {
-    "components": {
-      "spirit_vector:sfx_pack": "spirit_vector:bird"
-    },
     "count": 1,
     "id": "spirit_vector:spirit_vector"
   }

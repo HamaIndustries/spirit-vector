@@ -1,15 +1,10 @@
 package symbolics.division.spirit.vector.logic.move;
 
 import net.minecraft.block.SideShapeType;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.*;
-import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
-import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.skates.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
-import symbolics.division.spirit.vector.mixin.EntityAccessor;
-
-import java.util.List;
 
 public final class MovementUtils {
     public static boolean isSolidWall(World world, BlockPos wallPos, Direction dir) {

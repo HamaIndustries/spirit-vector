@@ -3,7 +3,7 @@ package symbolics.division.spirit.vector.logic.ability;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import symbolics.division.spirit.vector.SpiritVectorMod;
-import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.skates.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.move.MovementType;
 import symbolics.division.spirit.vector.logic.state.ManagedState;

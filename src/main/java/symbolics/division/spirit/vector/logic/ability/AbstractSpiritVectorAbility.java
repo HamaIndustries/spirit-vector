@@ -1,7 +1,7 @@
 package symbolics.division.spirit.vector.logic.ability;
 
 import net.minecraft.util.Identifier;
-import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.skates.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.move.AbstractMovementType;
 import symbolics.division.spirit.vector.logic.move.MovementType;

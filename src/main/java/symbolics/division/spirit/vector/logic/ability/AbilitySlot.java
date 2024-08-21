@@ -3,11 +3,10 @@ package symbolics.division.spirit.vector.logic.ability;
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.component.ComponentType;
-import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.util.StringIdentifiable;
-import symbolics.division.spirit.vector.SpiritVectorRegistration;
+import symbolics.division.spirit.vector.registry.SpiritVectorRegistration;
 import symbolics.division.spirit.vector.logic.input.Input;
 
 public enum AbilitySlot implements StringIdentifiable {

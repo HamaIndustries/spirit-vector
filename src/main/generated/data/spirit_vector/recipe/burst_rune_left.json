@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "e": {
-      "item": "minecraft:emerald"
+      "tag": "c:gems/emerald"
     },
     "s": {
-      "tag": "minecraft:stone_crafting_materials"
+      "tag": "c:stones"
     }
   },
   "pattern": [

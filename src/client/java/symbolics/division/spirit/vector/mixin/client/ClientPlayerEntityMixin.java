@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SVEntityState;
-import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.skates.SpiritVector;
 
 @Mixin(ClientPlayerEntity.class)
 public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implements ISpiritVectorUser {
@@ -30,7 +30,7 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity implemen
         if (item == null) {
             spiritVector = null;
         } else if (spiritVector == null || !ItemStack.areItemsAndComponentsEqual(item, prevStack)) {
-            spiritVector = new SpiritVector((LivingEntity)(Entity)this, item);
+            spiritVector = SpiritVector.of((LivingEntity)(Entity)this, item);
             prevStack = item;
             setWingState(false);
         }

@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_trim",
   "addition": {
-    "tag": "spirit_vector:sfx_upgrade_costs"
+    "tag": "spirit_vector:sfx_upgrade_materials"
   },
   "base": {
     "item": "spirit_vector:spirit_vector"

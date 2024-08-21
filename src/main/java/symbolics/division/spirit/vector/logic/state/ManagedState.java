@@ -1,6 +1,6 @@
 package symbolics.division.spirit.vector.logic.state;
 
-import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.skates.SpiritVector;
 
 // manages state of visual effects
 public class ManagedState implements IManagedState {

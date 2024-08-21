@@ -12,7 +12,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryFixedCodec;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
-import symbolics.division.spirit.vector.SpiritVectorRegistration;
+import symbolics.division.spirit.vector.registry.SpiritVectorRegistration;
 
 import java.util.UUID;
 

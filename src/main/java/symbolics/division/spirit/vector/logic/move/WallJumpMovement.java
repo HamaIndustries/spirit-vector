@@ -1,8 +1,5 @@
 package symbolics.division.spirit.vector.logic.move;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.Direction;
@@ -10,9 +7,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.joml.Vector3f;
 import symbolics.division.spirit.vector.SpiritVectorMod;
-import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
-import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.skates.SpiritVector;
 import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.state.ManagedState;
 
@@ -128,6 +124,6 @@ public class WallJumpMovement extends AbstractMovementType {
     @Override
     public void updateValues(SpiritVector sv) {
         sv.modifyMomentum(MOMENTUM_GAINED);
-        sv.stateManager().enableStateFor(SpiritVector.POISE_DECAY_GRACE_STATE, 20);
+        sv.stateManager().enableStateFor(SpiritVector.MOMENTUM_DECAY_GRACE_STATE, 20);
     }
 }

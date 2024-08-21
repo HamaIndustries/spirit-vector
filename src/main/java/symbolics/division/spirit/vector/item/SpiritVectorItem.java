@@ -6,13 +6,10 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.text.KeybindTextContent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import symbolics.division.spirit.vector.logic.ability.AbilitySlot;
-import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbility;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorHeldAbilities;
-import symbolics.division.spirit.vector.sfx.SFXPack;
 
 import java.util.List;
 
@@ -24,6 +21,7 @@ public class SpiritVectorItem extends ArmorItem {
                 new Settings()
                         .component(SpiritVectorHeldAbilities.COMPONENT, new SpiritVectorHeldAbilities())
                         .component(DataComponentTypes.UNBREAKABLE, new UnbreakableComponent(false))
+                        .maxCount(1)
         );
     }
 
@@ -53,5 +51,10 @@ public class SpiritVectorItem extends ArmorItem {
                 .append(Text.keybind(slot.input.key).withColor(0xffffff))
                 .append("] ")
                 .append(Text.translatable(ab.get(slot).getMovement().getTranslationKey()).withColor(0xffffff));
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return true;
     }
 }

@@ -19,6 +19,7 @@ import symbolics.division.spirit.vector.logic.ability.SlamPacketC2S;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbilitiesRegistry;
 import symbolics.division.spirit.vector.logic.ability.TeleportAbilityC2SPayload;
 import symbolics.division.spirit.vector.networking.ModifyMomentumPayloadS2C;
+import symbolics.division.spirit.vector.registry.SpiritVectorRegistration;
 import symbolics.division.spirit.vector.sfx.EffectsManager;
 import symbolics.division.spirit.vector.sfx.SFXRequestPayload;
 
@@ -33,8 +34,8 @@ public final class SpiritVectorMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		System.out.println("Fly forth, Spirit Vector!");
-		SpiritVectorAbilitiesRegistry.init();
+		LOGGER.info("Fly forth, Spirit Vector!");
+		SpiritVectorRegistration.init();
 		SpiritVectorItems.init();
 		SpiritVectorSounds.init();
 		SpiritVectorTags.init();

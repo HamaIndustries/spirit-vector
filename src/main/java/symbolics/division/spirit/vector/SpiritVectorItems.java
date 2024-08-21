@@ -18,6 +18,7 @@ import symbolics.division.spirit.vector.item.MomentumGaugeItem;
 import symbolics.division.spirit.vector.item.SlotTemplateItem;
 import symbolics.division.spirit.vector.item.SpiritVectorItem;
 import symbolics.division.spirit.vector.logic.ability.*;
+import symbolics.division.spirit.vector.logic.skates.VectorType;
 import symbolics.division.spirit.vector.sfx.SimpleSFX;
 import symbolics.division.spirit.vector.sfx.SpiritVectorSFX;
 

@@ -13,10 +13,11 @@ import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import symbolics.division.spirit.vector.event.JukeboxEvent;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
 import symbolics.division.spirit.vector.logic.SVEntityState;
-import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.skates.SpiritVector;
 import symbolics.division.spirit.vector.logic.ability.SlamPacketC2S;
 import symbolics.division.spirit.vector.logic.ability.TeleportAbilityC2SPayload;
 import symbolics.division.spirit.vector.networking.ModifyMomentumPayloadS2C;
+import symbolics.division.spirit.vector.registry.SpiritVectorRegistration;
 import symbolics.division.spirit.vector.render.SpiritGaugeHUD;
 import symbolics.division.spirit.vector.render.SpiritVectorSkatesRenderer;
 import symbolics.division.spirit.vector.render.SpiritWingsFeatureRenderer;
@@ -81,7 +82,7 @@ public class SpiritVectorClient implements ClientModInitializer {
 				var sv = user.spiritVector();
 				if (sv != null && pos.isWithinDistance(sv.user.getPos(), 32)) {
 					sv.modifyMomentum(SpiritVector.MAX_MOMENTUM / 10);
-					sv.stateManager().enableStateFor(SpiritVector.POISE_DECAY_GRACE_STATE, 20);
+					sv.stateManager().enableStateFor(SpiritVector.MOMENTUM_DECAY_GRACE_STATE, 20);
 				}
 			}
 		}));

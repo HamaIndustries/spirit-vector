@@ -24,10 +24,6 @@ public class SFXRegistry {
             SpiritVectorMod.LOGGER.error("Trying to get a key for non-registered SFX pack " + pack + ", this should not happen! Message the mod author.\nSupplying default instead.");
             return INSTANCE.getKey(SpiritVectorSFX.getDefault());
         }).flatMap(INSTANCE::getEntry)
-        // if you are here, our default was not registered for some reason
-        // which really should not be happening
         .orElseThrow();
-
     }
-
 }

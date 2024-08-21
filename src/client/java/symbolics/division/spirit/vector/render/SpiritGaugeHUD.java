@@ -1,13 +1,10 @@
 package symbolics.division.spirit.vector.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.fabric.impl.client.indigo.renderer.helper.ColorHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.DebugHud;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.*;
-import net.minecraft.client.texture.Scaling;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -15,9 +12,8 @@ import org.joml.Matrix4f;
 import symbolics.division.spirit.vector.SpiritVectorItems;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
-import symbolics.division.spirit.vector.logic.SpiritVector;
+import symbolics.division.spirit.vector.logic.skates.SpiritVector;
 import symbolics.division.spirit.vector.logic.ability.AbilitySlot;
-import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbility;
 
 public class SpiritGaugeHUD {
 

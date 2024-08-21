@@ -6,7 +6,7 @@
       "item": "spirit_vector:anima_core_v"
     },
     "g": {
-      "item": "minecraft:gold_ingot"
+      "tag": "spirit_vector:spirit_vector_crafting_materials"
     }
   },
   "pattern": [
