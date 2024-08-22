@@ -8,7 +8,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
-import symbolics.division.spirit.vector.logic.skates.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.DreamVector;
+import symbolics.division.spirit.vector.logic.vector.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.VectorType;
 
 public class NeutralMovement extends AbstractMovementType {
 
@@ -85,6 +87,7 @@ public class NeutralMovement extends AbstractMovementType {
 
     @Override
     public void updateValues(SpiritVector sv) {
+        if (sv.getType().equals(VectorType.DREAM) && sv.horizontalSpeed() >= DreamVector.MOMENTUM_GAIN_SPEED) return;
         if (sv.user.age % 20 == 0 && !sv.stateManager().isActive(SpiritVector.MOMENTUM_DECAY_GRACE_STATE)) {
             sv.modifyMomentum(-1);
         }

@@ -14,7 +14,7 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import symbolics.division.spirit.vector.SpiritVectorMod;
-import symbolics.division.spirit.vector.logic.skates.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 
 public record SVEntityState (boolean wingsVisible)  {
     public static final Codec<SVEntityState> CODEC = RecordCodecBuilder.create(instance ->

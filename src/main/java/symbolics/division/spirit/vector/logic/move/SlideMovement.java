@@ -2,11 +2,14 @@ package symbolics.division.spirit.vector.logic.move;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
+import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
-import symbolics.division.spirit.vector.logic.skates.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.DreamVector;
+import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 import symbolics.division.spirit.vector.logic.ability.WaterRunAbility;
 import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.state.ParticleTrailEffectState;
+import symbolics.division.spirit.vector.logic.vector.VectorType;
 
 public class SlideMovement extends NeutralMovement {
     public static final float MIN_SPEED_FOR_TRAIL = 0.1f;
@@ -54,8 +57,13 @@ public class SlideMovement extends NeutralMovement {
 
     @Override
     public void updateValues(SpiritVector sv) {
-        if (sv.user.age % 10 == 0 && WaterRunAbility.isWaterRunning(sv)) {
-            sv.modifyMomentum(-1);
+        if (sv.user.age % 10 == 0) {
+            if (WaterRunAbility.isWaterRunning(sv)) {
+                sv.modifyMomentum(-1);
+            } else if (sv.getType().equals(VectorType.DREAM) && sv.horizontalSpeed() > DreamVector.MOMENTUM_GAIN_SPEED) {
+                sv.modifyMomentum(1);
+                sv.stateManager().enableStateFor(SpiritVector.MOMENTUM_DECAY_GRACE_STATE, 10);
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.util.Identifier;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
-import symbolics.division.spirit.vector.logic.skates.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 
 public class WingsEffectState extends ManagedState {
 

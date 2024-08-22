@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import symbolics.division.spirit.vector.logic.skates.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 import symbolics.division.spirit.vector.sfx.AudioGirl;
 
 @Mixin(PlayerEntity.class)

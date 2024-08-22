@@ -4,11 +4,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import symbolics.division.spirit.vector.SpiritVectorMod;
-import symbolics.division.spirit.vector.logic.skates.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.state.ManagedState;
 import symbolics.division.spirit.vector.logic.state.ParticleTrailEffectState;
+import symbolics.division.spirit.vector.logic.vector.VectorType;
 
 /*
 Mixture of sliding and walljump
@@ -47,7 +48,10 @@ public class WallRushMovement extends AbstractMovementType {
                 && MovementUtils.idealWallrunningConditions(sv)
                 && sv.inputManager().rawInput(Input.CROUCH)) { // sticky, ignores consumption
             sv.inputManager().consume(Input.CROUCH);
-            sv.stateManager().enableStateFor(WALL_CLING_STATE, WALL_CLING_TICKS);
+            sv.stateManager().enableStateFor(
+                    WALL_CLING_STATE,
+                    sv.getType().equals(VectorType.DREAM) ? Integer.MAX_VALUE : WALL_CLING_TICKS
+            );
             return true;
         }
         return false;
@@ -87,12 +91,6 @@ public class WallRushMovement extends AbstractMovementType {
 
         } else {
             vel = vel.withAxis(Direction.Axis.Y, vy);
-
-            // do update value here, save a calc
-            // grants 1 momentum/sec while wallrunning as a little treat
-            if (sv.user.age % 20 == 0 && sv.stateManager().isActive(WALL_CLING_STATE)) {
-                sv.modifyMomentum(2);
-            }
         }
 
         sv.user.setVelocity(vel);
@@ -105,5 +103,13 @@ public class WallRushMovement extends AbstractMovementType {
     }
 
     @Override
-    public void updateValues(SpiritVector sv) {}
+    public void updateValues(SpiritVector sv) {
+        if (sv.user.age % 20 == 0 && sv.stateManager().isActive(WALL_CLING_STATE)) {
+            if (sv.getType().equals(VectorType.SPIRIT)) {
+                sv.modifyMomentum(2);
+            } else if (sv.getType().equals(VectorType.DREAM)) {
+                sv.modifyMomentum(4);
+            }
+        }
+    }
 }

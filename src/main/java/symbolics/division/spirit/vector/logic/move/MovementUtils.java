@@ -3,7 +3,7 @@ package symbolics.division.spirit.vector.logic.move;
 import net.minecraft.block.SideShapeType;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import symbolics.division.spirit.vector.logic.skates.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 
 public final class MovementUtils {

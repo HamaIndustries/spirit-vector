@@ -12,7 +12,7 @@ import org.joml.Matrix4f;
 import symbolics.division.spirit.vector.SpiritVectorItems;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.ISpiritVectorUser;
-import symbolics.division.spirit.vector.logic.skates.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 import symbolics.division.spirit.vector.logic.ability.AbilitySlot;
 
 public class SpiritGaugeHUD {

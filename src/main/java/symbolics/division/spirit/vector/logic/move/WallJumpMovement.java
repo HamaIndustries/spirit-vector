@@ -8,9 +8,10 @@ import net.minecraft.world.World;
 import org.joml.Vector3f;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
-import symbolics.division.spirit.vector.logic.skates.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.state.ManagedState;
+import symbolics.division.spirit.vector.logic.vector.VectorType;
 
 public class WallJumpMovement extends AbstractMovementType {
     protected static final int MOMENTUM_GAINED = SpiritVector.MAX_MOMENTUM / 20;
@@ -114,7 +115,12 @@ public class WallJumpMovement extends AbstractMovementType {
             motion = motion.multiply(sv.consumeSpeedMultiplier());
         }
 
-        sv.user.setVelocity(motion);
+        if (sv.getType().equals(VectorType.DREAM)) {
+            sv.user.addVelocity(motion);
+        } else {
+            sv.user.setVelocity(motion);
+        }
+
         ((WallJumpPlaneTracker)sv.stateManager().getState(WALL_JUMP_PLANE_TRACKER)).set(
                 dir, (int)sv.user.getPos().getComponentAlongAxis(dir.getAxis())
         );
@@ -123,7 +129,9 @@ public class WallJumpMovement extends AbstractMovementType {
 
     @Override
     public void updateValues(SpiritVector sv) {
-        sv.modifyMomentum(MOMENTUM_GAINED);
-        sv.stateManager().enableStateFor(SpiritVector.MOMENTUM_DECAY_GRACE_STATE, 20);
+        if (sv.getType().equals(VectorType.SPIRIT)) {
+            sv.modifyMomentum(MOMENTUM_GAINED);
+            sv.stateManager().enableStateFor(SpiritVector.MOMENTUM_DECAY_GRACE_STATE, 20);
+        }
     }
 }

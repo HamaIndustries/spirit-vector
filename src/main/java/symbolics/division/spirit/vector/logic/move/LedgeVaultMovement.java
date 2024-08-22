@@ -4,10 +4,11 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import symbolics.division.spirit.vector.SpiritVectorMod;
-import symbolics.division.spirit.vector.logic.skates.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.input.Input;
 import symbolics.division.spirit.vector.logic.state.ManagedState;
+import symbolics.division.spirit.vector.logic.vector.VectorType;
 
 public class LedgeVaultMovement extends AbstractMovementType {
     private static final int MOMENTUM_GAINED = SpiritVector.MAX_MOMENTUM / 30;
@@ -34,11 +35,6 @@ public class LedgeVaultMovement extends AbstractMovementType {
     }
 
     @Override
-    public boolean testMovementCompleted(SpiritVector sv, TravelMovementContext ctx) {
-        return true;
-    }
-
-    @Override
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
         sv.stateManager().clearTicks(VAULT_STATE_ID);
         Vec3d result;
@@ -51,11 +47,14 @@ public class LedgeVaultMovement extends AbstractMovementType {
         }
         sv.user.addVelocity(result.multiply(VAULT_SPEED *  sv.consumeSpeedMultiplier()));
         sv.effectsManager().spawnRing(sv.user.getPos(), result);
+        MovementType.NEUTRAL.travel(sv, ctx);
     }
 
     @Override
     public void updateValues(SpiritVector sv) {
-        sv.modifyMomentum(MOMENTUM_GAINED);
-        sv.stateManager().enableStateFor(SpiritVector.MOMENTUM_DECAY_GRACE_STATE, 20);
+        if (sv.getType().equals(VectorType.SPIRIT)) {
+            sv.modifyMomentum(MOMENTUM_GAINED);
+            sv.stateManager().enableStateFor(SpiritVector.MOMENTUM_DECAY_GRACE_STATE, 20);
+        }
     }
 }

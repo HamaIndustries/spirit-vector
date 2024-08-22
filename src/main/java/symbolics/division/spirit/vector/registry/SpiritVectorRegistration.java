@@ -5,7 +5,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import symbolics.division.spirit.vector.SpiritVectorMod;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorAbilitiesRegistry;
-import symbolics.division.spirit.vector.logic.skates.VectorType;
+import symbolics.division.spirit.vector.logic.vector.VectorType;
 
 import java.util.function.Function;
 

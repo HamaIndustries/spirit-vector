@@ -1,7 +1,7 @@
 package symbolics.division.spirit.vector.logic.ability;
 
 import net.minecraft.util.Identifier;
-import symbolics.division.spirit.vector.logic.skates.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 
 public class TeleportAbility extends AbstractSpiritVectorAbility {

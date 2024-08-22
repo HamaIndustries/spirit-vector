@@ -1,4 +1,4 @@
-package symbolics.division.spirit.vector.logic.skates;
+package symbolics.division.spirit.vector.logic.vector;
 
 import net.minecraft.component.ComponentType;
 import net.minecraft.entity.LivingEntity;
@@ -16,7 +16,7 @@ public record VectorType(Identifier id, SpiritVectorFactory factory) {
     public static final ComponentType<RegistryEntry<VectorType>> COMPONENT = Registrars.VECTOR_TYPE.component();
 
     public static final VectorType DREAM = of("dream", DreamVector::new);
-    public static final VectorType BURST = of("burst", BurstVector::new);
+//    public static final VectorType BURST = of("burst", BurstVector::new);
     public static final VectorType SPIRIT = of("spirit", SpiritVector::new);
 
     @FunctionalInterface

@@ -2,14 +2,22 @@ package symbolics.division.spirit.vector.item;
 
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.UnbreakableComponent;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.World;
 import symbolics.division.spirit.vector.logic.ability.AbilitySlot;
 import symbolics.division.spirit.vector.logic.ability.SpiritVectorHeldAbilities;
+import symbolics.division.spirit.vector.logic.vector.VectorType;
 
 import java.util.List;
 
@@ -27,7 +35,8 @@ public class SpiritVectorItem extends ArmorItem {
 
     @Override
     public Text getName(ItemStack stack) {
-        return SFXPackItem.applySFXToText(stack, this, super.getName(stack));
+        VectorType type = stack.getOrDefault(VectorType.COMPONENT, RegistryEntry.of(VectorType.SPIRIT)).value();
+        return SFXPackItem.applySFXToText(stack, this, Text.translatable("item.spirit_vector." + type.id()));
     }
 
     @Override
@@ -56,5 +65,18 @@ public class SpiritVectorItem extends ArmorItem {
     @Override
     public boolean isEnchantable(ItemStack stack) {
         return true;
+    }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        if (user.isSneaking()) {
+            ItemStack stack = user.getStackInHand(hand);
+            VectorType type = stack.getOrDefault(VectorType.COMPONENT, RegistryEntry.of(VectorType.SPIRIT)).value();
+            int nextIndex = (VectorType.REGISTRY.getRawId(type) + 1) % VectorType.REGISTRY.size();
+            stack.set(VectorType.COMPONENT, VectorType.REGISTRY.getEntry(nextIndex).orElseThrow());
+            world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_ARMOR_EQUIP_GOLD, SoundCategory.PLAYERS, 1, 1);
+            return TypedActionResult.success(stack);
+        }
+        return super.use(world, user, hand);
     }
 }

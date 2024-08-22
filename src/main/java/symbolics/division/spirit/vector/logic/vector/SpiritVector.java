@@ -1,4 +1,4 @@
-package symbolics.division.spirit.vector.logic.skates;
+package symbolics.division.spirit.vector.logic.vector;
 
 /*
     Core logic for individual spirit vector state
@@ -176,6 +176,10 @@ public class SpiritVector {
         return user.getMovementSpeed() * (0.21600002F / (slip * slip * slip)) + ((float)getMomentum() / MAX_MOMENTUM) * 0.1f;
     }
 
+    public float getStepHeight() {
+        return 1.2f;
+    }
+
     public int getMomentum() {
 //        return MAX_MOMENTUM;
         return momentum;
@@ -239,6 +243,10 @@ public class SpiritVector {
         ability.getMovement().configure(this);
         queuedAbility = ability;
         return true;
+    }
+
+    public double horizontalSpeed() {
+        return user.getVelocity().withAxis(Direction.Axis.Y,0).length();
     }
 
     public boolean fluidMovementAllowed() {

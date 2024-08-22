@@ -2,7 +2,7 @@ package symbolics.division.spirit.vector.logic.state;
 
 import net.minecraft.util.Identifier;
 import symbolics.division.spirit.vector.SpiritVectorMod;
-import symbolics.division.spirit.vector.logic.skates.SpiritVector;
+import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 
 public class ParticleTrailEffectState extends ManagedState {
     public static final Identifier ID = SpiritVectorMod.id("particle_trail");
