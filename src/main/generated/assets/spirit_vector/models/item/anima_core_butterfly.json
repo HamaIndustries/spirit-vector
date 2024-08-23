@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "spirit_vector:item/anima_core_butterfly"
-  }
-}
