@@ -58,7 +58,13 @@ public class NeutralMovement extends AbstractMovementType {
         float ice_slip = 0.96f;
         float slip = input.x*input.x+input.z*input.z > 0 || !user.isOnGround() ? normal_slip : ice_slip;
         float friction = user.isOnGround() ? slip * 0.91F : 0.91F; // magic drag number
+
         Vec3d appliedVelocity = user.applyMovementInput(input, slip);
+        if (!sv.getImpulse().equals(Vec3d.ZERO)) {
+            appliedVelocity = sv.getImpulse();
+            sv.setImpulse(Vec3d.ZERO);
+        }
+
         double velocityY = appliedVelocity.y;
         if (user.hasStatusEffect(StatusEffects.LEVITATION)) {
             velocityY += (0.05 * (double)(user.getStatusEffect(StatusEffects.LEVITATION).getAmplifier() + 1) - appliedVelocity.y) * 0.2;

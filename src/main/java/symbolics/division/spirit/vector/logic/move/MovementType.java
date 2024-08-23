@@ -44,7 +44,6 @@ public interface MovementType {
     MovementType VAULT = new LedgeVaultMovement(id("vault"));
     MovementType JUMP = new JumpingMovement(id("jump"));
     MovementType WALL_RUSH = new WallRushMovement(id("wall_rush"));
-    MovementType STOP = new HardstopMovement(id("hard_stop"));
 //    public static MovementType GRIND = new MovementType(id("grind"));
 
 }

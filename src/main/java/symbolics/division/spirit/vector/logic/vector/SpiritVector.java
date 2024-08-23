@@ -68,6 +68,8 @@ public class SpiritVector {
     protected int momentum = 0;
     protected MovementType moveState = MovementType.NEUTRAL;
     protected SpiritVectorAbility queuedAbility; // hand rune input
+    protected Vec3d inputDirection = Vec3d.ZERO;
+    protected Vec3d impulse = Vec3d.ZERO;
     protected final EffectsManager effectsManager;
     protected final StateManager stateManager = new StateManager();
     protected final InputManager inputManager = new InputManager();
@@ -76,8 +78,7 @@ public class SpiritVector {
     protected final VectorType type;
 
     // these are checked in order prior to rune movements
-    private final MovementType[] movements = {
-            MovementType.STOP,
+    protected final MovementType[] movements = {
             MovementType.VAULT,
             MovementType.JUMP,
             MovementType.SLIDE,
@@ -109,20 +110,27 @@ public class SpiritVector {
         for (AbilitySlot slot : AbilitySlot.values()) {
             abilities.get(slot).getMovement().configure(this);
         }
+
     }
 
     public void travel(Vec3d movementInput, CallbackInfo ci) {
         stateManager.tick();
-        var inputDirection = MovementUtils.movementInputToVelocity(movementInput, 1, user.getYaw());
+        inputDirection = MovementUtils.movementInputToVelocity(movementInput, 1, user.getYaw());
         var ctx = new TravelMovementContext(movementInput, ci, inputDirection);
 
+        // brake
         if ( (      user.isOnGround()
                 || (getMoveState() == MovementType.WALL_RUSH && user.getVelocity().withAxis(Direction.Axis.Y, 0).lengthSquared() > 0) )
-             && inputManager().consume(Input.SPRINT)) {
-            user.setVelocity(0, 0, 0);
+             && inputManager().rawInput(Input.SPRINT)) {
+            user.setVelocity(user.getVelocity().multiply(0.5));
         }
 
+//        MovementType prev = getMoveState();
         updateMovementType(ctx);
+//        if (!prev.getID().equals(getMoveState().getID())) {
+//            SpiritVectorMod.LOGGER.info("state: " + prev.getID().getPath() + " -> " + getMoveState().getID().getPath());
+//        }
+
         moveState.travel(this, ctx);
         moveState.updateValues(this);
         this.queuedAbility = null;
@@ -171,10 +179,15 @@ public class SpiritVector {
         moveState = MovementType.NEUTRAL;
     }
 
+    public Vec3d getImpulse() { return impulse; }
+    public void setImpulse(Vec3d impulse) { this.impulse = impulse; }
+
     public float getMovementSpeed() { return getMovementSpeed(0.6f); }
     public float getMovementSpeed(float slip) {
         return user.getMovementSpeed() * (0.21600002F / (slip * slip * slip)) + ((float)getMomentum() / MAX_MOMENTUM) * 0.1f;
     }
+
+    public Vec3d getInputDirection() { return inputDirection; }
 
     public float getStepHeight() {
         return 1.2f;

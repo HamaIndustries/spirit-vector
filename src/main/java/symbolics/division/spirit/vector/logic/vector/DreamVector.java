@@ -5,7 +5,8 @@ import net.minecraft.item.ItemStack;
 
 public class DreamVector extends SpiritVector {
 
-    public static final float MOMENTUM_GAIN_SPEED = 1.0f;
+    public static final float MOMENTUM_GAIN_SPEED = 0.8f;
+    public static final int MOMENTUM_GAIN_PER_SECOND = 4;
 
     public DreamVector(LivingEntity user, ItemStack itemStack) {
         super(user, itemStack, VectorType.DREAM);
@@ -16,6 +17,5 @@ public class DreamVector extends SpiritVector {
         float base = super.getStepHeight();
         return isSoaring() ? base * 2 : base;
     }
-
 
 }

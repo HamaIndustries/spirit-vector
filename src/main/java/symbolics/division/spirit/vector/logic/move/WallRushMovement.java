@@ -4,6 +4,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import symbolics.division.spirit.vector.SpiritVectorMod;
+import symbolics.division.spirit.vector.logic.vector.DreamVector;
 import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.input.Input;
@@ -104,11 +105,11 @@ public class WallRushMovement extends AbstractMovementType {
 
     @Override
     public void updateValues(SpiritVector sv) {
-        if (sv.user.age % 20 == 0 && sv.stateManager().isActive(WALL_CLING_STATE)) {
+        if (sv.user.age % 10 == 0 && sv.stateManager().isActive(WALL_CLING_STATE)) {
             if (sv.getType().equals(VectorType.SPIRIT)) {
-                sv.modifyMomentum(2);
+                sv.modifyMomentum(1);
             } else if (sv.getType().equals(VectorType.DREAM)) {
-                sv.modifyMomentum(4);
+                sv.modifyMomentum(DreamVector.MOMENTUM_GAIN_PER_SECOND / 4);
             }
         }
     }

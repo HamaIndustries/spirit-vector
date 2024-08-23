@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import org.joml.Matrix4f;
@@ -94,6 +95,15 @@ public class SpiritGaugeHUD {
         this.drawSlot(drawContext, sv, SLOT_LEFT, AbilitySlot.LEFT, x+VALUE_OFFSET+2, baseY, VALUE_HEIGHT, red, green, blue);
         this.drawSlot(drawContext, sv, SLOT_UP, AbilitySlot.UP, x+VALUE_OFFSET+2, baseY, VALUE_HEIGHT, red, green, blue);
         this.drawSlot(drawContext, sv, SLOT_RIGHT, AbilitySlot.RIGHT, x+VALUE_OFFSET+2, baseY, VALUE_HEIGHT, red, green, blue);
+
+        boolean debugHUD = true;
+        if (debugHUD) {
+            drawContext.drawText(
+                    MinecraftClient.getInstance().textRenderer,
+                    Text.literal(sv.getMoveState().getID().toString()),
+                    30, 30, 0xFFFFFF, false
+            );
+        }
     }
 
     private void drawSlot(DrawContext drawContext, SpiritVector sv, Identifier slotTexture, AbilitySlot slot, int x, int baseY, int h, float r, float g, float b) {

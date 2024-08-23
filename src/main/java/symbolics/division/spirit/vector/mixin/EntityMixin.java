@@ -94,19 +94,50 @@ public class EntityMixin {
             cancellable = true
     )
     public void adjustMovementForCollisions(Vec3d movement, CallbackInfoReturnable<Vec3d> ci) {
-        if (!(this instanceof ISpiritVectorUser user) || user.spiritVector() == null) return;
-        LivingEntity entity = user.spiritVector().user;
+        if (!(this instanceof ISpiritVectorUser user)) return;
+        SpiritVector sv = user.spiritVector();
+        if (sv == null) return;
+        LivingEntity entity = sv.user;
         float stepHeight = entity.getStepHeight();
         Box entityBoundingBox = entity.getBoundingBox();
+
         // get collisions with other entities
         List<VoxelShape> entityCollisions = entity.getWorld().getEntityCollisions(entity, entityBoundingBox.stretch(movement));
+
         // Entity.collideBoundingBox
         // add block and worldborder collisions, clip movement vector
         Vec3d adjustedMovement = movement.lengthSquared() == 0.0 ? movement : Entity.adjustMovementForCollisions(entity, movement, entityBoundingBox, entity.getWorld(), entityCollisions);
+
+        Vec3d inputDir = sv.getInputDirection();
+        boolean slideOver = false;
+        if (
+            // if flying upwards while sliding,
+            movement.y > 0 && !entity.isOnGround() &&
+            // and we are trying to move in a direction we are not currently moving,
+            ((adjustedMovement.x == 0 && inputDir.x != 0) || (adjustedMovement.z == 0 && inputDir.z != 0))
+        ) {
+            // see if there's a wall stopping us from moving in that direction and attempt slideover if so.
+            Vec3d influencedMovement = adjustedMovement.add(
+                    adjustedMovement.x == 0 ? inputDir.x * 0.1 : 0,
+                    0,
+                    adjustedMovement.z == 0 ? inputDir.z * 0.1 : 0
+            );
+            Vec3d resultingMovement = Entity.adjustMovementForCollisions(entity, influencedMovement, entityBoundingBox, entity.getWorld(), entityCollisions);
+            boolean influenceX = resultingMovement.x != influencedMovement.x;
+            boolean influenceZ = resultingMovement.z != influencedMovement.z;
+            slideOver = influenceX || influenceZ;
+            movement = movement.add(
+                    movement.x == 0 && influenceX ? inputDir.x * 0.1 : 0,
+                    0,
+                    movement.z == 0 && influenceZ ? inputDir.z * 0.1 : 0
+            );
+        }
+
         boolean adjX = movement.x != adjustedMovement.x;
         boolean adjY = movement.y != adjustedMovement.y;
         boolean adjZ = movement.z != adjustedMovement.z;
         boolean adjYDownwards = adjY && movement.y < 0.0;
+
         if (stepHeight > 0.0F && (adjX || adjZ)) {
             Box downwardsOffsetEntityBB = adjYDownwards ? entityBoundingBox.offset(0.0, adjustedMovement.y, 0.0) : entityBoundingBox;
             Box entityMovementBB = downwardsOffsetEntityBB.stretch(movement.x, (double)stepHeight, movement.z);
@@ -137,9 +168,13 @@ public class EntityMixin {
                 double stepAdjust = stepUpMovement.y - movement.y;
                 if (       ( stepAdjust >= VAULT_TRIGGER_STEP_DISTANCE && entity.isOnGround() )
                         || ( stepAdjust > 0 && !entity.isOnGround()) ) {
-                    user.getSpiritVector().ifPresent(LedgeVaultMovement::triggerLedge);
+                    LedgeVaultMovement.triggerLedge(sv);
                 }
-//                    analyze(result);
+                if (slideOver) {
+                    // convert upwards speed to horizontal
+                    double speed = entity.getVelocity().length();
+                    sv.setImpulse(stepUpMovement.withAxis(Direction.Axis.Y, 0).normalize().multiply(speed));
+                }
                 ci.setReturnValue(stepUpMovement);
                 ci.cancel();
                 return;
@@ -161,11 +196,13 @@ public class EntityMixin {
         ci.cancel();
     }
 
+    private static final double STEPDOWN_HEIGHT = 1.4;
+
     private static Vec3d stepDown(Entity entity, Vec3d result) {
         // hypothetical hitbox of entity after movement is applied
         Box hypothetical = entity.getBoundingBox().offset(result);
         // drop bottom by step height
-        Box down = hypothetical.stretch(0, -entity.getStepHeight(), 0);
+        Box down = hypothetical.stretch(0, -STEPDOWN_HEIGHT, 0);
         // get collisions such as with other entities
         // todo remove this, use the one from the method
         List<VoxelShape> specialCollisions = entity.getWorld().getEntityCollisions(entity, down);
@@ -173,13 +210,13 @@ public class EntityMixin {
         List<VoxelShape> collisions = findCollisionsForMovement(entity, entity.getWorld(), specialCollisions, down);
 
         double stepdown = adjustMovementForCollisions(
-                new Vec3d(0, -entity.getStepHeight() - 0.001, 0), // add a little bit to filter air movement
+                new Vec3d(0, -STEPDOWN_HEIGHT - 0.001, 0), // add a little bit to filter air movement
                 hypothetical,
                 collisions
         ).y;
 
         //don't step into open air
-        if (stepdown >= -entity.getStepHeight()) {
+        if (stepdown >= -STEPDOWN_HEIGHT) {
             return result.add(0, stepdown, 0);
         }
         return result;

@@ -31,7 +31,6 @@ public record Registrar<T> (
         PacketCodec<RegistryByteBuf, RegistryEntry<T>> entryPacketCodec = directPacketCodec == null ?
                 PacketCodecs.registryEntry(key) :
                 PacketCodecs.registryEntry(key, directPacketCodec);
-
         ComponentType<RegistryEntry<T>> component = Registry.register(Registries.DATA_COMPONENT_TYPE, id, ComponentType.<RegistryEntry<T>>builder()
                 .codec(entryCodec)
                 .packetCodec(entryPacketCodec)

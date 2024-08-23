@@ -21,7 +21,9 @@ public class LedgeVaultMovement extends AbstractMovementType {
     }
 
     public static void triggerLedge(SpiritVector sv) {
-        sv.stateManager().enableStateFor(VAULT_STATE_ID, VAULT_WINDOW_TICKS);
+        if (!sv.user.isTouchingWater()) {
+            sv.stateManager().enableStateFor(VAULT_STATE_ID, VAULT_WINDOW_TICKS);
+        }
     }
 
     @Override
