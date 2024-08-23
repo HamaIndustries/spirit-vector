@@ -5,6 +5,7 @@ import symbolics.division.spirit.vector.logic.vector.SpiritVector;
 import symbolics.division.spirit.vector.logic.TravelMovementContext;
 import symbolics.division.spirit.vector.logic.ability.WaterRunAbility;
 import symbolics.division.spirit.vector.logic.input.Input;
+import symbolics.division.spirit.vector.mixin.LivingEntityAccessor;
 
 public class JumpingMovement extends NeutralMovement {
 
@@ -24,7 +25,7 @@ public class JumpingMovement extends NeutralMovement {
 
     @Override
     public void travel(SpiritVector sv, TravelMovementContext ctx) {
-        float f = sv.user.getJumpVelocity() * 1.2f;
+        float f = ((LivingEntityAccessor) sv.user).callGetJumpVelocity() * 1.2f;
         if (f <= 0.00001) return;
         sv.user.addVelocity(0, f, 0);
         sv.user.velocityDirty = true;
