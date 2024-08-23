@@ -1,5 +1,6 @@
 package symbolics.division.spirit.vector.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
@@ -54,6 +55,8 @@ public class EntityMixin {
     // slabs count as 1.0 for some reason, whatever
     private static final float VAULT_TRIGGER_STEP_DISTANCE = 0.3f;
 
+    @Shadow private boolean collidedSoftly;
+
     @Shadow // collectColliders
     static List<VoxelShape> findCollisionsForMovement(
             @Nullable Entity entity, World world, List<VoxelShape> regularCollisions, Box movingEntityBoundingBox
@@ -82,9 +85,14 @@ public class EntityMixin {
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/entity/Entity;hasCollidedSoftly(Lnet/minecraft/util/math/Vec3d;)Z"))
-    public void triggerWallVault(MovementType type, Vec3d move, CallbackInfo ci) {
-        if (this instanceof ISpiritVectorUser user) {
-            user.getSpiritVector().filter(sv -> sv.user.isOnGround()).ifPresent(LedgeVaultMovement::triggerLedge);
+    public void triggerWallVault(MovementType type, Vec3d move, CallbackInfo ci, @Local(ordinal = 0) boolean xBlocked, @Local(ordinal = 1) boolean zBlocked) {
+        if (this instanceof ISpiritVectorUser user && user.spiritVector() != null) {
+            SpiritVector sv = user.spiritVector();
+            if (sv.user.isOnGround() &&
+                    ((xBlocked && (sv.user.getX() != sv.user.prevX))
+                  || (zBlocked && (sv.user.getZ() != sv.user.prevZ)))) {
+                LedgeVaultMovement.triggerLedge(sv);
+            }
         }
     }
 

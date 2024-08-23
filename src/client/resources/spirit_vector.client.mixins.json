@@ -8,7 +8,8 @@
 		"BipedEntityModelMixin",
 		"AbstractClientPlayerEntityMixin",
 		"WorldRendererMixin",
-		"DebugHudMixin"
+		"DebugHudMixin",
+		"InGameHudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
