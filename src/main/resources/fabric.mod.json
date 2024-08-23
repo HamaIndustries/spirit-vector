@@ -1,19 +1,37 @@
 {
 	"schemaVersion": 1,
-	"id": "spirit_vector",
+	"id": "${modId}",
 	"version": "${version}",
-	"name": "Dream Burst Spirit Vector",
-	"description": "Fly Forth, Spirit Vector!",
+	"name": "${modName}",
+	"description": "${modDescription}",
 	"authors": [
-		"hama"
+		"${authors}"
+	],
+	"contributors": [
+		"${contributors}"
 	],
 	"contact": {
-		"homepage": "https://modrinth.com/mod/spirit_vector",
-		"sources": "https://github.com/HamaIndustries/spirit_vector"
+		"homepage": "${homepage}",
+		"issues": "${issues}",
+		"sources": "${sources}"
 	},
-	"license": "MIT",
-	"icon": "assets/spirit_vector/icon.png",
-	"environment": "*",
+	"license": "${license}",
+	"icon": "assets/${modId}/icon.png",
+	"mixins": [
+		"${modId}.mixins.json",
+		{
+			"config": "${modId}.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=${fl}",
+		"minecraft": ">=${mc}",
+		"fabric-api": ">=${fapi}"
+	},
+	"suggests": {
+		"dancerizer": ">=${dancerizer}"
+	},
 	"entrypoints": {
 		"main": [
 			"symbolics.division.spirit.vector.SpiritVectorMod"
@@ -24,22 +42,5 @@
 		"fabric-datagen": [
 			"symbolics.division.spirit.vector.SpiritVectorDataGenerator"
 		]
-	},
-	"mixins": [
-		"spirit_vector.mixins.json",
-		{
-			"config": "spirit_vector.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"accessWidener": "spirit_vector.accesswidener",
-	"depends": {
-		"fabricloader": ">=0.15.11",
-		"minecraft": "~1.21-",
-		"java": ">=21",
-		"fabric-api": "*"
-	},
-	"suggests": {
-		"dancerizer": ">=1.1.0"
 	}
 }

@@ -1,0 +1,24 @@
+[versions]
+loom = "1.7.+"
+githubRelease = "2.4.1"
+minotaur = "2.+"
+
+mc = "1.21"
+fl = "0.15.11"
+yarn = "1.21+build.9"
+fapi = "0.102.0+1.21"
+
+dancerizer = "1.1.0"
+
+[plugins]
+loom = { id = "fabric-loom", version.ref = "loom" }
+githubRelease = { id = "com.github.breadmoirai.github-release", version.ref = "githubRelease" }
+minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
+
+[libraries]
+mc = { group = "mojang", name = "minecraft", version.ref = "mc" }
+fl = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fl" }
+yarn = { group = "net.fabricmc", name = "yarn", version.ref = "yarn" }
+fapi = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fapi" }
+
+dancerizer = { group = "maven.modrinth", name = "dancerizer", version.ref = "dancerizer" }
