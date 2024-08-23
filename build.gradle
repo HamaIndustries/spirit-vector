@@ -87,7 +87,8 @@ githubRelease {
     targetCommitish = tagBranch
     releaseAssets = remapJar
     releaseName = "v${baseVersion}"
-    allowUploadToExisting = (tagBranch != branch)
+    allowUploadToExisting = true
+    generateReleaseNotes = true
     body = !file("CHANGELOG.md").exists() ? "" : rootProject.file("CHANGELOG.md").text
 }
 
