@@ -1,15 +1,15 @@
 {
 	"required": true,
-	"package": "symbolics.division.spirit.vector.mixin.client",
+	"package": "symbolics.division.spirit_vector.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-		"ClientPlayerEntityMixin",
-		"GameRendererMixin",
-		"BipedEntityModelMixin",
-		"AbstractClientPlayerEntityMixin",
-		"WorldRendererMixin",
-		"DebugHudMixin",
-		"InGameHudMixin"
+      "ClientPlayerEntityMixin",
+      "GameRendererMixin",
+      "BipedEntityModelMixin",
+      "AbstractClientPlayerEntityMixin",
+      "WorldRendererMixin",
+      "DebugHudMixin",
+      "InGameHudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

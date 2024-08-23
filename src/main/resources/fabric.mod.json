@@ -34,13 +34,13 @@
 	},
 	"entrypoints": {
 		"main": [
-			"symbolics.division.spirit.vector.SpiritVectorMod"
+			"symbolics.division.spirit_vector.SpiritVectorMod"
 		],
 		"client": [
-			"symbolics.division.spirit.vector.SpiritVectorClient"
+			"symbolics.division.spirit_vector.SpiritVectorClient"
 		],
 		"fabric-datagen": [
-			"symbolics.division.spirit.vector.SpiritVectorDataGenerator"
+			"symbolics.division.spirit_vector.SpiritVectorDataGenerator"
 		]
 	}
 }
