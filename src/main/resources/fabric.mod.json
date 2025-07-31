@@ -49,5 +49,6 @@
 				"symbolics/division/spirit_vector/logic/spell/SpellDimensionHaver"
 			]
 		}
-	}
+	},
+	"accessWidener": "spirit_vector.accesswidener"
 }
