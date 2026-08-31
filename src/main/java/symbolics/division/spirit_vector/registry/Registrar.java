@@ -2,6 +2,7 @@ package symbolics.division.spirit_vector.registry;
 
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.component.ComponentType;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -26,7 +27,9 @@ public record Registrar<T> (
     public static <T> Registrar<T> of(Identifier id) { return of(id, null); }
     public static <T> Registrar<T> of(Identifier id, @Nullable PacketCodec<? super RegistryByteBuf, T> directPacketCodec) {
         RegistryKey<Registry<T>> key = RegistryKey.ofRegistry(id);
-        SimpleRegistry<T> registry = FabricRegistryBuilder.createSimple(key).buildAndRegister();
+        SimpleRegistry<T> registry = FabricRegistryBuilder.createSimple(key)
+				.attribute(RegistryAttribute.SYNCED)
+				.buildAndRegister();
         Codec<RegistryEntry<T>> entryCodec = RegistryFixedCodec.of(key);
         PacketCodec<RegistryByteBuf, RegistryEntry<T>> entryPacketCodec = directPacketCodec == null ?
                 PacketCodecs.registryEntry(key) :
