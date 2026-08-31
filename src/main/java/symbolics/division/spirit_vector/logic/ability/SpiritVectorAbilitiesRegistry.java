@@ -2,6 +2,7 @@ package symbolics.division.spirit_vector.logic.ability;
 
 import com.mojang.serialization.Lifecycle;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.*;
 import net.minecraft.util.Identifier;
@@ -23,6 +24,7 @@ public class SpiritVectorAbilitiesRegistry {
 
     private static final Registry<SpiritVectorAbility> INSTANCE = FabricRegistryBuilder
             .from(new SimpleRegistry<>(KEY, Lifecycle.stable(), false))
+			.attribute(RegistryAttribute.SYNCED)
             .buildAndRegister();
 
     public static void registerAbility(Identifier id, SpiritVectorAbility ability) {
